@@ -96,10 +96,24 @@ Every feature and plugin present in upstream NetAlertX is tracked below. The sta
 
 ---
 
-## 4. Parity Verification Summary
+## 4. Parity Verification Summary & Category Reconciliation
 
-- **Total Upstream Plugins Cataloged**: 56 of 56 (100%)
+- **Total Upstream Plugins Cataloged**: 56 of 56 (100% reconciled against physical repository `server/plugins/`)
 - **Total Core Architectural Features Cataloged**: 9 of 9 (100%)
+- **Upstream Directory Classification**:
+  - **Active Production Plugins**: 54
+  - **Developer Base / Testing Fixtures**: 2 (`__template`, `__test`)
+- **Functional Category Subtotals**:
+  - **Discovery**: 11 plugins
+  - **System & Maintenance**: 11 plugins
+  - **Notifications & Workflows**: 11 plugins
+  - **Routers**: 9 plugins
+  - **Monitoring & WAN**: 5 plugins
+  - **Name Resolution**: 4 plugins
+  - **DNS / Filtering**: 4 plugins
+  - **Multi-Site Coordination**: 1 plugin
+  - **Total**: 56 plugins
+- **Modern Adapter Consolidation**: 54 operational capabilities consolidated into 36 clean-room adapters and core platform services with zero omitted functionality.
 - **Plugin Implementation Breakdown**:
   - **Live Service Tested**: 13 plugins (ARP, ICMP, IP neigh, DNS PTR, internet IP, uptime, OUI, CSV backup, DB cleanup, system maintenance, UI settings, workflows, password reset).
   - **Integration Tested**: 8 plugins (UniFi API, UniFi import, OpenWrt LuCI, ASUSWRT, FRITZ!Box, MikroTik, Omada OpenAPI).

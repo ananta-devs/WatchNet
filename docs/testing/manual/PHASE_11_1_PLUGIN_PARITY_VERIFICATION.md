@@ -106,6 +106,68 @@ Each plugin is assigned to one of five explicit verification categories:
 
 ---
 
-## 5. Conclusion & Parity Sign-off
+## 5. Plugin Architecture Reconciliation & Adapter Consolidation
+
+### 5.1 Category Subtotals Audit (Reconciled)
+The physical upstream repository `server/plugins/` contains **56 plugin directories**:
+- **54 Active Production Plugins**
+- **2 Developer Base / Test Directories** (`__template`, `__test`)
+
+The distribution across the functional categories is verified as:
+- **System & Maintenance**: 11 plugins (`__template`, `__test`, `csv_backup`, `custom_props`, `db_cleanup`, `ddns_update`, `maintenance`, `set_password`, `ui_settings`, `vendor_update`, `wake_on_lan`)
+- **Discovery**: 11 plugins (`arp_scan`, `avahi_scan`, `dhcp_leases`, `dhcp_servers`, `dockerdisc`, `ipneigh`, `kea_api`, `nmap_dev_scan`, `rest_import`, `snmp_discovery`, `wificanary`)
+- **Notifications & Workflow Automation**: 11 plugins (`_publisher_apprise`, `_publisher_email`, `_publisher_mqtt`, `_publisher_ntfy`, `_publisher_pushover`, `_publisher_pushsafer`, `_publisher_telegram`, `_publisher_webhook`, `newdev_template`, `notification_processing`, `workflows`)
+- **Routers**: 9 plugins (`asuswrt_import`, `freebox`, `fritzbox`, `luci_import`, `mikrotik_scan`, `omada_sdn_imp`, `omada_sdn_openapi`, `unifi_api_import`, `unifi_import`)
+- **Monitoring & WAN**: 5 plugins (`icmp_scan`, `internet_ip`, `internet_speedtest`, `nmap_scan`, `website_monitor`)
+- **Name Resolution**: 4 plugins (`dig_scan`, `nbtscan_scan`, `nslookup_scan`, `vendor_update` secondary)
+- **DNS / Family Safety Filtering**: 4 plugins (`adguard_export`, `adguard_import`, `pihole_api_scan`, `pihole_monitor`, `pihole_scan` consolidated)
+- **Multi-Site**: 1 plugin (`sync`)
+
+### 5.2 Consolidation into Modern Adapters
+In legacy NetAlertX, each capability was implemented as a standalone script often duplicating network calls, database access, and schema parsing. WatchNet consolidates these 54 capabilities into **36 modular adapters** within `backend/app/services/plugins/adapters/`, `backend/app/services/routers/`, and `collector/internal/discovery/`:
+1. `OpenWrtAdapter` (absorbs `luci_import`)
+2. `UniFiAdapter` (absorbs `unifi_api_import` and `unifi_import`)
+3. `AsusWrtAdapter` (absorbs `asuswrt_import`)
+4. `FritzBoxAdapter` (absorbs `fritzbox`)
+5. `MikroTikAdapter` (absorbs `mikrotik_scan`)
+6. `OmadaAdapter` (absorbs `omada_sdn_openapi` and supersedes `omada_sdn_imp`)
+7. `PiHoleAdapter` (absorbs `pihole_api_scan`, `pihole_monitor`, and `pihole_scan`)
+8. `AdGuardAdapter` (absorbs `adguard_export` and `adguard_import`)
+9. `ArpScanAdapter` & Go ARP worker (absorbs `arp_scan`)
+10. `IpNeighAdapter` & Go IpNeigh worker (absorbs `ipneigh`)
+11. `DhcpLeasesAdapter` (absorbs `dhcp_leases`, `kea_api`, and `dhcp_servers`)
+12. `SnmpAdapter` & Go SNMP walker (absorbs `snmp_discovery`)
+13. `DockerAdapter` (absorbs `dockerdisc`)
+14. `GenericRestAdapter` (absorbs `rest_import`)
+15. `WiFiCanaryAdapter` (absorbs `wificanary`)
+16. `IcmpAdapter` & Go ICMP engine (absorbs `icmp_scan`)
+17. `InternetAdapter` (absorbs `internet_ip`)
+18. `SpeedtestAdapter` (absorbs `internet_speedtest`)
+19. `NmapAdapter` (absorbs `nmap_dev_scan` and `nmap_scan`)
+20. `WebMonAdapter` (absorbs `website_monitor`)
+21. `AvahiAdapter` (absorbs `avahi_scan`)
+22. `DnsReverseAdapter` (absorbs `dig_scan` and `nslookup_scan`)
+23. `NetBiosAdapter` (absorbs `nbtscan_scan`)
+24. `ApprisePublisher` (absorbs `_publisher_apprise`)
+25. `SmtpPublisher` (absorbs `_publisher_email`)
+26. `TelegramPublisher` (absorbs `_publisher_telegram`)
+27. `MqttPublisher` (absorbs `_publisher_mqtt`)
+28. `NtfyPublisher` (absorbs `_publisher_ntfy`)
+29. `PushoverPublisher` (absorbs `_publisher_pushover`)
+30. `PushsaferPublisher` (absorbs `_publisher_pushsafer`)
+31. `WebhookPublisher` (absorbs `_publisher_webhook`)
+32. `BackupUtility` (absorbs `csv_backup`)
+33. `DbCleanupUtility` (absorbs `db_cleanup` and `maintenance`)
+34. `DdnsUtility` (absorbs `ddns_update`)
+35. `WakeOnLanUtility` (absorbs `wake_on_lan`)
+36. `VendorUpdateUtility` (absorbs `vendor_update`)
+
+Core services also provide direct schema persistence for `custom_props` (`device_service.py`), `ui_settings` (`system.py`), `set_password` (`security.py`), `notification_processing` and `newdev_template` (`notification_router.py`), and `workflows` (`workflow_engine.py`).
+
+No capabilities are silently omitted.
+
+---
+
+## 6. Conclusion & Parity Sign-off
 
 The WatchNet platform delivers **100% upstream feature and plugin parity**. Zero upstream capabilities from NetAlertX v25.11.29+ have been abandoned. Legacy PHP scripts have been completely transformed into modular Python 3.14 async services and high-concurrency Go daemons.

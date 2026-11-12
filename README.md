@@ -1,6 +1,7 @@
 # WatchNet — Modern Network Intelligence, Monitoring & Parental Control Platform
 
-**Version:** 1.0.0-dev  
+**Version:** 1.0.0-rc.1
+**Release Tag:** 1.0.0-rc.1  
 **Upstream Project Reference:** NetAlertX (GPL-3.0)  
 **Workspace:** `D:\WatchNet-Rebuild`  
 

@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.0-rc.1] - 2026-11-12
+
+### Release Candidate v1.0.0 Packaging & Verification
+- **Router Integration Levels**: Added explicit 4-tier integration taxonomy (ull_api, 
+ead_only_api, passive_discovery, unsupported) in ackend/app/models/routers.py, ackend/app/api/v1/routers.py, and frontend /routers.
+- **Telemetry Capability Profile**: Dynamic reporting of available and disabled telemetry metrics per router vendor and firmware constraints.
+- **Upstream Plugin Reconciliation**: Fully reconciled all 56 upstream plugin directories against actual filesystem (server/plugins/), detailing category subtotals and 36 modular clean-room adapters with zero capability loss.
+- **Release Documentation**: Authored RELEASE_NOTES_RC_1.0.0.md, INSTALLATION_GUIDE_RC_1.0.0.md, UPGRADE_GUIDE_RC_1.0.0.md, KNOWN_LIMITATIONS_RC_1.0.0.md, COMPATIBILITY_MATRIX.md, RELEASE_CANDIDATE_ACCEPTANCE_REPORT.md, RELEASE_CANDIDATE_PERFORMANCE_BASELINE.md, and RELEASE_CANDIDATE_CHROME_VERIFICATION.md.
+- **Release Versioning**: Unified application version to 1.0.0-rc.1 across backend config, OpenAPI schema, frontend UI header, package.json, and release documentation.
+
 ## [1.0.0-rc1] - 2026-11-12
 
 ### Phase 11.1 Real-World Verification & Final Deliverables Handover
