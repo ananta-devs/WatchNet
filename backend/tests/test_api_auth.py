@@ -63,7 +63,7 @@ async def test_version_endpoint(client):
     response = await client.get("/api/v1/version")
     assert response.status_code == 200
     data = response.json()
-    assert data["version"] == "2.0.0"
+    assert data["version"] == "1.0.0-rc.1"
     assert data["project"] == "WatchNet"
 
 @pytest.mark.asyncio

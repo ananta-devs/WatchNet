@@ -91,7 +91,7 @@ export default function LoginPage() {
         </form>
 
         <div className="mt-8 pt-4 border-t border-slate-800/80 text-center text-xs text-slate-600">
-          NetAlertX Rebuild Core v2.0.0
+          WatchNet Release Candidate v1.0.0-rc.1
         </div>
       </div>
     </div>
