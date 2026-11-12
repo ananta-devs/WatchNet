@@ -1,0 +1,132 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: watchnet-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-watchnet}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - watchnet-internal
+
+  redis:
+    image: redis:7-alpine
+    container_name: watchnet-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - watchnet-internal
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: watchnet-backend
+    restart: unless-stopped
+    user: "10001:10001"
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=128m
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-watchnet}
+      DATABASE_URL_SYNC: postgresql+psycopg2://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-watchnet}
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: ${SECRET_KEY:-watchnet-production-secret-must-be-changed-in-real-env}
+      LOG_LEVEL: INFO
+      BACKUP_DIR: /app/backups
+    volumes:
+      - backup_data:/app/backups
+    ports:
+      - "8000:8000"
+    networks:
+      - watchnet-internal
+      - watchnet-edge
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: watchnet-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:8000
+    ports:
+      - "3000:3000"
+    networks:
+      - watchnet-internal
+      - watchnet-edge
+
+  collector:
+    build:
+      context: ../collector
+      dockerfile: Dockerfile
+    container_name: watchnet-collector
+    restart: unless-stopped
+    network_mode: "host"
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    environment:
+      COLLECTOR_INTERFACE: eth0
+      BACKEND_URL: http://localhost:8000
+      REDIS_URL: localhost:6379
+      SCAN_INTERVAL_SEC: 30
+    depends_on:
+      - backend
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: watchnet-proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - watchnet-edge
+
+volumes:
+  postgres_data:
+  redis_data:
+  caddy_data:
+  caddy_config:
+  backup_data:
+
+networks:
+  watchnet-internal:
+    driver: bridge
+  watchnet-edge:
+    driver: bridge

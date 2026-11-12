@@ -1,0 +1,39 @@
+# Implementation Status Tracker
+
+**Current Project State:** Phase 11.1 Real-World Manual Testing & Final Acceptance Verification Complete  
+**Overall Progress:** 100% (Phases 0 through 10 ACCEPTED, Phase 11/11.1 CONDITIONALLY ACCEPTED)  
+**Last Updated:** November 12, 2026  
+
+---
+
+## Phase Execution Summary
+
+| Phase | Phase Title | Status | Completion Evidence |
+| :--- | :--- | :--- | :--- |
+| **Phase 0** | Upstream Repository Inspection & Source Snapshot | `ACCEPTED` | Verified 1,393/1,393 files SHA-256 match in `docs/project/PHASE_0_UPSTREAM_INSPECTION_REPORT.md` |
+| **Phase 1** | Architecture & Documentation Foundation | `ACCEPTED` | Complete documentation suite across 8 categories with 0 stubs; verified diagrams & matrix |
+| **Phase 2** | Core Platform Foundation | `ACCEPTED` | Monorepo layout (`backend`, `frontend`, `collector`, `docker`), PostgreSQL 16 models & Alembic migration `0001_initial_schema`, Argon2id auth & RBAC, Next.js 16 UI shell & health dashboard, Go collector daemon, Docker compose stack. All pytest and go test suites pass. |
+| **Phase 3** | Network Discovery Engine | `ACCEPTED` | Genuine multi-engine discovery: Go collector (ARP scanner, ICMP ping prober, IP neighbor table reader, DHCP lease parser [dnsmasq/ISC/Kea], SNMP router walker, multi-worker scheduler), FastAPI ingestion and correlation service (`nmap_scanner.py`, `ingest_service.py`, `discovery.py` API with scan/status/logs/toggle-module), and Next.js Discovery Management & Trigger Dashboard (`/discovery`). Unit & integration tests pass with 100% success. |
+| **Phase 4** | Device Intelligence & History | `ACCEPTED` | Genuine OUI resolution & RFC 7042 LAA detection, multi-signal classification engine (Mobile, Desktop, IoT, Infra, Server, Gaming), DeviceService with field locks, bulk editing, soft archival, session durations & 24-bit hourly presence matrix; complete REST API; TanStack Table v8 device inventory UI & detailed device telemetry/presence heatmap page. 100% tests passing & Next.js production build verified. |
+| **Phase 5** | Monitoring & Network Visualization | `ACCEPTED` | Complete monitoring engine: Internet WAN detection & DNS latency tracker, speedtest service (download, upload, ping, jitter), website HTTP/SSL uptime monitor, async TCP port prober, dynamic L2/L3 topology hierarchy builder, REST endpoints, pytest suite (22/22 passing), and Next.js `/monitoring`, `/topology`, and `/monitoring/wallboard` dashboards. |
+| **Phase 6** | Extensible Plugin Framework & Dispatchers | `ACCEPTED` | Genuine modular plugin architecture (`BasePlugin`, `PluginRegistry`, `PluginRunner`, `PluginScheduler`), 28 upstream adapters across discovery, name resolution, monitoring, notifications, and system categories, database tables (`PluginRecord`, `PluginExecutionLog`), REST endpoints (`/api/v1/plugins`), pytest suite (25/25 passing), and Next.js `/plugins` management center. |
+| **Phase 7** | Notifications and Workflow Automation Engine | `ACCEPTED` | Multi-channel notification router (`notification_router.py`), 8 publisher adapters (Email, Telegram, MQTT, ntfy, Pushover, Pushsafer, Webhook, Apprise), event-driven automation engine (`workflow_engine.py` with triggers, conditions, and actions), database models and Alembic migration `0003_notifications_workflows_tables`, REST endpoints (`/api/v1/notifications`, `/api/v1/workflows`), full pytest suite (32/32 passing), and Next.js `/notifications` & `/workflows` frontend centers. |
+| **Phase 8** | Multi-Site & Distributed Agent Sync | `ACCEPTED` | Server-Sent Events stream (`events_stream.py`), Prometheus metrics exporter (`metrics.py`), Home Assistant MQTT auto-discovery & REST webhooks (`home_assistant.py`), AI Model Context Protocol (MCP) tool provider (`watchnet_mcp.py`), central hub sync service (`sync_service.py`), `RemoteSite` & `SiteSyncLog` models, Alembic migration `0004_multisite_tables`, REST endpoints (`/api/v1/sync/*`), full backend pytest suite (37/37 passing), Next.js Multi-Site Dashboard (`/multisite`) and Integrations Center (`/integrations`). |
+| **Phase 9** | Router Intelligence and Family Safety / Parental Controls | `ACCEPTED` | Complete read-only router intelligence engine with 6 vendor adapters (OpenWrt, UniFi, ASUSWRT, FRITZ!Box, MikroTik, Omada) for live client and Wi-Fi RSSI/band telemetry; transparent Family Safety engine with member profiles, one-click Internet Pause, category-based DNS filtering, bedtime access windows, AdGuard/Pi-hole query log ingestion, and privacy disclosures. Alembic migration `0005_routers_family_safety_tables.py`, REST APIs (`/routers`, `/family/*`), pytest suite (41/41 passing), and Next.js frontend pages (`/routers`, `/family-safety`, `/activity`, `/dns`). |
+| **Phase 10** | Production Hardening, Maintenance & Security Auditing | `ACCEPTED` | Backup & Restore engine (.zip full archive, schema v2.0.0 validation & transactional rollback), NetAlertX CSVBCKP compatible device CSV exporter & conflict-resolution importer, database retention pruning for high-volume telemetry tables, vacuum optimization, SlowAPI rate limiting with Redis/in-memory fallback, HTTP security headers middleware (HSTS, DENY, nosniff, strict CSP), AES-256-GCM envelope encryption with HKDF key derivation, container non-root & read-only hardening, full test suite (46/46 tests passing), Next.js settings & maintenance dashboard (`/settings`). |
+| **Phase 11 / 11.1** | Real-World Network Testing & Acceptance | `CONDITIONALLY ACCEPTED` | Complete Playwright browser E2E test suite (30/30 passed) across all 18 views; complete pytest suite (47/47 passed); Next.js clean production compilation (25/25 routes); physical router and LAN discovery verified on interface `192.168.0.102` against `192.168.0.1` and clients; direct stock router API telemetry blocked due to TP-Link proprietary encrypted CGI login. Formal reports authored in `docs/project/` and `docs/testing/manual/`. |
+
+---
+
+## Phase 11.1 Deliverables Index
+
+1. `docs/project/PHASE_11_1_FINAL_ACCEPTANCE_REPORT.md` (Comprehensive report covering all 18 points in Section 14, setting status to CONDITIONALLY ACCEPTED with exact justifications).
+2. `docs/testing/manual/PHASE_11_1_PLUGIN_PARITY_VERIFICATION.md` (Detailed verification of all 56 upstream plugins, distinguishing Unit tested, Contract tested, Integration tested, Live service tested, and exceptions).
+3. `docs/testing/manual/PHASE_11_1_REAL_ROUTER_VERIFICATION.md` (Detailed analysis of the TP-Link TL-WR841N v14, port scan on 192.168.0.1, GDPR RSA/AES encrypted login analysis, L2/L3 discovery evidence, and technical reason why Omada/SNMP cannot poll it directly).
+4. `docs/testing/manual/PHASE_11_1_LIVE_NETWORK_DISCOVERY.md` (Evidence of real LAN discovery on interface 192.168.0.102, gateway 192.168.0.1, clients 192.168.0.100 and 192.168.0.101, session tracking, and Go collector socket handling).
+5. `docs/testing/manual/PHASE_11_1_DNS_AND_FAMILY_SAFETY.md` (AdGuard/Pi-hole sync, domain category blocking, cross-midnight curfew schedule, transparent disclosures, and DoH/VPN boundary limitations).
+6. `docs/testing/manual/PHASE_11_1_SECURITY_VERIFICATION.md` (Argon2id, JWT cookies, RBAC, AES-256-GCM envelope encryption, key rotation CLI, SlowAPI rate limiting, security headers, and non-root container specs).
+7. `docs/testing/manual/PHASE_11_1_PERFORMANCE_VERIFICATION.md` (Reproducible benchmarks with hardware specs, OS, Python/Go versions, commands used, dataset sizes, and actual runtimes).
+8. `docs/testing/manual/PHASE_11_1_DEPLOYMENT_VERIFICATION.md` (Docker compose, Caddy, PostgreSQL 16, Redis 7, Alembic migrations, backup/restore integrity, and zero data-loss restart recovery).
+9. Updated `docs/project/FEATURE_PARITY_MATRIX.md` (Corrected all fictional file paths to actual repository paths in `backend/app/` and `collector/internal/discovery/`).
+10. Updated `CHANGELOG.md`, `PHASE_TRACKER.md`, `ROADMAP.md`, and `docs/testing/FINAL_ACCEPTANCE_CHECKLIST.md`.

@@ -1,0 +1,716 @@
+{
+  "__template": {
+    "files": [
+      "config.json",
+      "ignore_plugin",
+      "README.md",
+      "rename_me.py"
+    ],
+    "executables": [
+      "rename_me.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "__test": {
+    "files": [
+      "test.py"
+    ],
+    "executables": [
+      "test.py"
+    ],
+    "configs": []
+  },
+  "_publisher_apprise": {
+    "files": [
+      "apprise.py",
+      "apprise_telegram.png",
+      "config.json",
+      "README.md"
+    ],
+    "executables": [
+      "apprise.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "_publisher_email": {
+    "files": [
+      "config.json",
+      "email_smtp.py",
+      "README.md"
+    ],
+    "executables": [
+      "email_smtp.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "_publisher_mqtt": {
+    "files": [
+      "config.json",
+      "Deleting_MQTT_Plugin_Objects.png",
+      "mqtt.py",
+      "README.md"
+    ],
+    "executables": [
+      "mqtt.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "_publisher_ntfy": {
+    "files": [
+      "config.json",
+      "ntfy.py",
+      "README.md"
+    ],
+    "executables": [
+      "ntfy.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "_publisher_pushover": {
+    "files": [
+      "config.json",
+      "pushover.py",
+      "README.md"
+    ],
+    "executables": [
+      "pushover.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "_publisher_pushsafer": {
+    "files": [
+      "config.json",
+      "pushsafer.py",
+      "README.md"
+    ],
+    "executables": [
+      "pushsafer.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "_publisher_telegram": {
+    "files": [
+      "config.json",
+      "README.md",
+      "tg.py"
+    ],
+    "executables": [
+      "tg.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "_publisher_webhook": {
+    "files": [
+      "config.json",
+      "Discord_Config.png",
+      "README.md",
+      "webhook.py"
+    ],
+    "executables": [
+      "webhook.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "adguard_export": {
+    "files": [
+      "config.json",
+      "README.md",
+      "script.py"
+    ],
+    "executables": [
+      "script.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "adguard_import": {
+    "files": [
+      "adguard_import.py",
+      "config.json",
+      "README.md"
+    ],
+    "executables": [
+      "adguard_import.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "arp_scan": {
+    "files": [
+      "arp-scan-settings.png",
+      "config.json",
+      "README.md",
+      "script.py"
+    ],
+    "executables": [
+      "script.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "asuswrt_import": {
+    "files": [
+      "config.json",
+      "README.md",
+      "script.py"
+    ],
+    "executables": [
+      "script.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "avahi_scan": {
+    "files": [
+      "avahi_scan.py",
+      "config.json",
+      "README.md"
+    ],
+    "executables": [
+      "avahi_scan.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "csv_backup": {
+    "files": [
+      "config.json",
+      "README.md",
+      "script.py"
+    ],
+    "executables": [
+      "script.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "custom_props": {
+    "files": [
+      "config.json",
+      "README.md"
+    ],
+    "executables": [],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "db_cleanup": {
+    "files": [
+      "config.json",
+      "README.md",
+      "script.py"
+    ],
+    "executables": [
+      "script.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "ddns_update": {
+    "files": [
+      "config.json",
+      "README.md",
+      "script.py"
+    ],
+    "executables": [
+      "script.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "dhcp_leases": {
+    "files": [
+      "ASUS_ROUTERS.md",
+      "config.json",
+      "README.md",
+      "script.py"
+    ],
+    "executables": [
+      "script.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "dhcp_servers": {
+    "files": [
+      "config.json",
+      "README.md",
+      "script.py"
+    ],
+    "executables": [
+      "script.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "dig_scan": {
+    "files": [
+      "config.json",
+      "digscan.py",
+      "README.md"
+    ],
+    "executables": [
+      "digscan.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "dockerdisc": {
+    "files": [
+      "config.json",
+      "README.md",
+      "script.py"
+    ],
+    "executables": [
+      "script.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "freebox": {
+    "files": [
+      "config.json",
+      "freebox.py",
+      "README.md"
+    ],
+    "executables": [
+      "freebox.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "fritzbox": {
+    "files": [
+      "config.json",
+      "fritzbox.py",
+      "README.md"
+    ],
+    "executables": [
+      "fritzbox.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "icmp_scan": {
+    "files": [
+      "config.json",
+      "icmp.py",
+      "README.md"
+    ],
+    "executables": [
+      "icmp.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "internet_ip": {
+    "files": [
+      "config.json",
+      "README.md",
+      "script.py"
+    ],
+    "executables": [
+      "script.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "internet_speedtest": {
+    "files": [
+      "config.json",
+      "README.md",
+      "script.py"
+    ],
+    "executables": [
+      "script.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "ipneigh": {
+    "files": [
+      "config.json",
+      "ipneigh.py",
+      "README.md"
+    ],
+    "executables": [
+      "ipneigh.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "kea_api": {
+    "files": [
+      "config.json",
+      "README.md",
+      "script.py"
+    ],
+    "executables": [
+      "script.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "luci_import": {
+    "files": [
+      "config.json",
+      "README.md",
+      "script.py"
+    ],
+    "executables": [
+      "script.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "maintenance": {
+    "files": [
+      "config.json",
+      "maintenance.py",
+      "README.md"
+    ],
+    "executables": [
+      "maintenance.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "mikrotik_scan": {
+    "files": [
+      "config.json",
+      "mikrotik.py",
+      "README.md"
+    ],
+    "executables": [
+      "mikrotik.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "nbtscan_scan": {
+    "files": [
+      "config.json",
+      "nbtscan.py",
+      "README.md"
+    ],
+    "executables": [
+      "nbtscan.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "newdev_template": {
+    "files": [
+      "config.json",
+      "README.md"
+    ],
+    "executables": [],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "nmap_dev_scan": {
+    "files": [
+      "config.json",
+      "nmap_dev.py",
+      "README.md"
+    ],
+    "executables": [
+      "nmap_dev.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "nmap_scan": {
+    "files": [
+      "config.json",
+      "nmap_ports_services.png",
+      "README.md",
+      "script.py"
+    ],
+    "executables": [
+      "script.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "notification_processing": {
+    "files": [
+      "config.json",
+      "README.md"
+    ],
+    "executables": [],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "nslookup_scan": {
+    "files": [
+      "config.json",
+      "nslookup.py",
+      "README.md"
+    ],
+    "executables": [
+      "nslookup.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "omada_sdn_imp": {
+    "files": [
+      "config.json",
+      "omada_account_sample.png",
+      "omada_sdn.py",
+      "README.md"
+    ],
+    "executables": [
+      "omada_sdn.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "omada_sdn_openapi": {
+    "files": [
+      "config.json",
+      "omada_sdn_openapi_settings.png",
+      "README.md",
+      "script.py"
+    ],
+    "executables": [
+      "script.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "pihole_api_scan": {
+    "files": [
+      "config.json",
+      "pihole_api_scan.py",
+      "README.md"
+    ],
+    "executables": [
+      "pihole_api_scan.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "pihole_monitor": {
+    "files": [
+      "config.json",
+      "pihole_monitor.py",
+      "README.md"
+    ],
+    "executables": [
+      "pihole_monitor.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "pihole_scan": {
+    "files": [
+      "config.json",
+      "README.md"
+    ],
+    "executables": [],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "rest_import": {
+    "files": [
+      "config.json",
+      "README.md",
+      "rest_import.py"
+    ],
+    "executables": [
+      "rest_import.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "set_password": {
+    "files": [
+      "config.json",
+      "README.md"
+    ],
+    "executables": [],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "snmp_discovery": {
+    "files": [
+      "config.json",
+      "README.md",
+      "script.py"
+    ],
+    "executables": [
+      "script.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "sync": {
+    "files": [
+      "config.json",
+      "README.md",
+      "sync.py",
+      "sync_hub.png"
+    ],
+    "executables": [
+      "sync.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "ui_settings": {
+    "files": [
+      "config.json",
+      "README.md"
+    ],
+    "executables": [],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "unifi_api_import": {
+    "files": [
+      "config.json",
+      "README.md",
+      "unifi_api_import.py"
+    ],
+    "executables": [
+      "unifi_api_import.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "unifi_import": {
+    "files": [
+      "config.json",
+      "full_run.lock",
+      "README.md",
+      "script.py"
+    ],
+    "executables": [
+      "script.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "vendor_update": {
+    "files": [
+      "config.json",
+      "README.md",
+      "script.py"
+    ],
+    "executables": [
+      "script.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "wake_on_lan": {
+    "files": [
+      "config.json",
+      "README.md",
+      "wake_on_lan.py"
+    ],
+    "executables": [
+      "wake_on_lan.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "website_monitor": {
+    "files": [
+      "config.json",
+      "README.md",
+      "script.py"
+    ],
+    "executables": [
+      "script.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "wificanary": {
+    "files": [
+      "config.json",
+      "README.md",
+      "script.py"
+    ],
+    "executables": [
+      "script.py"
+    ],
+    "configs": [
+      "config.json"
+    ]
+  },
+  "workflows": {
+    "files": [
+      "config.json",
+      "README.md"
+    ],
+    "executables": [],
+    "configs": [
+      "config.json"
+    ]
+  }
+}
