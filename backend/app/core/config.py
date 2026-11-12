@@ -4,7 +4,7 @@ from typing import List
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "WatchNet"
-    VERSION: str = "2.0.0"
+    VERSION: str = "1.0.0-rc.1"
     API_V1_STR: str = "/api/v1"
     
     # Security & JWT

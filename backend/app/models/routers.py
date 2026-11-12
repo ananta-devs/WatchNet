@@ -22,12 +22,19 @@ class RouterVendor(str, enum.Enum):
     OMADA = "Omada"
     GENERIC = "Generic"
 
+class RouterIntegrationLevel(str, enum.Enum):
+    FULL_API = "full_api"                 # Full read-only API integration (clients, RSSI, DHCP leases, wireless bands)
+    READ_ONLY_API = "read_only_api"       # Read-only REST/SOAP API with partial telemetry
+    PASSIVE_DISCOVERY = "passive_discovery" # Passive network discovery (ARP, ICMP, DNS, ip neigh)
+    UNSUPPORTED = "unsupported"           # Direct API polling unsupported (e.g. proprietary encrypted stock firmware)
+
 class Router(Base):
     __tablename__ = "routers"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String(255), nullable=False)
     vendor = Column(Enum(RouterVendor, values_callable=lambda obj: [e.value for e in obj]), default=RouterVendor.GENERIC, nullable=False)
+    integration_level = Column(String(50), default="read_only_api", nullable=False)
     model = Column(String(255), nullable=True)
     firmware = Column(String(255), nullable=True)
     host = Column(String(255), nullable=False)

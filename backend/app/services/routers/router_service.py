@@ -56,12 +56,14 @@ class RouterService:
         username: Optional[str] = None,
         password: Optional[str] = None,
         model: Optional[str] = None,
-        firmware: Optional[str] = None
+        firmware: Optional[str] = None,
+        integration_level: str = "read_only_api"
     ) -> Router:
         encrypted_pwd = encrypt_credential(password) if password else None
         router = Router(
             name=name,
             vendor=vendor,
+            integration_level=integration_level,
             host=host,
             port=port,
             username=username,

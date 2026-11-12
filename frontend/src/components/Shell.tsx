@@ -74,7 +74,10 @@ export const Shell = ({ children }: { children: React.ReactNode }) => {
       <aside className="hidden lg:flex flex-col w-64 border-r border-slate-800 bg-slate-900/50 backdrop-blur-md">
         <div className="flex items-center gap-3 h-16 px-6 border-b border-slate-800">
           <Radar className="w-6 h-6 text-indigo-400" />
-          <span className="font-bold text-lg tracking-wider text-indigo-400">WATCHNET</span>
+          <div className="flex flex-col">
+            <span className="font-bold text-lg tracking-wider text-indigo-400 leading-none">WATCHNET</span>
+            <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest mt-0.5">v1.0.0-rc.1</span>
+          </div>
         </div>
 
         <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-1">

@@ -19,10 +19,24 @@ import {
   X
 } from "lucide-react";
 
+interface RouterTelemetry {
+  passive_arp: boolean;
+  icmp_reachability: boolean;
+  dns_ptr_resolution: boolean;
+  neighbor_discovery: boolean;
+  dhcp_lease_ingestion: boolean;
+  wifi_association_rssi: boolean;
+  band_steering_metrics: boolean;
+  snmp_interface_tables: boolean;
+  proprietary_client_api: boolean;
+}
+
 interface RouterItem {
   id: string;
   name: string;
   vendor: string;
+  integration_level?: string;
+  telemetry?: RouterTelemetry;
   model: string | null;
   firmware: string | null;
   host: string;
@@ -60,6 +74,7 @@ export default function RoutersPage() {
   // Form state
   const [name, setName] = useState("");
   const [vendor, setVendor] = useState("OpenWrt");
+  const [integrationLevel, setIntegrationLevel] = useState("read_only_api");
   const [host, setHost] = useState("");
   const [port, setPort] = useState(80);
   const [username, setUsername] = useState("root");
@@ -155,7 +170,7 @@ export default function RoutersPage() {
       const res = await fetch("/api/v1/routers", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, vendor, host, port: Number(port), username, password })
+        body: JSON.stringify({ name, vendor, integration_level: integrationLevel, host, port: Number(port), username, password })
       });
       if (res.ok) {
         setModalOpen(false);
@@ -223,6 +238,17 @@ export default function RoutersPage() {
                     <span className="font-semibold text-white">{r.name}</span>
                     <span className="px-2 py-0.5 text-xs font-semibold rounded bg-indigo-950 text-indigo-400 border border-indigo-800/50">
                       {r.vendor}
+                    </span>
+                    <span className={`px-2 py-0.5 text-[10px] font-semibold rounded uppercase tracking-wider border ${
+                      r.integration_level === "full_api"
+                        ? "bg-emerald-950/80 text-emerald-400 border-emerald-800/50"
+                        : r.integration_level === "read_only_api"
+                        ? "bg-blue-950/80 text-blue-400 border-blue-800/50"
+                        : r.integration_level === "passive_discovery"
+                        ? "bg-amber-950/80 text-amber-400 border-amber-800/50"
+                        : "bg-rose-950/80 text-rose-400 border-rose-800/50"
+                    }`}>
+                      {r.integration_level ? r.integration_level.replace(/_/g, " ") : "Read-only API"}
                     </span>
                   </div>
                   <span className="text-xs text-slate-400 mt-1 block">
@@ -475,6 +501,20 @@ export default function RoutersPage() {
                     className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-indigo-500"
                   />
                 </div>
+              </div>
+
+              <div>
+                <label className="block text-slate-300 font-semibold mb-1">Integration Level</label>
+                <select
+                  value={integrationLevel}
+                  onChange={(e) => setIntegrationLevel(e.target.value)}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-indigo-500"
+                >
+                  <option value="full_api">Full API Integration (DHCP leases, client tables, Wi-Fi RSSI, bands)</option>
+                  <option value="read_only_api">Read-Only API Integration (REST / TR-064 / SOAP client polling)</option>
+                  <option value="passive_discovery">Passive Network Discovery (L2 ARP, ICMP reachability, ip neigh)</option>
+                  <option value="unsupported">Direct API Unsupported (Proprietary stock firmware encryption, e.g. WR841N)</option>
+                </select>
               </div>
 
               <div className="grid grid-cols-2 gap-2">
