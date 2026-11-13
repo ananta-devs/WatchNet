@@ -123,7 +123,24 @@ The distribution across the functional categories is verified as:
 - **DNS / Family Safety Filtering**: 4 plugins (`adguard_export`, `adguard_import`, `pihole_api_scan`, `pihole_monitor`, `pihole_scan` consolidated)
 - **Multi-Site**: 1 plugin (`sync`)
 
-### 5.2 Consolidation into Modern Adapters
+### 5.2 Core System Utilities Explicit Reconciliation (14 Utilities)
+All 14 upstream system utilities and infrastructure fixtures from `server/plugins/` have been mapped directly to modern clean-room Python/Go architecture without legacy PHP dependencies:
+1. `__template`: Abstract plugin contract fixture (`backend/app/services/plugins/base_plugin.py`)
+2. `__test`: Asynchronous timeout and failure harness (`backend/app/services/plugins/base_plugin.py`)
+3. `csv_backup`: Full round-trip CSV backup export/import engine (`backend/app/services/system/backup_service.py`)
+4. `custom_props`: Dynamic device metadata schema extension (`backend/app/services/devices/device_service.py`)
+5. `db_cleanup`: Vacuum and event retention trimmer (`backend/app/services/system/maintenance_service.py`)
+6. `ddns_update`: Dynamic DNS record synchronization adapter (`backend/app/services/plugins/adapters/system.py`)
+7. `maintenance`: System diagnostics, cache pruning, and integrity checks (`backend/app/services/system/maintenance_service.py`)
+8. `newdev_template`: Jinja2 event alert rendering engine (`backend/app/services/notifications/notification_router.py`)
+9. `notification_processing`: Deduplication and sliding-window rate limiter (`backend/app/services/notifications/deduplicator.py`)
+10. `set_password`: Argon2id password hashing and session revocation (`backend/app/core/security.py`)
+11. `sync`: Multi-site encrypted node synchronization engine (`backend/app/services/multisite/sync_service.py`)
+12. `ui_settings`: Dynamic system configuration persistence API (`backend/app/api/v1/system.py`)
+13. `vendor_update`: Local IEEE OUI database parser with RFC 7042 LAA detection (`backend/app/services/devices/oui_resolver.py`)
+14. `wake_on_lan`: Raw UDP magic packet constructor and broadcaster (`backend/app/services/plugins/adapters/system.py`)
+
+### 5.3 Consolidation into Modern Adapters
 In legacy NetAlertX, each capability was implemented as a standalone script often duplicating network calls, database access, and schema parsing. WatchNet consolidates these 54 capabilities into **36 modular adapters** within `backend/app/services/plugins/adapters/`, `backend/app/services/routers/`, and `collector/internal/discovery/`:
 1. `OpenWrtAdapter` (absorbs `luci_import`)
 2. `UniFiAdapter` (absorbs `unifi_api_import` and `unifi_import`)

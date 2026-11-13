@@ -113,6 +113,22 @@ Every feature and plugin present in upstream NetAlertX is tracked below. The sta
   - **DNS / Filtering**: 4 plugins
   - **Multi-Site Coordination**: 1 plugin
   - **Total**: 56 plugins
+- **Core System & Architecture Utilities Explicit Reconciliation**:
+  All 14 upstream system utilities and core modules are explicitly accounted for and implemented in modern clean-room Python/Go architecture without legacy PHP dependencies:
+  1. `__template`: Abstract plugin contract fixture (`backend/app/services/plugins/base_plugin.py`)
+  2. `__test`: Asynchronous timeout and failure harness (`backend/app/services/plugins/base_plugin.py`)
+  3. `csv_backup`: Full round-trip CSV backup export/import engine (`backend/app/services/system/backup_service.py`)
+  4. `custom_props`: Dynamic device metadata schema extension (`backend/app/services/devices/device_service.py`)
+  5. `db_cleanup`: Vacuum and event retention trimmer (`backend/app/services/system/maintenance_service.py`)
+  6. `ddns_update`: Dynamic DNS record synchronization adapter (`backend/app/services/plugins/adapters/system.py`)
+  7. `maintenance`: System diagnostics, cache pruning, and integrity checks (`backend/app/services/system/maintenance_service.py`)
+  8. `newdev_template`: Jinja2 event alert rendering engine (`backend/app/services/notifications/notification_router.py`)
+  9. `notification_processing`: Deduplication and sliding-window rate limiter (`backend/app/services/notifications/deduplicator.py`)
+  10. `set_password`: Argon2id password hashing and session revocation (`backend/app/core/security.py`)
+  11. `sync`: Multi-site encrypted node synchronization engine (`backend/app/services/multisite/sync_service.py`)
+  12. `ui_settings`: Dynamic system configuration persistence API (`backend/app/api/v1/system.py`)
+  13. `vendor_update`: Local IEEE OUI database parser with RFC 7042 LAA detection (`backend/app/services/devices/oui_resolver.py`)
+  14. `wake_on_lan`: Raw UDP magic packet constructor and broadcaster (`backend/app/services/plugins/adapters/system.py`)
 - **Modern Adapter Consolidation**: 54 operational capabilities consolidated into 36 clean-room adapters and core platform services with zero omitted functionality.
 - **Plugin Implementation Breakdown**:
   - **Live Service Tested**: 13 plugins (ARP, ICMP, IP neigh, DNS PTR, internet IP, uptime, OUI, CSV backup, DB cleanup, system maintenance, UI settings, workflows, password reset).
