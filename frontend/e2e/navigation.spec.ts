@@ -56,11 +56,34 @@ test.describe("Navigation and Layout Verification", () => {
     });
 
     await page.route("**/api/v1/monitoring**", async (route) => {
-      await route.fulfill({
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({ status: "healthy", latency_ms: 12, packet_loss: 0 }),
-      });
+      const url = route.request().url();
+      if (url.includes("/speedtest") || url.includes("/websites")) {
+        await route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify([]),
+        });
+      } else if (url.includes("/internet")) {
+        await route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            timestamp: new Date().toISOString(),
+            wan_ip: "192.168.1.1",
+            gateway_latency_ms: 12,
+            dns_resolution_ms: 8,
+            is_connected: true,
+            dns_resolvers: null,
+            history_24h: [],
+          }),
+        });
+      } else {
+        await route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({ status: "healthy", latency_ms: 12, packet_loss: 0 }),
+        });
+      }
     });
 
     await page.route("**/api/v1/routers**", async (route) => {
