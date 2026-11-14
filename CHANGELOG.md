@@ -6,6 +6,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.0-rc.2] - 2026-11-14
+
+### Independent Project Rebrand & GitHub Publication Readiness
+- **Independent Project Identity**:
+  - Rebranded the platform identity to standalone **WatchNet** across all user-facing interfaces, settings, service docstrings, and tests.
+  - Sanitized backend backup engine (`backup_service.py`) and API routes (`system.py`) to expose standard CSV import/export without legacy branding.
+  - Retained strict upstream open-source attribution in `NOTICE.md` and `LICENSE` (GPL-3.0) guaranteeing full intellectual property and copyleft compliance.
+- **Repository Hygiene & GitHub Publishing Readiness**:
+  - Added authoritative root `.gitignore` sanitizing environment secrets, database files, binary pycache artifacts, and test execution reports.
+  - Untracked legacy compiled Python bytecode (`*.pyc`) and temporary test results (`playwright-report.json`) from version control.
+  - Validated clean-room state of protected upstream repositories (`D:\NetAlertX-main\NetAlertX-main`, `D:\NetAlertX-Reference-Snapshot`, `D:\WatchNet`).
+- **Audit & Verification**:
+  - Delivered comprehensive publication audit report in `docs/GITHUB_PUBLICATION_READINESS_REPORT.md`.
+  - Frontend lint (`npm run lint`) passed with 0 errors.
+  - Frontend production build (`npm run build`) succeeded with all 25 static & streaming routes generated.
+  - Backend automated test suite (pytest) passed 100% (47 passed / 0 failed).
+
+---
+
 ## [1.0.0-rc.1] - 2026-11-12
 
 ### Release Candidate v1.0.0 Packaging & Verification
