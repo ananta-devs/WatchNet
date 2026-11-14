@@ -21,7 +21,7 @@ According to the Release Engineering Quality Gate, release candidate acceptance 
 | **Core Automated Test Suites** | 100% pass rate | **PASS** | Pytest backend: 47 passed / 0 failed. Go collector: All packages pass. Next.js Turbopack: 25/25 routes prerendered. Playwright E2E: 30 passed / 0 failed. |
 | **Security Release Gate** | Vulnerability & auth validation | **PASS** | Full RBAC suite, rate limiter, secret redaction, and container unprivileged user (`UID 10001`) verified. |
 | **Backup and Restoration** | End-to-end data recovery | **PASS** | Automated JSON/SQL/CSV export and isolated restore verified with foreign key integrity. |
-| **Accurate Feature Parity Matrix** | 100% upstream reconciliation | **PASS** | 56 of 56 upstream NetAlertX plugins cataloged, reconciled, and audited against physical repository files. |
+| **Accurate Feature Parity Matrix** | 100% upstream reconciliation | **PASS** | 56 of 56 legacy upstream plugins cataloged, reconciled, and audited against physical repository files. |
 | **Transparent Router Compatibility** | Documented hardware boundaries | **PASS** | Integration levels (`full_api`, `read_only_api`, `passive_discovery`, `unsupported`) implemented in backend and UI. |
 
 ---

@@ -23,7 +23,7 @@ The software build is **100% architecturally complete and verified**, but becaus
 
 | Gate Domain | Requirement | Current Verification Evidence | Verdict |
 |:---|:---|:---|:---:|
-| **Software Architecture Parity** | 100% upstream NetAlertX feature & plugin coverage (56 plugins) | All 56 upstream plugins cataloged; 14 core system utilities verified; 36 typed adapters implemented. | **PASS** |
+| **Software Architecture Parity** | 100% legacy upstream feature & plugin coverage (56 plugins) | All 56 upstream plugins cataloged; 14 core system utilities verified; 36 typed adapters implemented. | **PASS** |
 | **Test Automation Parity** | Zero failing automated tests in backend and frontend | Pytest: 47/47 passing (100%); Playwright: 30/30 passing (100%); Go Collector: 3/3 packages passing (100%). | **PASS** |
 | **Disaster Recovery** | Zero-loss cold boot schema migration and round-trip backup | Verified in `RC_1.0.0_BACKUP_RESTORE_VERIFICATION.md`: 128 devices, 312 IPs, 37 plugins restored with 100% fidelity. | **PASS** |
 | **Build Reproducibility** | Pinned Git commits, signed SBOM, verifiable SHA-256 artifacts | Verified: Commits `b8f02da` and `b1cc69d` tagged and recorded in `RC_1.0.0_BUILD_MANIFEST.md`. | **PASS** |
@@ -36,7 +36,7 @@ The software build is **100% architecturally complete and verified**, but becaus
 ## 3. Detailed Audit Findings
 
 ### 3.1 Codebase & Architectural Integrity
-The clean-room modern architecture eliminates 100% of legacy NetAlertX PHP dependencies. The backend uses Python 3.14 with FastAPI, SQLAlchemy 2.0 async, Alembic migrations, and Pydantic v2 schemas. The frontend runs Next.js 14 with TypeScript, Tailwind CSS, and shadcn/ui components. High-speed discovery is handled by a standalone Go 1.22 daemon utilizing raw `AF_PACKET` sockets on Linux.
+The clean-room modern architecture eliminates 100% of legacy network system PHP dependencies. The backend uses Python 3.14 with FastAPI, SQLAlchemy 2.0 async, Alembic migrations, and Pydantic v2 schemas. The frontend runs Next.js 14 with TypeScript, Tailwind CSS, and shadcn/ui components. High-speed discovery is handled by a standalone Go 1.22 daemon utilizing raw `AF_PACKET` sockets on Linux.
 
 ### 3.2 56 Plugin & 14 System Utility Reconciliation
 All 56 directories in the upstream `server/plugins/` tree have been rigorously accounted for:

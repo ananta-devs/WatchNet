@@ -28,5 +28,5 @@ If you discover a security vulnerability in WatchNet:
 ### Scope of Security Boundaries
 - **Network Scanning Engine**: The network collector requires elevated raw socket capabilities (`CAP_NET_RAW`). Any escape from least-privilege collector daemon to root host execution is considered a Critical severity issue.
 - **Parental Controls & Privacy**: Accidental leakage of DNS query histories across household profiles or unauthorized bypass of router blocks is considered High severity.
-- **Injection Flaws**: Unlike upstream NetAlertX (which permitted arbitrary client-side SQL execution via `/dbquery/*`), WatchNet strictly rejects all raw SQL execution from API clients. Any SQL injection or command injection vulnerability is considered Critical.
+- **Injection Flaws**: Unlike legacy upstream (which permitted arbitrary client-side SQL execution via `/dbquery/*`), WatchNet strictly rejects all raw SQL execution from API clients. Any SQL injection or command injection vulnerability is considered Critical.
 - **Authentication**: JWT authentication with Argon2id password hashing and HttpOnly, Secure, SameSite cookies is enforced. Any session fixation or credential leak is Critical.

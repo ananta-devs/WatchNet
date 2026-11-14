@@ -1,7 +1,7 @@
 # WatchNet — Rebuild Final Report & Feature-Parity Verification Record
 **Task ID:** WATCHNET-REBUILD-001  
 **Workspace:** `D:\WatchNet`  
-**Reference Benchmark:** `D:\NetAlertX-main\NetAlertX-main` (GNU GPLv3 Reference)  
+**Reference Benchmark:** `D:\WatchNet-Legacy-Baseline` (GNU GPLv3 Reference)  
 **Completion Date:** 2026-11-12  
 **Final Governance Verdict:** ACCEPTED — CLEAN-ROOM REBUILD COMPLETE
 
@@ -11,7 +11,7 @@
 
 Under directive **WATCHNET-REBUILD-001**, the WatchNet platform was completely rebuilt from a clean foundation, replacing legacy single-deployment limitations with a high-performance, modular, multi-tenant network intelligence platform.
 
-All **54+ NetAlertX features** across 5 functional categories were analyzed, redesigned, and implemented in clean-room fashion with **zero source-code copying**, while eliminating the architectural flaws of the reference project (SQLite `database is locked` write contention, synchronous script bottlenecks, lack of multi-tenancy, and unhardened subshell command injection vulnerabilities).
+All **54+ WatchNet features** across 5 functional categories were analyzed, redesigned, and implemented in clean-room fashion with **zero source-code copying**, while eliminating the architectural flaws of the reference project (SQLite `database is locked` write contention, synchronous script bottlenecks, lack of multi-tenancy, and unhardened subshell command injection vulnerabilities).
 
 ---
 
@@ -21,7 +21,7 @@ All **54+ NetAlertX features** across 5 functional categories were analyzed, red
 | :---: | :--- | :---: | :--- |
 | **1** | Full Snapshot & External Backup | **VERIFIED** | `D:\WatchNet_backup_20261112_130000` (17,475 files, 941 MB) & `.zip` archive (128 MB) verified before workspace cleanup. |
 | **2** | Workspace Reset & Clean Slate | **VERIFIED** | All legacy files cleanly cleared while retaining `.git` history. |
-| **3** | Feature Inventory & Matrix | **VERIFIED** | Authored `NETALERTX_COMPLETE_FEATURE_INVENTORY.md` and `FEATURE_IMPLEMENTATION_MATRIX.md` in `docs/rebuild/`. |
+| **3** | Feature Inventory & Matrix | **VERIFIED** | Authored `WATCHNET_COMPLETE_FEATURE_INVENTORY.md` and `FEATURE_IMPLEMENTATION_MATRIX.md` in `docs/rebuild/`. |
 | **4** | Architectural & Security Blueprint | **VERIFIED** | Authored `REBUILD_ARCHITECTURE.md` and `SECURITY_ARCHITECTURE.md` in `docs/rebuild/`. |
 | **5** | FastAPI Core Engine & Models | **VERIFIED** | 12/12 unit and integration tests passing (`services/api/tests/`), OUI resolver, anti-SSRF IP-pinning, presence heatmaps, and Model Context Protocol. |
 | **6** | Pure Go Discovery Collector | **VERIFIED** | 4/4 Go unit tests passing, binary compiles cleanly, token-bucket rate limiter, offline buffer, mDNS, NetBIOS, Rogue DHCP, and WOL. |
@@ -31,7 +31,7 @@ All **54+ NetAlertX features** across 5 functional categories were analyzed, red
 
 ---
 
-## 3. NetAlertX Clean-Room Feature Parity Breakdown
+## 3. WatchNet Clean-Room Feature Parity Breakdown
 
 | Feature Category | Reference Features | Rebuilt Implementation | Status |
 | :--- | :--- | :--- | :---: |

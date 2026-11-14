@@ -1,6 +1,6 @@
 # Phase 11.1 Real Router Verification Report: TP-Link TL-WR841N v14
 
-**Project:** WatchNet — Complete NetAlertX Enterprise Rebuild  
+**Project:** WatchNet — Complete WatchNet Enterprise Rebuild  
 **Hardware Target:** TP-Link TL-WR841N Wireless N Router (Hardware Version 14)  
 **Gateway Address:** `192.168.0.1`  
 **Gateway MAC:** `84:d8:1b:a7:be:5a` (TP-Link Technologies Co., Ltd.)  

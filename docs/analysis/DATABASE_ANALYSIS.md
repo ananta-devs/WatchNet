@@ -1,14 +1,14 @@
-# NetAlertX Database Analysis
+# WatchNet Database Analysis
 
 **Document Version:** 1.0.0  
-**Baseline Snapshot:** `D:\NetAlertX-Reference-Snapshot` (`server/db/schema/app.sql`, `server/db/db_upgrade.py`)  
+**Baseline Snapshot:** `D:\WatchNet-Reference-Snapshot` (`server/db/schema/app.sql`, `server/db/db_upgrade.py`)  
 **Target Platform:** WatchNet PostgreSQL 16 Architecture  
 
 ---
 
 ## 1. Upstream Database Schema & Organization
 
-Upstream NetAlertX relies on a single embedded SQLite database (`app.db`). Schema definitions are declared in `app.sql` and dynamically altered at runtime through Python helper scripts (`db_upgrade.py`).
+Legacy Upstream relies on a single embedded SQLite database (`app.db`). Schema definitions are declared in `app.sql` and dynamically altered at runtime through Python helper scripts (`db_upgrade.py`).
 
 ### 1.1 Complete Table Inventory
 1. **`Devices`**: Central registry of all discovered network devices. Key columns: `devMac` (PRIMARY KEY), `devIp`, `devName`, `devVendor`, `devType`, `devStatus`, `devFirstConnection`, `devLastConnection`, `devAlert`, `devArchived`.

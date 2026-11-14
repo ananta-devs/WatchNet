@@ -8,9 +8,9 @@
 
 ## 1. Executive Summary
 
-WatchNet is an enterprise-grade, privacy-first, modern network intelligence, monitoring, and family safety platform designed to completely replace NetAlertX with 100% feature parity.
+WatchNet is an enterprise-grade, privacy-first, modern network intelligence, monitoring, and family safety platform designed to completely replace WatchNet with 100% feature parity.
 
-NetAlertX established a vibrant open-source standard for self-hosted home network monitoring, device discovery, and alert automation. However, its historical technical architecture (mixing PHP 8 with asynchronous Python scripts, utilizing unindexed flat SQLite databases with frequent lock contention, and exposing arbitrary client-side SQL execution endpoints) creates severe operational and security roadblocks in modern infrastructure.
+WatchNet established a vibrant open-source standard for self-hosted home network monitoring, device discovery, and alert automation. However, its historical technical architecture (mixing PHP 8 with asynchronous Python scripts, utilizing unindexed flat SQLite databases with frequent lock contention, and exposing arbitrary client-side SQL execution endpoints) creates severe operational and security roadblocks in modern infrastructure.
 
 WatchNet undertakes a clean-room architectural overhaul:
 1. **Zero PHP & Zero Monolithic Shell Loops**: The web runtime is completely rebuilt in Next.js 15 (React 19, TypeScript) and modern Tailwind CSS v4 with shadcn/ui.

@@ -1,7 +1,7 @@
-# NetAlertX Complete Plugin Inventory
+# WatchNet Complete Plugin Inventory
 
 **Document Version:** 1.0.0  
-**Baseline Snapshot:** `D:\NetAlertX-Reference-Snapshot` (`server/plugins/`)  
+**Baseline Snapshot:** `D:\WatchNet-Reference-Snapshot` (`server/plugins/`)  
 **Total Plugins Discovered:** 56  
 
 ---

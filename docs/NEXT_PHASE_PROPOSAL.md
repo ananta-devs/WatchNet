@@ -1,7 +1,7 @@
 # WATCHNET: POST-ACCEPTANCE ADVANCED DEVELOPMENT PROPOSAL
 
 **Document ID:** PROP-ADV-2026-01  
-**Current Baseline:** WatchNet Rebuild v1.0.0 (NetAlertX Feature Parity & Security Verified)  
+**Current Baseline:** WatchNet Rebuild v1.0.0 (WatchNet Feature Parity & Security Verified)  
 **Governance Notice:** Strictly a planning proposal for human evaluation. **Implementation of downstream phases (Phase 15/16+) is NOT authorized** until formal human acceptance and separate instruction.  
 
 ---
@@ -9,7 +9,7 @@
 ## 1. Context & Motivation
 
 With the successful execution of **WATCHNET-REBUILD-002**, WatchNet has established:
-1. Complete functional and architectural superiority over legacy NetAlertX baselines.
+1. Complete functional and architectural superiority over legacy network system baselines.
 2. Production-grade multi-tenant architecture with PostgreSQL Row-Level Security (RLS).
 3. Modern frontend (Next.js 14 App Router + Tailwind CSS) and backend (FastAPI async engine + Go 1.22 packet collector).
 4. Full interactive testability, verified in Google Chrome, with 100% data retention and disaster recovery validation.

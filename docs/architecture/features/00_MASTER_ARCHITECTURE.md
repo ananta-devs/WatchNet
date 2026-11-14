@@ -1,7 +1,7 @@
 # WatchNet Architecture: Complete Master Index & System Blueprint
 
 ## 1. System Overview & Technology Stack
-WatchNet is an enterprise-grade network security, asset inventory, and continuous telemetry monitoring platform built with feature parity to upstream NetAlertX.
+WatchNet is an enterprise-grade network security, asset inventory, and continuous telemetry monitoring platform built with feature parity to legacy upstream.
 
 ```mermaid
 graph TB

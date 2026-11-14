@@ -6,7 +6,7 @@ This document outlines the phased milestone roadmap for the complete rebuild of 
 
 ## Milestone 1: Foundations & Architecture
 - [x] **Phase 0: Upstream Inspection & Preservation Snapshot**
-  - Bit-for-bit SHA-256 reference snapshot in `D:\NetAlertX-Reference-Snapshot`.
+  - Bit-for-bit SHA-256 reference snapshot in `D:\WatchNet-Reference-Snapshot`.
   - Comprehensive inventory of 56 plugins, 81 API routes, and 14 database tables.
 - [x] **Phase 1: Architecture & Complete Documentation Foundation**
   - 8 Root documentation files.

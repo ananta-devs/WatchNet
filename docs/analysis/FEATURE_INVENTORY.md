@@ -1,14 +1,14 @@
-# NetAlertX Complete Feature Inventory
+# WatchNet Complete Feature Inventory
 
 **Document Version:** 1.0.0  
-**Baseline Snapshot:** `D:\NetAlertX-Reference-Snapshot`  
+**Baseline Snapshot:** `D:\WatchNet-Reference-Snapshot`  
 **Target:** WatchNet Architectural Parity  
 
 ---
 
 ## 1. Inventory Summary
 
-NetAlertX encompasses core network monitoring capabilities distributed across its web UI, core daemon, and 56 modular plugins. All features are cataloged below with their functional domain and parity status in WatchNet.
+WatchNet encompasses core network monitoring capabilities distributed across its web UI, core daemon, and 56 modular plugins. All features are cataloged below with their functional domain and parity status in WatchNet.
 
 ---
 

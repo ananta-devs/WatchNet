@@ -8,7 +8,7 @@
 
 ## 1. Architectural Strategy & Phased Delivery Model
 
-The WatchNet rebuild follows a strict phased execution strategy designed to eliminate technical debt, ensure zero loss of NetAlertX capabilities, and establish high-assurance family safety extensions.
+The WatchNet rebuild follows a strict phased execution strategy designed to eliminate technical debt, ensure zero loss of WatchNet capabilities, and establish high-assurance family safety extensions.
 
 ```mermaid
 gantt
@@ -37,12 +37,12 @@ gantt
 ## 2. Phase-by-Phase Deliverables & Verification Criteria
 
 ### Phase 0: Upstream Repository Inspection (Completed)
-- Snapshot verified at `D:\NetAlertX-Reference-Snapshot` with SHA-256 manifests.
+- Snapshot verified at `D:\WatchNet-Reference-Snapshot` with SHA-256 manifests.
 - Analysis report generated: `PHASE_0_UPSTREAM_INSPECTION_REPORT.md`.
 
 ### Phase 1: Architecture and Documentation Foundation (Active)
 - Complete technical specification across 77 documents covering all subsystems.
-- Baseline `FEATURE_PARITY_MATRIX.md` with 56 upstream NetAlertX plugins.
+- Baseline `FEATURE_PARITY_MATRIX.md` with 56 legacy upstream plugins.
 
 ### Phase 2: Core Platform Foundation
 - Initialize Next.js 15 App Router and FastAPI backend skeletons.

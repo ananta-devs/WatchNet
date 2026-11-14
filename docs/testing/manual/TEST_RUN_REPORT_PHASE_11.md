@@ -1,6 +1,6 @@
 # Test Run Report — Phase 11 Real-World & E2E Acceptance Testing
 
-**Project:** WatchNet — Complete NetAlertX Feature-Parity Enterprise Rebuild  
+**Project:** WatchNet — Complete WatchNet Feature-Parity Enterprise Rebuild  
 **Environment:** Windows Server / Production Build Container Simulation  
 **Test Suite:** Playwright Browser E2E Suite & Pytest Integration Test Suite  
 **Date of Execution:** 2026-11-12  
@@ -30,7 +30,7 @@ Phase 11 real-world manual testing and final acceptance verification was conduct
 5. `test_models.py`: 1/1 passed (SQLAlchemy declarative models, constraints, relationship cascades).
 6. `test_monitoring.py`: 6/6 passed (Internet latency, speedtest history, uptime HTTP targets, wallboard metrics).
 7. `test_notifications_workflows.py`: 6/6 passed (Fan-out dispatch, channel rate-limiting, workflow rule triggers).
-8. `test_plugins.py`: 4/4 passed (NetAlertX plugin registry, dynamic loader, schema validation, isolated runtime).
+8. `test_plugins.py`: 4/4 passed (WatchNet plugin registry, dynamic loader, schema validation, isolated runtime).
 9. `test_rbac_and_events.py`: 2/2 passed (5-tier RBAC enforcement: Owner, Admin, Operator, Guardian, Viewer).
 10. `test_routers_and_family_safety.py`: 4/4 passed (Router client telemetry, RSSI extraction, bedtime schedules, DNS pause).
 11. `test_security.py`: 2/2 passed (SQL injection defense, XSS sanitization, timing-safe authentication).
@@ -60,7 +60,7 @@ Phase 11 real-world manual testing and final acceptance verification was conduct
 | `navigation.spec.ts` | Notifications (`/notifications`) | 200 OK, notification inbox rendered | Header: "Notification" | **PASS** |
 | `navigation.spec.ts` | Workflows (`/workflows`) | 200 OK, automation triggers rendered | Header: "Workflow" | **PASS** |
 | `navigation.spec.ts` | Integrations (`/integrations`) | 200 OK, external sync connectors | Header: "Integrations" | **PASS** |
-| `navigation.spec.ts` | Plugins (`/plugins`) | 200 OK, NetAlertX 56 plugin grid | Header: "Plugin" | **PASS** |
+| `navigation.spec.ts` | Plugins (`/plugins`) | 200 OK, WatchNet 56 plugin grid | Header: "Plugin" | **PASS** |
 | `navigation.spec.ts` | Multi-Site (`/multisite`) | 200 OK, remote nodes registry | Header: "Multi-Site" | **PASS** |
 | `navigation.spec.ts` | Reports (`/reports`) | 200 OK, CSV/JSON audit history | Header: "Compliance" | **PASS** |
 | `navigation.spec.ts` | API / Dev Tools (`/api-docs`) | 200 OK, OpenAPI / Swagger links | Header: "API & Developer" | **PASS** |

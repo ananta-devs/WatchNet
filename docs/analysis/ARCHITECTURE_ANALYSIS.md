@@ -1,15 +1,15 @@
-# NetAlertX Architecture Analysis
+# WatchNet Architecture Analysis
 
 **Document Version:** 1.0.0  
-**Baseline Snapshot:** `D:\NetAlertX-Reference-Snapshot`  
-**Reference Upstream:** NetAlertX v26.x  
+**Baseline Snapshot:** `D:\WatchNet-Reference-Snapshot`  
+**Reference Upstream:** WatchNet v26.x  
 **Target Platform:** WatchNet Rebuild  
 
 ---
 
 ## 1. System Architecture Overview
 
-Upstream NetAlertX employs a multi-tier hybrid architecture characterized by:
+Legacy Upstream employs a multi-tier hybrid architecture characterized by:
 1. **Frontend Presentation**: Server-side rendered PHP combined with vanilla JavaScript, jQuery, and AdminLTE components.
 2. **Backend API**: Python Flask runtime exposing REST and GraphQL endpoints alongside Server-Sent Events (SSE) for log streaming.
 3. **Execution Loop**: Chronological cron-based and sleep-loop execution pipeline that runs plugins sequentially or semi-concurrently.
@@ -54,7 +54,7 @@ Upstream NetAlertX employs a multi-tier hybrid architecture characterized by:
 
 ### 3.2 Monolithic Privilege Model
 - Network scanning tools (`arp-scan`, raw ping) require `root` or `CAP_NET_RAW` privileges.
-- In NetAlertX, the entire web server, API, and plugin engine run under an elevated user inside the container, violating the principle of least privilege.
+- In WatchNet, the entire web server, API, and plugin engine run under an elevated user inside the container, violating the principle of least privilege.
 
 ### 3.3 Synchronous External Subprocesses
 - Relying on CLI wrappers creates process overhead, fragile string output parsing, and unpredictable execution latency.

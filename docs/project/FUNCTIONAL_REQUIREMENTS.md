@@ -14,7 +14,7 @@
 - **FR-DISC-05 (DHCP Lease Parsing)**: The system shall ingest DHCP lease files from local filesystems (dnsmasq.leases, dhcpd.leases) and Kea DHCP API.
 - **FR-DISC-06 (SNMP Discovery)**: The system shall poll network switches and routers via SNMP v2c/v3 for ARP tables (ipNetToMediaTable), interfaces, and system MIBs.
 - **FR-DISC-07 (Router Integration)**: The system shall poll supported routers (OpenWrt, AsusWRT, FRITZ!Box, MikroTik, UniFi, Omada) for live wireless and wired client lists.
-- **FR-DISC-08 (Name Resolution)**: The system shall resolve hostnames using reverse DNS PTR queries, mDNS (Avahi), NetBIOS (nbtscan), and NetAlertX template lookups.
+- **FR-DISC-08 (Name Resolution)**: The system shall resolve hostnames using reverse DNS PTR queries, mDNS (Avahi), NetBIOS (nbtscan), and WatchNet template lookups.
 
 ---
 

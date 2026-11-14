@@ -25,7 +25,7 @@ flowchart LR
 
 ### Section A: Architecture & Documentation
 - [x] Complete documentation suite present in `/docs` with zero placeholder stubs.
-- [x] Feature parity matrix accurately reflects all 56 upstream NetAlertX plugins with concrete paths in `backend/app/` and `collector/`.
+- [x] Feature parity matrix accurately reflects all 56 legacy upstream plugins with concrete paths in `backend/app/` and `collector/`.
 - [x] All database schemas match Alembic migration scripts (`0001` to `0005`).
 - [x] Docker Compose production and development profiles boot cleanly with non-root containers.
 

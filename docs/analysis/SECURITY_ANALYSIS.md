@@ -1,7 +1,7 @@
-# NetAlertX Security Analysis
+# WatchNet Security Analysis
 
 **Document Version:** 1.0.0  
-**Baseline Snapshot:** `D:\NetAlertX-Reference-Snapshot`  
+**Baseline Snapshot:** `D:\WatchNet-Reference-Snapshot`  
 **Classification:** Security Vulnerability & Hardening Audit  
 **Target:** WatchNet Security Baseline  
 
@@ -9,14 +9,14 @@
 
 ## 1. Upstream Security Flaws & Vulnerabilities
 
-An in-depth review of the NetAlertX upstream codebase revealed multiple critical architectural security weaknesses that must be remedied in WatchNet.
+An in-depth review of the WatchNet upstream codebase revealed multiple critical architectural security weaknesses that must be remedied in WatchNet.
 
 ### 1.1 Command Injection Risks
 - Upstream scripts execute CLI binaries (`arp-scan`, `fping`, `nmap`, `dig`) using raw shell string formatting (e.g. `os.system(f"dig {param}")`).
 - Unsanitized device hostnames or user inputs passed into diagnostic tools present high risks of shell command injection.
 
 ### 1.2 Insecure Privilege Escalation
-- The NetAlertX Docker container runs the entire application stack (Nginx, PHP-FPM, Flask, Python scripts) as the `root` user or with broad Linux capabilities (`NET_ADMIN`, `NET_RAW`).
+- The WatchNet Docker container runs the entire application stack (Nginx, PHP-FPM, Flask, Python scripts) as the `root` user or with broad Linux capabilities (`NET_ADMIN`, `NET_RAW`).
 - Any vulnerability in the PHP frontend or Flask API grants an attacker full root privilege inside the container and unrestricted host network access.
 
 ### 1.3 Server-Side Request Forgery (SSRF)

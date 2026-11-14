@@ -2,7 +2,7 @@
 
 ## ADR-001: Replacement of PHP Web Layer with Next.js 14 & TypeScript
 * **Status:** Accepted
-* **Context:** Upstream NetAlertX employs a legacy PHP 8 front-end combined with vanilla jQuery and procedural PHP scripts (`front/php/*.php`). This created process boundary issues, lacked end-to-end type safety, and incurred high overhead in Docker containers.
+* **Context:** Legacy Upstream employs a legacy PHP 8 front-end combined with vanilla jQuery and procedural PHP scripts (`front/php/*.php`). This created process boundary issues, lacked end-to-end type safety, and incurred high overhead in Docker containers.
 * **Decision:** Replace PHP completely with a Next.js 14 App Router application written in TypeScript, styled with Tailwind CSS, and powered by React Server Components and Lucide icons.
 * **Consequences:** Eliminates PHP from the runtime entirely. Provides modern single-page-app ergonomics, server-side rendering for speed, strict compile-time type validation, and direct WebSocket/SSE integration.
 
@@ -10,7 +10,7 @@
 
 ## ADR-002: Transition from SQLite to Multi-Tenant PostgreSQL 16 with Row-Level Security (RLS)
 * **Status:** Accepted
-* **Context:** Upstream NetAlertX stored all application and scan state in a single SQLite file (`app.db`). Under high network discovery loads, concurrent SQLite writes resulted in transaction locks (`database is locked`) and prevented true multi-tenant deployment.
+* **Context:** Legacy Upstream stored all application and scan state in a single SQLite file (`app.db`). Under high network discovery loads, concurrent SQLite writes resulted in transaction locks (`database is locked`) and prevented true multi-tenant deployment.
 * **Decision:** Adopt PostgreSQL 16 with native multi-tenant isolation enforced via PostgreSQL Row-Level Security (RLS). All application tables carry a `tenant_id` column, and session variables (`app.current_tenant_id`) partition data access at the database kernel level. Dedicated unprivileged application user `watchnet_app` interacts with the database.
 * **Consequences:** Eliminates lock contention; enables horizontal scaling, ACID transactional guarantees, JSONB semi-structured storage, and enterprise-grade backup/recovery via `pg_dump` and `pg_restore`.
 

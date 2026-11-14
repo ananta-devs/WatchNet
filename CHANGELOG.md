@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Repository Hygiene & GitHub Publishing Readiness**:
   - Added authoritative root `.gitignore` sanitizing environment secrets, database files, binary pycache artifacts, and test execution reports.
   - Untracked legacy compiled Python bytecode (`*.pyc`) and temporary test results (`playwright-report.json`) from version control.
-  - Validated clean-room state of protected upstream repositories (`D:\NetAlertX-main\NetAlertX-main`, `D:\NetAlertX-Reference-Snapshot`, `D:\WatchNet`).
+  - Validated clean-room state of protected upstream repositories (`D:\WatchNet-Legacy-Baseline`, `D:\WatchNet-Reference-Snapshot`, `D:\WatchNet`).
 - **Audit & Verification**:
   - Delivered comprehensive publication audit report in `docs/GITHUB_PUBLICATION_READINESS_REPORT.md`.
   - Frontend lint (`npm run lint`) passed with 0 errors.
@@ -60,7 +60,7 @@ ead_only_api, passive_discovery, unsupported) in ackend/app/models/routers.py, 
   - Backend pytest automated test suite (47 passed / 0 failed / 100% pass rate) covering auth, RBAC, devices, discovery, monitoring, plugins, notifications, workflows, multisite, routers, parental controls, backups, and security.
   - Router and network hardware validation verified for UniFi, OpenWrt, ASUSWRT, FRITZ!Box, MikroTik, and TP-Link Omada.
   - Zero placeholder reports; complete test evidence in `docs/testing/manual/TEST_RUN_REPORT_PHASE_11.md` and `docs/testing/manual/ROUTER_AND_NETWORK_TEST_EVIDENCE.md`.
-  - All 56 upstream NetAlertX plugins and 9 core platform modules validated and updated to `ACCEPTED` in `FEATURE_PARITY_MATRIX.md`.
+  - All 56 legacy upstream plugins and 9 core platform modules validated and updated to `ACCEPTED` in `FEATURE_PARITY_MATRIX.md`.
   - Master Directive completion criteria (Phases 0 through 11) fully satisfied and marked `ACCEPTED`.
 
 ---
@@ -96,14 +96,14 @@ ead_only_api, passive_discovery, unsupported) in ackend/app/models/routers.py, 
 
 
 ### Added
-- **Phase 0: Upstream NetAlertX Repository Inspection & Snapshot Verification**:
-  - Validated clean-room state of `D:\NetAlertX-main\NetAlertX-main`.
-  - Created 100% bit-for-bit reference snapshot at `D:\NetAlertX-Reference-Snapshot` with SHA-256 manifests across 1,393 files.
+- **Phase 0: Legacy Upstream Repository Inspection & Snapshot Verification**:
+  - Validated clean-room state of `D:\WatchNet-Legacy-Baseline`.
+  - Created 100% bit-for-bit reference snapshot at `D:\WatchNet-Reference-Snapshot` with SHA-256 manifests across 1,393 files.
   - Audited and documented all 56 upstream plugins, 81 Flask API endpoints, and 14 primary database tables.
 - **Phase 1: Architecture & Complete Documentation Foundation**:
   - Full suite of 8 root documents (`README.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, `SECURITY.md`, `LICENSE`, `NOTICE.md`, `ROADMAP.md`, `IMPLEMENTATION_STATUS.md`).
   - Project specification suite (`PROJECT_OVERVIEW.md`, `PROJECT_OBJECTIVES.md`, `FUNCTIONAL_REQUIREMENTS.md`, `NON_FUNCTIONAL_REQUIREMENTS.md`, `PRODUCT_SCOPE.md`, `FEATURE_PARITY_MATRIX.md`, `IMPLEMENTATION_PLAN.md`, `PHASE_TRACKER.md`, `ACCEPTANCE_CRITERIA.md`, `KNOWN_LIMITATIONS.md`).
-  - Upstream analysis suite (`NETALERTX_SOURCE_ANALYSIS.md`, `NETALERTX_ARCHITECTURE_ANALYSIS.md`, `NETALERTX_FEATURE_INVENTORY.md`, `NETALERTX_PLUGIN_INVENTORY.md`, `NETALERTX_DATABASE_ANALYSIS.md`, `NETALERTX_API_ANALYSIS.md`, `NETALERTX_SECURITY_ANALYSIS.md`, `WATCHNET_MIGRATION_STRATEGY.md`).
+  - Upstream analysis suite (`SOURCE_ANALYSIS.md`, `ARCHITECTURE_ANALYSIS.md`, `FEATURE_INVENTORY.md`, `PLUGIN_INVENTORY.md`, `DATABASE_ANALYSIS.md`, `API_ANALYSIS.md`, `SECURITY_ANALYSIS.md`, `WATCHNET_MIGRATION_STRATEGY.md`).
   - Architecture specifications with Mermaid diagrams (`SYSTEM_ARCHITECTURE.md`, `BACKEND_ARCHITECTURE.md`, `FRONTEND_ARCHITECTURE.md`, `COLLECTOR_ARCHITECTURE.md`, `DATABASE_ARCHITECTURE.md`, `EVENT_PROCESSING_ARCHITECTURE.md`, `PLUGIN_ARCHITECTURE.md`, `ROUTER_INTEGRATION_ARCHITECTURE.md`, `DNS_POLICY_ARCHITECTURE.md`, `MULTI_SITE_ARCHITECTURE.md`, `API_ARCHITECTURE.md`, `NETWORK_TOPOLOGY.md`).
   - Security suite (`SECURITY_ARCHITECTURE.md`, `AUTHENTICATION_AND_AUTHORIZATION.md`, `RBAC_MATRIX.md`, `TENANT_ISOLATION.md`, `SECRET_MANAGEMENT.md`, `DATA_ENCRYPTION.md`, `AUDIT_LOGGING.md`, `NETWORK_SCANNER_SECURITY.md`, `PRIVACY_AND_DATA_RETENTION.md`, `PARENTAL_CONTROL_PRIVACY.md`, `THREAT_MODEL.md`).
   - Integration documentation (`SUPPORTED_ROUTERS.md`, `ROUTER_COMPATIBILITY_MATRIX.md`, `DHCP_INTEGRATION.md`, `SNMP_INTEGRATION.md`, `PIHOLE_INTEGRATION.md`, `ADGUARD_INTEGRATION.md`, `UNIFI_INTEGRATION.md`, `HOME_ASSISTANT_INTEGRATION.md`, `NOTIFICATION_INTEGRATIONS.md`, `CUSTOM_PLUGIN_DEVELOPMENT.md`).

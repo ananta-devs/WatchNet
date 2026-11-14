@@ -8,7 +8,7 @@
 
 ## 1. Strategic Objectives
 
-1. **100% NetAlertX Feature Parity**:
+1. **100% WatchNet Feature Parity**:
    - Re-implement all 56 upstream plugin capabilities or provide documented superseding implementations.
    - Maintain full backward compatibility for device importing, network monitoring metrics, and alert dispatch channels.
 2. **Architectural Modernization & Reliability**:
@@ -28,7 +28,7 @@
 
 ## 2. Key Performance Indicators (KPIs)
 
-| Metric | Target Goal | Upstream NetAlertX Baseline |
+| Metric | Target Goal | Legacy Upstream Baseline |
 | :--- | :--- | :--- |
 | **Concurrent Subnet Scan Time (/24)** | < 1.5 seconds | 8.5 seconds (sequential shell loop) |
 | **Web UI Initial Page Load (LCP)** | < 0.8 seconds | 2.6 seconds (PHP bundle rendering) |

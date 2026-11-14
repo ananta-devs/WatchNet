@@ -1,5 +1,5 @@
-$srcRoot = 'D:\NetAlertX-main\NetAlertX-main'
-$snapRoot = 'D:\NetAlertX-Reference-Snapshot'
+$srcRoot = 'D:\WatchNet-Legacy-Baseline'
+$snapRoot = 'D:\WatchNet-Reference-Snapshot'
 
 $srcFiles = Get-ChildItem -Path $srcRoot -Recurse -File -Force
 Write-Host "Calculating SHA256 for $($srcFiles.Count) files in source..."

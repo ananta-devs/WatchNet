@@ -2,7 +2,7 @@
 
 ## 1. Executive Summary & Capabilities
 The **Plugins Subsystem** provides a sandboxed execution runtime for modular network integrations, vendor protocol parsers, and custom scanners. It features:
-1. **100% Upstream NetAlertX Plugin Compatibility**: Fully models all upstream plugin contracts and execution hooks.
+1. **100% Legacy Upstream Plugin Compatibility**: Fully models all upstream plugin contracts and execution hooks.
 2. **Scheduled & On-Demand Execution**: Runs plugins on independent cron cadences or manual one-click triggers.
 3. **Execution Isolation & Log Capture**: Tracks stdout, stderr, execution exit codes, and run durations in `plugin_execution_logs`.
 4. **Dynamic Configuration Schema**: Supports JSON-based parameter definitions (API tokens, poll intervals, interface overrides) editable directly from the UI.

@@ -6,7 +6,7 @@
 
 ## 1. Clean-Room Plugin SDK
 
-In contrast to upstream NetAlertX where plugins executed unconstrained scripts and directly mutated SQLite tables, WatchNet introduces a formal, sandboxed Plugin SDK.
+In contrast to legacy upstream where plugins executed unconstrained scripts and directly mutated SQLite tables, WatchNet introduces a formal, sandboxed Plugin SDK.
 
 ### 1.1 Base Plugin Interface
 Every plugin inherits from `BasePlugin` and implements standard lifecycle methods:

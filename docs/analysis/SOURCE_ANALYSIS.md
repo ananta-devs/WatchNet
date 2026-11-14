@@ -1,8 +1,8 @@
-# NetAlertX Source Code & Structural Analysis
+# WatchNet Source Code & Structural Analysis
 
 **Document Version:** 1.0.0  
-**Inspection Target:** D:\NetAlertX-main\NetAlertX-main  
-**Reference Snapshot:** D:\NetAlertX-Reference-Snapshot  
+**Inspection Target:** D:\WatchNet-Legacy-Baseline  
+**Reference Snapshot:** D:\WatchNet-Reference-Snapshot  
 
 ---
 
@@ -24,7 +24,7 @@ The upstream repository contains 1,393 files organized across several distinct t
 
 ## 2. Core Execution Loop Breakdown
 
-The heart of NetAlertX is a sequential cron/systemd execution loop orchestrated by server/__main__.py:
+The heart of WatchNet is a sequential cron/systemd execution loop orchestrated by server/__main__.py:
 1. **Initial Scan Cycle**: Spawns server/scan/scan.py to trigger ARP scans, ICMP sweeps, and IP-neighbour table lookups.
 2. **CurrentScan Staging**: Scan results are bulk-written to a temporary SQLite table (CurrentScan).
 3. **Diff Calculation**: Python logic executes SQL queries comparing CurrentScan with the persistent Devices table to identify new devices, changed IPs, or offline devices.

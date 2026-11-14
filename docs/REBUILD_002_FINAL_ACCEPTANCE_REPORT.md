@@ -2,7 +2,7 @@
 
 **Task Identifier:** WATCHNET-REBUILD-002  
 **Workspace:** `D:\WatchNet`  
-**Reference Project:** `D:\NetAlertX-main\NetAlertX-main` (Clean-room conceptual reference)  
+**Reference Project:** `D:\WatchNet-Legacy-Baseline` (Clean-room conceptual reference)  
 **Execution Cycle:** Plan First → Implement → Test → Fix → Retest → Acceptance  
 **Status:** **ACCEPTED — FULL VERIFICATION COMPLETE**  
 **Date of Acceptance:** November 12, 2026  
@@ -25,7 +25,7 @@ WatchNet has been transformed from a legacy codebase into a clean-room, producti
 | **Stage 1: Functional Verification** | Full Docker stack up, Chrome automated driving across 8 core routes, visual evidence captured | **PASSED** | [REBUILD_002_FUNCTIONAL_VERIFICATION_REPORT.md](file:///D:/WatchNet/docs/rebuild/REBUILD_002_FUNCTIONAL_VERIFICATION_REPORT.md)<br>[REBUILD_002 Evidence Directory](file:///D:/WatchNet/docs/rebuild/evidence/REBUILD_002/) |
 | **Stage 2: Security & Isolation** | Auth hardening, RBAC, PostgreSQL RLS with `watchnet_app`, Anti-SSRF blocking, non-root users | **PASSED** | [REBUILD_002_SECURITY_RELIABILITY_REPORT.md](file:///D:/WatchNet/docs/rebuild/REBUILD_002_SECURITY_RELIABILITY_REPORT.md) |
 | **Stage 2: Persistence & Recovery** | Service restarts, database binary dump (`pg_dump`) & restore (`pg_restore`) count parity | **PASSED** | [REBUILD_002_SECURITY_RELIABILITY_REPORT.md](file:///D:/WatchNet/docs/rebuild/REBUILD_002_SECURITY_RELIABILITY_REPORT.md) |
-| **Stage 3: NetAlertX Feature Parity** | 54+ capabilities mapped, clean-room verified, and categorized in gap register | **PASSED** | [FEATURE_IMPLEMENTATION_MATRIX.md](file:///D:/WatchNet/docs/rebuild/FEATURE_IMPLEMENTATION_MATRIX.md)<br>[NETALERTX_COMPLETE_FEATURE_INVENTORY.md](file:///D:/WatchNet/docs/rebuild/NETALERTX_COMPLETE_FEATURE_INVENTORY.md) |
+| **Stage 3: WatchNet Feature Parity** | 54+ capabilities mapped, clean-room verified, and categorized in gap register | **PASSED** | [FEATURE_IMPLEMENTATION_MATRIX.md](file:///D:/WatchNet/docs/rebuild/FEATURE_IMPLEMENTATION_MATRIX.md)<br>[WATCHNET_COMPLETE_FEATURE_INVENTORY.md](file:///D:/WatchNet/docs/rebuild/WATCHNET_COMPLETE_FEATURE_INVENTORY.md) |
 | **Stage 4: Defect Remediation** | 10/10 identified defects remediated, verified in code, and logged | **PASSED** | [REBUILD_002_DEFECT_REGISTER.md](file:///D:/WatchNet/docs/rebuild/REBUILD_002_DEFECT_REGISTER.md) |
 | **Stage 4: Human Testing Readiness** | Reproducible seed script, credentials, step-by-step evaluation guide | **PASSED** | [HUMAN_TESTER_CHECKLIST.md](file:///D:/WatchNet/docs/rebuild/HUMAN_TESTER_CHECKLIST.md) |
 | **Stage 5: Next Phase Proposal** | Advanced development proposal authored (eBPF, pgvector AI, NAC quarantine) | **PASSED** | [NEXT_PHASE_PROPOSAL.md](file:///D:/WatchNet/docs/rebuild/NEXT_PHASE_PROPOSAL.md) |

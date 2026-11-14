@@ -87,7 +87,7 @@ During the 72-hour physical soak test, the following device activity patterns mu
 
 ## 4. Presence Heatmap Resolution
 
-WatchNet reconstructs the upstream NetAlertX 24-hour presence bitmap using 1-hour activity buckets stored in the database:
+WatchNet reconstructs the legacy upstream 24-hour presence bitmap using 1-hour activity buckets stored in the database:
 - **Bit 1 (Active):** Device responded to at least one sweep during that hour.
 - **Bit 0 (Inactive):** Device was offline for the entirety of that hour.
 - **Verification Rule:** At the completion of the 72-hour burn-in, all static baseline nodes must show full 72-hour presence heatmaps with zero false-negative gaps.

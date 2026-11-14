@@ -2,14 +2,14 @@
 
 **Version:** 1.0.0-rc.1
 **Release Tag:** 1.0.0-rc.1  
-**Upstream Project Reference:** NetAlertX (GPL-3.0)  
+**Upstream Project Reference:** WatchNet (GPL-3.0)  
 **Workspace:** `D:\WatchNet-Rebuild`  
 
 ---
 
 ## 1. Overview
 
-WatchNet is an enterprise-grade, modern network intelligence, monitoring, and transparent family safety platform built from the ground up to succeed and completely replace NetAlertX. WatchNet delivers 100% feature parity with NetAlertX while replacing its legacy monolithic PHP/SQLite/cron-loop stack with a high-performance, modular, reactive microservice architecture.
+WatchNet is an enterprise-grade, modern network intelligence, monitoring, and transparent family safety platform built from the ground up to succeed and completely replace WatchNet. WatchNet delivers 100% feature parity with WatchNet while replacing its legacy monolithic PHP/SQLite/cron-loop stack with a high-performance, modular, reactive microservice architecture.
 
 WatchNet couples advanced layer-2 through layer-7 discovery engines with hardware-agnostic router integrations (supporting OpenWrt, AsusWRT, FRITZ!Box, MikroTik, UniFi, and enterprise gateways) and transparent, consent-based DNS policy orchestration (integrating AdGuard Home and Pi-hole).
 
@@ -17,7 +17,7 @@ WatchNet couples advanced layer-2 through layer-7 discovery engines with hardwar
 
 ## 2. Core Pillars & Architecture
 
-1. **Complete NetAlertX Feature Parity**: Full support for all 56 upstream plugin capabilities, active/passive scans, multi-channel alerting, presence bitmap tracking, device session lifecycles, and customizable device metadata.
+1. **Complete WatchNet Feature Parity**: Full support for all 56 upstream plugin capabilities, active/passive scans, multi-channel alerting, presence bitmap tracking, device session lifecycles, and customizable device metadata.
 2. **Modern Technology Stack**:
    - **Frontend**: Next.js 15+ (App Router), React 19, TypeScript, Tailwind CSS v4, shadcn/ui, TanStack Table, Recharts, and Lucide icons.
    - **Backend API**: Python 3.12+ FastAPI, Pydantic v2, SQLAlchemy 2.0 (async), Alembic, SSE (Server-Sent Events), and WebSockets.
@@ -42,7 +42,7 @@ WatchNet-Rebuild/
 │   └── shared-types/          # Shared TypeScript / JSON schema contracts
 ├── docs/                      # Comprehensive Documentation Foundation
 │   ├── project/               # Project Scope, Parity Matrix, Roadmaps
-│   ├── analysis/              # NetAlertX Upstream Technical Analyses
+│   ├── analysis/              # WatchNet Upstream Technical Analyses
 │   ├── architecture/          # ADRs, Architectural Specs & Mermaid Diagrams
 │   ├── security/              # Threat Models, RBAC, Encryption, Privacy
 │   ├── integrations/          # Routers, Pi-hole, AdGuard, Notification Specs
@@ -84,4 +84,4 @@ Navigate to `http://localhost:3000` to access the WatchNet interface. Swagger AP
 
 ## 5. Licensing & Attribution
 
-WatchNet is released under the **GNU General Public License v3.0 (GPL-3.0)**. It is a modern clean-room rebuild and functional replacement for [NetAlertX](https://github.com/netalertx/NetAlertX), preserving intellectual credit and attribution to the original NetAlertX authors and contributors while introducing an entirely novel codebase and modern architectural stack.
+WatchNet is released under the **GNU General Public License v3.0 (GPL-3.0)**. It is a modern clean-room rebuild and functional replacement for [WatchNet](https://github.com/watchnet/WatchNet), preserving intellectual credit and attribution to the original WatchNet authors and contributors while introducing an entirely novel codebase and modern architectural stack.

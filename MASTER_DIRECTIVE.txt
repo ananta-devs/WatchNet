@@ -1,17 +1,17 @@
 <USER_REQUEST>
 /goal /plan /boost 
-# WATCHNET â€” COMPLETE NETALERTX FEATURE-PARITY REBUILD
+# WATCHNET â€” COMPLETE WATCHNET FEATURE-PARITY REBUILD
 
 ## MASTER PROJECT DIRECTIVE
 
 **Project:** WatchNet  
-**Objective:** Complete modern replacement for NetAlertX with feature parity, redesigned UI, modern architecture, advanced network intelligence, router integration and transparent parental-control capabilities.
+**Objective:** Complete modern replacement for WatchNet with feature parity, redesigned UI, modern architecture, advanced network intelligence, router integration and transparent parental-control capabilities.
 
 **Upstream repository:**
-https://github.com/netalertx/NetAlertX
+https://github.com/watchnet/WatchNet
 
 **Local reference source:**
-`D:\NetAlertX-main\NetAlertX-main`
+`D:\WatchNet-Legacy-Baseline`
 
 **New project workspace:**
 `D:\WatchNet-Rebuild`
@@ -24,11 +24,11 @@ https://github.com/netalertx/NetAlertX
 
 # 1. PRIMARY MISSION
 
-Build WatchNet as a complete modern replacement for NetAlertX.
+Build WatchNet as a complete modern replacement for WatchNet.
 
 Do not create a superficial dashboard, mock application, visual clone or incomplete proof of concept.
 
-WatchNet must preserve the actual capabilities of NetAlertX while introducing:
+WatchNet must preserve the actual capabilities of WatchNet while introducing:
 
 1. A completely redesigned professional UI/UX.
 2. A modern technology stack.
@@ -45,7 +45,7 @@ WatchNet must preserve the actual capabilities of NetAlertX while introducing:
 
 The final product must be usable as a real self-hosted network management application.
 
-Do not remove existing NetAlertX capabilities simply because implementing them requires more work.
+Do not remove existing WatchNet capabilities simply because implementing them requires more work.
 
 Functional parity is the highest priority.
 
@@ -55,7 +55,7 @@ Functional parity is the highest priority.
 
 Before implementing anything, examine:
 
-`D:\NetAlertX-main\NetAlertX-main`
+`D:\WatchNet-Legacy-Baseline`
 
 This is the primary reference implementation.
 
@@ -72,7 +72,7 @@ First:
 
 Create an exact reference snapshot at:
 
-`D:\NetAlertX-Reference-Snapshot`
+`D:\WatchNet-Reference-Snapshot`
 
 If that destination already exists, select a different unused snapshot directory. Never overwrite an existing snapshot.
 
@@ -117,9 +117,9 @@ WatchNet should reproduce functionality and behavior, not inherit an unnecessari
 
 Implement the new system using modern alternatives.
 
-However, any code actually reused or derived from NetAlertX must retain appropriate copyright and licensing notices and comply with its GPL-3.0 obligations.
+However, any code actually reused or derived from WatchNet must retain appropriate copyright and licensing notices and comply with its GPL-3.0 obligations.
 
-Do not remove license notices, misrepresent upstream ownership or use NetAlertX branding as WatchNet branding.
+Do not remove license notices, misrepresent upstream ownership or use WatchNet branding as WatchNet branding.
 
 ---
 
@@ -157,13 +157,13 @@ Create at least the following documentation.
 
 ## docs/analysis/
 
-- NETALERTX_SOURCE_ANALYSIS.md
-- NETALERTX_ARCHITECTURE_ANALYSIS.md
-- NETALERTX_FEATURE_INVENTORY.md
-- NETALERTX_PLUGIN_INVENTORY.md
-- NETALERTX_DATABASE_ANALYSIS.md
-- NETALERTX_API_ANALYSIS.md
-- NETALERTX_SECURITY_ANALYSIS.md
+- SOURCE_ANALYSIS.md
+- ARCHITECTURE_ANALYSIS.md
+- FEATURE_INVENTORY.md
+- PLUGIN_INVENTORY.md
+- DATABASE_ANALYSIS.md
+- API_ANALYSIS.md
+- SECURITY_ANALYSIS.md
 - WATCHNET_MIGRATION_STRATEGY.md
 
 ## docs/architecture/
@@ -321,7 +321,7 @@ Avoid unnecessary microservices. Start with well-defined modular services and in
 
 This is the most important requirement.
 
-Create a traceability matrix containing EVERY NetAlertX feature.
+Create a traceability matrix containing EVERY WatchNet feature.
 
 For each feature, record:
 
@@ -748,7 +748,7 @@ All family monitoring must be transparent, access-controlled and configurable. M
 
 # 7. NEW WATCHNET UI/UX
 
-Do not reproduce the original NetAlertX interface.
+Do not reproduce the original WatchNet interface.
 
 Create a professional, polished, modern network intelligence dashboard.
 
@@ -862,7 +862,7 @@ Perform actual implementation and testing rather than producing repeated audit-o
 
 ## Phase 0 â€” Upstream Repository Inspection
 
-- Verify the local NetAlertX repository.
+- Verify the local WatchNet repository.
 - Create the exact reference snapshot.
 - Inspect all source code.
 - Inventory every feature.
@@ -1204,7 +1204,7 @@ Fix regressions before proceeding to dependent functionality.
 WatchNet may be declared complete only when:
 
 - All upstream features have been accounted for.
-- All supported NetAlertX features have WatchNet equivalents.
+- All supported WatchNet features have WatchNet equivalents.
 - Every upstream plugin has a documented implementation or explicitly justified exception.
 - Core network discovery works against actual hardware.
 - Historical device information is correct.
@@ -1259,20 +1259,20 @@ Do not stop after generating the documentation or a beautiful frontend.
 
 Build the actual working software.
 
-The final objective is a complete, modern, secure and production-quality WatchNet platform with the functionality of NetAlertX and additional network intelligence and family safety capabilities.
+The final objective is a complete, modern, secure and production-quality WatchNet platform with the functionality of WatchNet and additional network intelligence and family safety capabilities.
 
 **Priority order: Correctness â†’ Feature Parity â†’ Security â†’ Reliability â†’ Performance â†’ UI/UX.**
 
 My strongest recommendations
 There are three things I would prioritize beyond the prompt.
 First: Make WatchNet router-independent. Don't build it around one TP-Link model. Create a common router adapter interface so future devices, including OpenWrt, MikroTik, UniFi and enterprise gateways, can be integrated without rewriting the application.
-Second: Keep network monitoring and parental controls separate internally. NetAlertX-style discovery should continue working even when the DNS filtering engine is unavailable. A failure in parental-control infrastructure must not break device discovery or the dashboard.
-Third: Treat actual feature parity as a measurable engineering requirement. Your acceptance matrix must have an entry for every upstream plugin. Otherwise, you could spend months developing WatchNet and still unintentionally omit important NetAlertX capabilities.
+Second: Keep network monitoring and parental controls separate internally. enterprise-grade discovery should continue working even when the DNS filtering engine is unavailable. A failure in parental-control infrastructure must not break device discovery or the dashboard.
+Third: Treat actual feature parity as a measurable engineering requirement. Your acceptance matrix must have an entry for every upstream plugin. Otherwise, you could spend months developing WatchNet and still unintentionally omit important WatchNet capabilities.
 The upstream references worth keeping alongside the project are:
-[NetAlertX complete feature documentation](https://docs.netalertx.com/FEATURES/?utm_source=chatgpt.com)
-[NetAlertX documentation](https://docs.netalertx.com/?utm_source=chatgpt.com)
-[NetAlertX source code](https://github.com/netalertx/NetAlertX?utm_source=chatgpt.com)
-[Plugin and integration reference](https://docs.netalertx.com/?utm_source=chatgpt.com)
+[WatchNet complete feature documentation](https://docs.watchnet.com/FEATURES/?utm_source=chatgpt.com)
+[WatchNet documentation](https://docs.watchnet.com/?utm_source=chatgpt.com)
+[WatchNet source code](https://github.com/watchnet/WatchNet?utm_source=chatgpt.com)
+[Plugin and integration reference](https://docs.watchnet.com/?utm_source=chatgpt.com)
 One final technical point: A normal router integration and DNS filtering cannot guarantee complete visibility or control over all browser traffic. That must remain an explicit limitation in WatchNet rather than becoming an exaggerated feature claim.
 My recommendation is to get Phase 0 and Phase 1 completed first, verify the complete source-to-feature matrix, and then build the replacement systematically.
 </USER_REQUEST>

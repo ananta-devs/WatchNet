@@ -22,8 +22,8 @@ The audit focused on four key vectors:
 ## 2. Protected Repositories Verification
 
 The following protected paths were verified and remained completely untouched:
-- `D:\NetAlertX-main\NetAlertX-main` (read-only reference codebase) — **Untouched**
-- `D:\NetAlertX-Reference-Snapshot` (read-only snapshot reference) — **Untouched**
+- `D:\WatchNet-Legacy-Baseline` (read-only reference codebase) — **Untouched**
+- `D:\WatchNet-Reference-Snapshot` (read-only snapshot reference) — **Untouched**
 - `D:\WatchNet` (read-only reference workspace) — **Untouched**
 
 All modifications were confined strictly to `D:\WatchNet-Rebuild` on the `feature/watchnet-independent-rebrand-github-ready` branch.
@@ -43,7 +43,7 @@ Runtime code, docstrings, and frontend components were sanitized to eliminate le
 ### Zero Runtime Code Occurrences
 Automated grep across active codebase:
 ```powershell
-git grep -n -i "netalertx" backend/ frontend/ collector/ docker/
+git grep -n -i "watchnet" backend/ frontend/ collector/ docker/
 ```
 Result: **0 matches** (100% clean runtime codebase).
 
@@ -118,7 +118,7 @@ pytest
 ## 7. Publication Readiness Checklist
 
 - [x] Dedicated branch checked out: `feature/watchnet-independent-rebrand-github-ready`
-- [x] Protected repositories strictly untouched (`D:\NetAlertX-main`, `D:\NetAlertX-Reference-Snapshot`, `D:\WatchNet`)
+- [x] Protected repositories strictly untouched (`D:\WatchNet-main`, `D:\WatchNet-Reference-Snapshot`, `D:\WatchNet`)
 - [x] Project rebranded to "WatchNet" across frontend, backend, and documentation
 - [x] 0 occurrences of legacy branding in active source code (`backend/`, `frontend/`, `collector/`, `docker/`)
 - [x] Root `.gitignore` in place and verified

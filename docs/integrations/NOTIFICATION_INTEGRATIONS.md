@@ -27,7 +27,7 @@ flowchart LR
 
 ## 2. Supported Delivery Channels
 
-WatchNet provides built-in support for all upstream NetAlertX notification services via dual-dispatch capabilities:
+WatchNet provides built-in support for all legacy upstream notification services via dual-dispatch capabilities:
 
 1. **Apprise Multi-Service Engine (80+ Providers):**
    - **Telegram:** `tgram://{bot_token}/{chat_id}`

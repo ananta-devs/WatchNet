@@ -1,6 +1,6 @@
 # Phase 11.1 Live Network Discovery Report
 
-**Project:** WatchNet — Complete NetAlertX Enterprise Rebuild  
+**Project:** WatchNet — Complete WatchNet Enterprise Rebuild  
 **Scope:** Real LAN Discovery, Session Ingestion, and Multi-Engine Tracking  
 **Interface:** `192.168.0.102` (Ethernet Adapter, Index 0x4)  
 **Gateway Router:** `192.168.0.1` (TP-Link TL-WR841N, MAC `84:d8:1b:a7:be:5a`)  

@@ -1,13 +1,13 @@
 # Contributing to WatchNet
 
-Thank you for your interest in contributing to WatchNet! WatchNet is a modern, high-performance network monitoring, device intelligence, and family safety platform designed to replace NetAlertX with 100% feature parity.
+Thank you for your interest in contributing to WatchNet! WatchNet is a modern, high-performance network monitoring, device intelligence, and family safety platform designed to replace WatchNet with 100% feature parity.
 
 ---
 
 ## 1. Clean-Room Implementation & Upstream Licensing Rules
 
 WatchNet is licensed under the **GNU General Public License v3.0 (GPL-3.0)**.
-- **Upstream NetAlertX Respect**: Any ideas, schema mappings, or behavioral algorithms referenced from [NetAlertX](https://github.com/netalertx/NetAlertX) must maintain full copyright attribution in `NOTICE.md` and module docstrings.
+- **Legacy Upstream Respect**: Any ideas, schema mappings, or behavioral algorithms referenced from [WatchNet](https://github.com/watchnet/WatchNet) must maintain full copyright attribution in `NOTICE.md` and module docstrings.
 - **Clean Architecture**: Do not import legacy PHP scripts, obsolete SQLite shell scripts, or vulnerable raw SQL execution patterns. Rebuild all functionality cleanly in FastAPI (Python), Next.js (TypeScript), and Go.
 - **Traceability Requirement**: Every new PR implementing a feature or plugin must map directly to an entry in `docs/project/FEATURE_PARITY_MATRIX.md`.
 

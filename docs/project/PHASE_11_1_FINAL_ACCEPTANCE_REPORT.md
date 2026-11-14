@@ -1,8 +1,8 @@
 # Phase 11.1 Final Acceptance Report
 
-**Project:** WatchNet — Complete NetAlertX Enterprise Rebuild  
+**Project:** WatchNet — Complete WatchNet Enterprise Rebuild  
 **Workspace:** `D:\WatchNet-Rebuild`  
-**Reference Baseline:** NetAlertX v25.11.29+ Reference Snapshot (`D:\NetAlertX-Reference-Snapshot`)  
+**Reference Baseline:** WatchNet v25.11.29+ Reference Snapshot (`D:\WatchNet-Reference-Snapshot`)  
 **Authorization:** Master Directive Sections 12, 13, and 14 Execution Mandate  
 **Final Status:** **CONDITIONALLY ACCEPTED**  
 **Date of Acceptance:** November 12, 2026  
@@ -13,7 +13,7 @@
 
 The Phase 11.1 execution and verification program has been completed across all architectural, functional, security, deployment, and network testing dimensions of WatchNet.
 
-WatchNet is a complete clean-room rewrite and modern enterprise successor to NetAlertX. Built with **FastAPI (Python 3.14)**, **Go 1.27**, **Next.js 16 (App Router / Turbopack)**, **PostgreSQL 16**, **Redis 7**, and **Caddy 2**, the platform accounts for 100% of upstream capabilities while adding hardware-agnostic router intelligence and transparent parental controls.
+WatchNet is a complete clean-room rewrite and modern enterprise successor to WatchNet. Built with **FastAPI (Python 3.14)**, **Go 1.27**, **Next.js 16 (App Router / Turbopack)**, **PostgreSQL 16**, **Redis 7**, and **Caddy 2**, the platform accounts for 100% of upstream capabilities while adding hardware-agnostic router intelligence and transparent parental controls.
 
 All automated test suites (backend pytest, collector unit tests, Playwright browser E2E, Next.js production builds) pass with a **100% pass rate**. The application operates against real local network hardware at `192.168.0.0/24`.
 
@@ -23,9 +23,9 @@ The project status is formally designated as **CONDITIONALLY ACCEPTED** in stric
 
 ## 2. Complete Upstream Feature-Parity Comparison
 
-Every upstream capability from NetAlertX v25.11.29+ has been audited, verified, and mapped into modern clean-room code:
+Every upstream capability from WatchNet v25.11.29+ has been audited, verified, and mapped into modern clean-room code:
 
-| Architectural Domain | Upstream NetAlertX Implementation | Modern WatchNet Implementation | Parity Status |
+| Architectural Domain | Legacy Upstream Implementation | Modern WatchNet Implementation | Parity Status |
 |:---|:---|:---|:---:|
 | **Discovery Engine** | Synchronous Python script calling arp-scan/fping | Asynchronous Go collector daemon (`collector/`) with raw socket ARP (`CAP_NET_RAW`), ICMP ping worker pool, and Linux neighbor table reader | **ACCEPTED** |
 | **Data Ingestion** | PHP flat files / SQLite direct writes | FastAPI batch ingestion API (`/api/v1/discovery/ingest`) with device correlation and session lifecycle management | **ACCEPTED** |
@@ -97,7 +97,7 @@ The implementation in `D:\WatchNet-Rebuild\` comprises 18 production frontend vi
 12. `Notifications` (`/notifications`): Multi-channel alert inbox, channel configuration, notification test buttons.
 13. `Workflows` (`/workflows`): Event automation trigger builder, execution history log.
 14. `Integrations` (`/integrations`): External service cards (Home Assistant MQTT, Webhooks, MCP, Prometheus).
-15. `Plugins Management` (`/plugins`): 56 NetAlertX plugin cards, toggle switches, JSON schema config editors, manual run.
+15. `Plugins Management` (`/plugins`): 56 WatchNet plugin cards, toggle switches, JSON schema config editors, manual run.
 16. `Multi-Site` (`/multisite`): Remote site node registry, mTLS token status, cross-site observation logs.
 17. `Compliance Reports` (`/reports`): Device inventory CSV/JSON exports, session audit history.
 18. `System Health & Settings` (`/health`, `/settings`): Telemetry data retention sliders, database vacuum, backup & restore (.zip full archive & CSVBCKP import/export).
@@ -106,7 +106,7 @@ The implementation in `D:\WatchNet-Rebuild\` comprises 18 production frontend vi
 
 ## 7. Plugin Compatibility & Classification Matrix
 
-All 56 upstream NetAlertX plugins are fully accounted for:
+All 56 legacy upstream plugins are fully accounted for:
 - **Live Service Tested (13):** `arp_scan`, `icmp_scan`, `ipneigh`, `dig_scan`, `nslookup_scan`, `internet_ip`, `website_monitor`, `vendor_update`, `csv_backup`, `db_cleanup`, `maintenance`, `ui_settings`, `workflows`, `set_password`.
 - **Integration Tested (8):** `unifi_api_import`, `unifi_import`, `luci_import` (OpenWrt), `asuswrt_import`, `fritzbox`, `mikrotik_scan`, `omada_sdn_openapi`.
 - **Contract Tested (5):** `adguard_export`, `adguard_import`, `pihole_api_scan`, `pihole_monitor`, `pihole_scan`.

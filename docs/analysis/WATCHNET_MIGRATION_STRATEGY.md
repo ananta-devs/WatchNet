@@ -2,21 +2,21 @@
 
 **Document Version:** 1.0.0  
 **Target:** Safe Ingestion & Upstream Database Migration  
-**Source Baseline:** NetAlertX SQLite (`app.db`)  
+**Source Baseline:** WatchNet SQLite (`app.db`)  
 **Target Persistence:** WatchNet PostgreSQL 16 Schema  
 
 ---
 
 ## 1. Migration Overview
 
-To allow existing NetAlertX users to seamlessly adopt WatchNet without losing historical presence data, device labels, or network topology, WatchNet provides a dedicated one-click database migration pipeline.
+To allow existing WatchNet users to seamlessly adopt WatchNet without losing historical presence data, device labels, or network topology, WatchNet provides a dedicated one-click database migration pipeline.
 
 ---
 
 ## 2. Source SQLite Ingestion Pipeline
 
 ```
-[ NetAlertX app.db ]
+[ WatchNet app.db ]
         |
         v (Read-Only SQLite Connector)
 [ WatchNet Migration Engine ]
@@ -37,7 +37,7 @@ To allow existing NetAlertX users to seamlessly adopt WatchNet without losing hi
 
 ## 3. Entity Mapping Specification
 
-| NetAlertX Table | NetAlertX Columns | WatchNet Target Table | WatchNet Columns | Transformation Notes |
+| WatchNet Table | WatchNet Columns | WatchNet Target Table | WatchNet Columns | Transformation Notes |
 | :--- | :--- | :--- | :--- | :--- |
 | `Devices` | `devMac`, `devIp`, `devName`, `devVendor`, `devType`, `devStatus` | `devices` | `mac_address`, `ip_address`, `display_name`, `vendor_name`, `device_type`, `status` | Normalized MAC; UUID primary key created |
 | `Events` | `eveMac`, `eveIp`, `eveDateTime`, `eveEventType`, `eveAdditionalInfo` | `device_events` | `device_id`, `ip_address`, `timestamp`, `event_type`, `details` | Foreign key linked to `devices.id` |

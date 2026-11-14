@@ -3,7 +3,7 @@
 **Task ID:** WATCHNET-REBUILD-002  
 **Baseline Date:** 2026-11-12  
 **Workspace:** `D:\WatchNet`  
-**Reference Benchmark:** `D:\NetAlertX-main\NetAlertX-main`
+**Reference Benchmark:** `D:\WatchNet-Legacy-Baseline`
 
 ---
 
@@ -24,7 +24,7 @@
 
 ### Category 1: Network Discovery & Packet Sweeping
 
-| ID | NetAlertX Capability | Current WatchNet Implementation | Current Status | Gap / Required Action |
+| ID | WatchNet Capability | Current WatchNet Implementation | Current Status | Gap / Required Action |
 | :--- | :--- | :--- | :---: | :--- |
 | **DISC-01** | Raw ARP scanning | Go Collector `sweep.go` (TCP connect fallback on Windows) | `AUTOMATED_TESTED` | Test in Docker container with Linux network bridge |
 | **DISC-02** | ICMP ping sweeping | Go Collector `ping.go` / API `probe_runner.py` | `AUTOMATED_TESTED` | Verify end-to-end latency measurement |
@@ -39,7 +39,7 @@
 
 ### Category 2: Device Lifecycle, Inventory & Identity
 
-| ID | NetAlertX Capability | Current WatchNet Implementation | Current Status | Gap / Required Action |
+| ID | WatchNet Capability | Current WatchNet Implementation | Current Status | Gap / Required Action |
 | :--- | :--- | :--- | :---: | :--- |
 | **DEV-01** | IEEE OUI vendor resolution | `app/core/oui_resolver.py` | `AUTOMATED_TESTED` | Verify offline Trie lookup < 0.05ms |
 | **DEV-02** | RFC 7042 Randomized MAC detection | `app/core/oui_resolver.py` (`is_laa_randomized`) | `AUTOMATED_TESTED` | LAA bit 1 check verified |
@@ -54,7 +54,7 @@
 
 ### Category 3: Availability & Telemetry Monitoring
 
-| ID | NetAlertX Capability | Current WatchNet Implementation | Current Status | Gap / Required Action |
+| ID | WatchNet Capability | Current WatchNet Implementation | Current Status | Gap / Required Action |
 | :--- | :--- | :--- | :---: | :--- |
 | **MON-01** | ICMP ping latency monitor | `app/services/probe_runner.py` | `AUTOMATED_TESTED` | Verify latency persistence in `probe_results` |
 | **MON-02** | TCP port health check | `app/services/probe_runner.py` | `AUTOMATED_TESTED` | Verify socket timeout handling |
@@ -66,7 +66,7 @@
 
 ### Category 4: Notifications & Alert Engine
 
-| ID | NetAlertX Capability | Current WatchNet Implementation | Current Status | Gap / Required Action |
+| ID | WatchNet Capability | Current WatchNet Implementation | Current Status | Gap / Required Action |
 | :--- | :--- | :--- | :---: | :--- |
 | **NOTIF-01** | Apprise multi-channel gateway | `app/services/apprise_service.py` | `AUTOMATED_TESTED` | Verify live webhook dispatch with SSRF protection |
 | **NOTIF-02** | Home Assistant MQTT autodiscovery | `app/services/mqtt_service.py` | `AUTOMATED_TESTED` | Verify JSON discovery schema matches HA spec |
@@ -76,7 +76,7 @@
 
 ### Category 5: Diagnostics, Integrations & Ecosystem
 
-| ID | NetAlertX Capability | Current WatchNet Implementation | Current Status | Gap / Required Action |
+| ID | WatchNet Capability | Current WatchNet Implementation | Current Status | Gap / Required Action |
 | :--- | :--- | :--- | :---: | :--- |
 | **DIAG-01** | Interactive ICMP ping CLI | `app/services/diagnostics_service.py` | `AUTOMATED_TESTED` | Verify in Chrome browser workbench |
 | **DIAG-02** | Interactive TCP port scanner | `app/services/diagnostics_service.py` | `AUTOMATED_TESTED` | Verify common port identification (SSH, HTTP, etc.) |

@@ -1,13 +1,13 @@
 # WatchNet Product Scope Specification
 
 **Document Version:** 1.0.0  
-**Baseline:** NetAlertX v25.11.29+ Parity Rebuild  
+**Baseline:** WatchNet v25.11.29+ Parity Rebuild  
 
 ---
 
 ## 1. In-Scope Product Capabilities
 
-### 1.1 Complete NetAlertX Re-implementation
+### 1.1 Complete WatchNet Re-implementation
 - Layer-2 and Layer-3 discovery engines (ARP, NDP, ICMP, fping, nmap, ip neigh).
 - Active and passive hostname discovery (DNS PTR, mDNS Avahi, NetBIOS, custom templates).
 - Comprehensive device inventory management, device detail cards, presence heatmaps, and session tracking.

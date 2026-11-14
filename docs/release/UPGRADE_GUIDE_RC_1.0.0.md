@@ -2,7 +2,7 @@
 
 **Product:** WatchNet Enterprise Network Intelligence & Monitoring  
 **Target Version:** `v1.0.0-rc.1`  
-**Supported Source Versions:** Legacy NetAlertX (v24.x, v25.x), WatchNet Pre-RC Milestones  
+**Supported Source Versions:** Legacy Network System (v24.x, v25.x), WatchNet Pre-RC Milestones  
 
 ---
 
@@ -56,12 +56,12 @@ Confirm the returned version is `"1.0.0-rc.1"`.
 
 ---
 
-## 3. Migrating from Legacy NetAlertX (SQLite)
+## 3. Migrating from Legacy Network System (SQLite)
 
-WatchNet is a clean-room modern platform replacing NetAlertX's PHP/SQLite architecture with FastAPI/PostgreSQL. Follow these steps to migrate your existing devices:
+WatchNet is a clean-room modern platform replacing WatchNet's PHP/SQLite architecture with FastAPI/PostgreSQL. Follow these steps to migrate your existing devices:
 
-### Step 1: Export Devices from NetAlertX
-In your legacy NetAlertX web interface:
+### Step 1: Export Devices from WatchNet
+In your legacy network system web interface:
 1. Navigate to **Maintenance / Backup**.
 2. Export the complete device list as a CSV file (`devices.csv`).
 

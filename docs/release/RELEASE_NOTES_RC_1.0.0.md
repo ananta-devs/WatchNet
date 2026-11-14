@@ -10,7 +10,7 @@
 
 ## 1. Executive Summary
 
-WatchNet `v1.0.0-rc.1` is the first formal Release Candidate for WatchNet — a clean-room, decoupled, modern enterprise successor to NetAlertX. Built with asynchronous Python 3.14 (FastAPI), Go 1.27 (raw socket collector), Next.js 16 (React 19 / Turbopack), PostgreSQL 16, Redis 7, and Caddy 2, WatchNet achieves full architectural and functional parity with upstream NetAlertX while providing enterprise reliability, role-based security, modular router intelligence, and parental control features.
+WatchNet `v1.0.0-rc.1` is the first formal Release Candidate for WatchNet — a clean-room, decoupled, modern enterprise successor to WatchNet. Built with asynchronous Python 3.14 (FastAPI), Go 1.27 (raw socket collector), Next.js 16 (React 19 / Turbopack), PostgreSQL 16, Redis 7, and Caddy 2, WatchNet achieves full architectural and functional parity with legacy upstream while providing enterprise reliability, role-based security, modular router intelligence, and parental control features.
 
 ---
 
@@ -49,7 +49,7 @@ WatchNet `v1.0.0-rc.1` is the first formal Release Candidate for WatchNet — a 
 
 ---
 
-## 3. Upstream NetAlertX Plugin Reconciliation Matrix
+## 3. Legacy Upstream Plugin Reconciliation Matrix
 
 | Category | Upstream Plugins | WatchNet Modern Implementation |
 |:---|:---:|:---|
@@ -78,5 +78,5 @@ WatchNet `v1.0.0-rc.1` is the first formal Release Candidate for WatchNet — a 
 
 ## 5. Upgrade & Migration Notices
 
-- Direct upgrade from legacy NetAlertX SQLite flat databases is supported via the Device CSV Import/Export utility (`/settings`) or through the automated backup restore API (`/api/v1/system/restore`).
+- Direct upgrade from legacy network system SQLite flat databases is supported via the Device CSV Import/Export utility (`/settings`) or through the automated backup restore API (`/api/v1/system/restore`).
 - Database schema migrations are managed via Alembic revisions `0001` through `0005`.

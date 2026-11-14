@@ -26,7 +26,7 @@ flowchart LR
 - [x] All 77 required documents authored in `D:\WatchNet-Rebuild\docs` and root.
 - [x] Zero empty or truncated stub files (<25 lines) across the documentation tree.
 - [x] System architecture, database ERD, sequence diagrams, and interface contracts specified with Mermaid charts.
-- [x] `FEATURE_PARITY_MATRIX.md` maps 100% of the 56 NetAlertX upstream plugins with initial `NOT_STARTED` baseline status.
+- [x] `FEATURE_PARITY_MATRIX.md` maps 100% of the 56 WatchNet upstream plugins with initial `NOT_STARTED` baseline status.
 
 ### Phase 2: Core Platform Acceptance
 - [ ] Docker Compose stack boots `api`, `ui`, `collector`, `db`, `redis`, and `caddy` cleanly.

@@ -1,9 +1,9 @@
 # WatchNet Rebuild 002 — Master Execution Plan
-## Functional Verification, NetAlertX Parity, Security, Reliability & Human Testing Readiness
+## Functional Verification, WatchNet Parity, Security, Reliability & Human Testing Readiness
 
 **Task ID:** WATCHNET-REBUILD-002  
 **Workspace:** `D:\WatchNet`  
-**Reference Benchmark:** `D:\NetAlertX-main\NetAlertX-main` (GNU GPLv3 Reference)  
+**Reference Benchmark:** `D:\WatchNet-Legacy-Baseline` (GNU GPLv3 Reference)  
 **Execution Sequence:** STEP 0 (Plan) → STEP 1 (Functional & Chrome) → STEP 2 (Security) → STEP 3 (Parity Closure) → STEP 4 (Human Testing) → STEP 5 (Proposal)
 
 ---
@@ -12,7 +12,7 @@
 
 ### Stage 0: Inspection & Planning (Complete)
 - **PLAN-001:** Full workspace and backup integrity check (`D:\WatchNet_backup_20261112_130000`).
-- **PLAN-002:** Reference codebase feature analysis (`D:\NetAlertX-main\NetAlertX-main`).
+- **PLAN-002:** Reference codebase feature analysis (`D:\WatchNet-Legacy-Baseline`).
 - **PLAN-003:** Author `REBUILD_002_INITIAL_BASELINE.md`, `REBUILD_002_FEATURE_GAP_REGISTER.md`, and this Master Plan.
 
 ---
@@ -100,11 +100,11 @@ The goal is to prove that WatchNet functions end-to-end as a live running produc
 
 ---
 
-### Stage 3: NetAlertX Feature Parity Closure
-- **PAR-001:** Reconcile authoritative feature inventory against NetAlertX docs.
+### Stage 3: WatchNet Feature Parity Closure
+- **PAR-001:** Reconcile authoritative feature inventory against WatchNet docs.
 - **PAR-002:** Map every capability to WatchNet implementation path.
 - **PAR-003:** Implement missing/incomplete features identified in Gap Register.
-- **PAR-004:** Update `NETALERTX_COMPLETE_FEATURE_INVENTORY.md` and `FEATURE_IMPLEMENTATION_MATRIX.md`.
+- **PAR-004:** Update `WATCHNET_COMPLETE_FEATURE_INVENTORY.md` and `FEATURE_IMPLEMENTATION_MATRIX.md`.
 
 ---
 

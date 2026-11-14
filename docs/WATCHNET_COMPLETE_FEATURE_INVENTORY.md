@@ -1,8 +1,8 @@
-# NetAlertX Complete Feature Inventory & Functional Reference
+# WatchNet Complete Feature Inventory & Functional Reference
 ## Comprehensive Analysis of All Reference Features, Behaviors & Implementation Dispositions
 
-**Document ID:** NETALERTX-INV-001  
-**Reference Source:** `D:\NetAlertX-main\NetAlertX-main` (Upstream `main` commit `1046b400d116b327065ec19a35f302579dc72592`)  
+**Document ID:** WATCHNET-INV-001  
+**Reference Source:** `D:\WatchNet-Legacy-Baseline` (Upstream `main` commit `1046b400d116b327065ec19a35f302579dc72592`)  
 **License:** GNU General Public License v3.0  
 **Scope:** Complete functional inventory across core backend, scan pipeline, database models, plugins, publishers, frontend, APIs, and diagnostics.  
 
@@ -10,9 +10,9 @@
 
 ## 1. Inventory & Disposition Methodology
 
-Every feature present in NetAlertX has been identified through direct inspection of `D:\NetAlertX-main\NetAlertX-main`. For each capability, this document records:
+Every feature present in WatchNet has been identified through direct inspection of `D:\WatchNet-Legacy-Baseline`. For each capability, this document records:
 - **Feature Name & Identifier**
-- **Original NetAlertX Behavior & Source Location**
+- **Original WatchNet Behavior & Source Location**
 - **Underlying Protocols & System Dependencies**
 - **User-Facing Workflow & UI Surface**
 - **Inputs & Outputs**

@@ -1,7 +1,7 @@
 # WatchNet: Complete Feature Implementation Matrix
-## Exhaustive Status Matrix of All NetAlertX Reference Capabilities
+## Exhaustive Status Matrix of All WatchNet Reference Capabilities
 
-**Document ID:** NETALERTX-MATRIX-REBUILD-001  
+**Document ID:** WATCHNET-MATRIX-REBUILD-001  
 **Assessment Date:** November 12, 2026  
 **Status Lifecycle Keys:**  
 - `NOT_STARTED` — Initial design complete, pending implementation  

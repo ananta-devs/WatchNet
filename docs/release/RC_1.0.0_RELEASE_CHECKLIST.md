@@ -9,7 +9,7 @@
 ## 1. Feature Freeze & Scope Audit
 
 - [x] Application architecture preserved (FastAPI + Go collector + Next.js 16 + Postgres + Redis).
-- [x] Protected reference workspaces (`D:\NetAlertX-Reference-Snapshot`, `D:\NetAlertX-main`, `D:\WatchNet`) unmodified.
+- [x] Protected reference workspaces (`D:\WatchNet-Reference-Snapshot`, `D:\WatchNet-main`, `D:\WatchNet`) unmodified.
 - [x] Zero architectural rewrites or unnecessary module refactors introduced.
 - [x] Work executed strictly within `D:\WatchNet-Rebuild`.
 - [x] Recoverable Git checkpoints created before every modification (`5041214`, `c4cdff6`, `7337954`).

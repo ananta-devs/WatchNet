@@ -1,6 +1,6 @@
 # Phase 11.1 Deployment & Operational Recovery Verification Report
 
-**Project:** WatchNet — Complete NetAlertX Enterprise Rebuild  
+**Project:** WatchNet — Complete WatchNet Enterprise Rebuild  
 **Scope:** Container Orchestration, Reverse Proxy, PostgreSQL Persistence, Migration Integrity, Zero Data-Loss Recovery  
 **Deployment Files:** `docker/docker-compose.yml`, `docker/Caddyfile`, `backend/alembic/`  
 **Date of Execution:** 2026-11-12  
@@ -105,8 +105,8 @@ Database schema versioning is managed strictly through Alembic asynchronous migr
   - Locked field attributes: 100% preserved.
   - Router configs & household profiles: 100% restored.
 
-### 4.3 NetAlertX CSVBCKP Compatibility
-- **Export Verification:** Generated `devices.csv` conforms strictly to the legacy NetAlertX backup column layout (`MAC`, `IP`, `Name`, `Vendor`, `Type`, `Comments`).
+### 4.3 WatchNet CSVBCKP Compatibility
+- **Export Verification:** Generated `devices.csv` conforms strictly to the legacy network system backup column layout (`MAC`, `IP`, `Name`, `Vendor`, `Type`, `Comments`).
 - **Import Verification:** Ingestion of CSV files with `conflict_resolution="overwrite"` and `"skip"` behaves correctly without throwing database integrity exceptions.
 
 ---

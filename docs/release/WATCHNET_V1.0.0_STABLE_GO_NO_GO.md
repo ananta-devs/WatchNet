@@ -24,7 +24,7 @@ The WatchNet Release Engineering Board, having evaluated the code artifacts on b
 The following 14-point audit evaluates every major release gate against concrete factual evidence:
 
 ### Point 1: Upstream Feature Parity (Master Directive Section 5 & 12)
-- **Standard:** All upstream NetAlertX capabilities accounted for without omissions.
+- **Standard:** All legacy upstream capabilities accounted for without omissions.
 - **Result:** **PASS**. 100% of upstream features (L2 ARP, L3 ICMP, Presence Heatmap, Session Tracking, Event Logging, Topology, Router Integration, Family Safety DNS, Multi-Site Sync) are fully designed, implemented, and verified.
 
 ### Point 2: Upstream Plugin Inventory Reconciliation (56 Plugins / 14 System Utilities)

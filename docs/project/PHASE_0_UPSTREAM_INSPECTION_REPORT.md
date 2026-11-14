@@ -1,22 +1,22 @@
-# Phase 0: Upstream Inspection Report (NetAlertX Analysis)
+# Phase 0: Upstream Inspection Report (WatchNet Analysis)
 
 **Document Version:** 1.0.0  
 **Inspection Date:** November 12, 2026  
-**Reference Source:** `D:\NetAlertX-main\NetAlertX-main`  
-**Preservation Snapshot:** `D:\NetAlertX-Reference-Snapshot`  
+**Reference Source:** `D:\WatchNet-Legacy-Baseline`  
+**Preservation Snapshot:** `D:\WatchNet-Reference-Snapshot`  
 **Integrity Status:** Verified Bit-for-Bit Match (1,393 / 1,393 files match SHA-256)  
 
 ---
 
 ## 1. Executive Summary & Source Preservation Verification
 
-As authorized under Phase 0 of the WatchNet Master Implementation Directive, a full clean-room inspection and bit-for-bit snapshot preservation of the upstream NetAlertX repository was performed.
+As authorized under Phase 0 of the WatchNet Master Implementation Directive, a full clean-room inspection and bit-for-bit snapshot preservation of the legacy upstream repository was performed.
 
 ### 1.1 Source Preservation Audit
-1. **Source Status**: `D:\NetAlertX-main\NetAlertX-main` exists and was confirmed present.
-2. **Git Metadata**: Upstream source directory `D:\NetAlertX-main\NetAlertX-main` is a pre-extracted standalone distribution package. It contains no active `.git` repository folder (untracked distribution release).
+1. **Source Status**: `D:\WatchNet-Legacy-Baseline` exists and was confirmed present.
+2. **Git Metadata**: Upstream source directory `D:\WatchNet-Legacy-Baseline` is a pre-extracted standalone distribution package. It contains no active `.git` repository folder (untracked distribution release).
 3. **Reparse Points / Symlinks**: Evaluated via Windows PowerShell filesystem traversal; 0 symbolic links, 0 NTFS junctions, and 0 reparse points exist in the source tree.
-4. **Filesystem Independence**: All files in snapshot `D:\NetAlertX-Reference-Snapshot` are independent NTFS disk allocations (verified via `fsutil hardlink list`, showing 1 single hardlink reference per file, zero shared references).
+4. **Filesystem Independence**: All files in snapshot `D:\WatchNet-Reference-Snapshot` are independent NTFS disk allocations (verified via `fsutil hardlink list`, showing 1 single hardlink reference per file, zero shared references).
 5. **Hash & Count Comparison**:
    - Total source files: **1,393 files**
    - Total snapshot files: **1,393 files**
@@ -29,7 +29,7 @@ As authorized under Phase 0 of the WatchNet Master Implementation Directive, a f
 
 ## 2. Upstream Architecture & Technical Inventory
 
-Upstream NetAlertX is composed of a hybrid architecture:
+Legacy Upstream is composed of a hybrid architecture:
 - **Frontend / Web UI**: Legacy PHP 8 / Vanilla JavaScript (jQuery / DataTables / Chart.js) served via Nginx/Apache.
 - **Backend / API**: Python 3 Flask server (`server/api_server/api_server_start.py`) with GraphQL endpoint (`server/api_server/graphql_endpoint.py`) and Server-Sent Events (SSE).
 - **Core Engine**: Sequential Python execution loop orchestrated by shell wrappers and cron/scheduled timers (`server/scan/`, `server/plugins/`).
@@ -130,7 +130,7 @@ The upstream Flask API registers **81 routes**:
 
 ## 3. Upstream Deficiencies & Obsolete Technologies
 
-Upstream NetAlertX possesses significant architectural limitations that make it unsuitable for modern enterprise and multi-tenant production deployments without clean-room re-engineering:
+Legacy Upstream possesses significant architectural limitations that make it unsuitable for modern enterprise and multi-tenant production deployments without clean-room re-engineering:
 
 1. **PHP Web Layer**: Mixing PHP and Python causes process-isolation issues, unpredictable filesystem permissions, and high memory footprints.
 2. **Arbitrary SQL Injection Vector**: `/dbquery/*` endpoints accept raw SQL query strings directly from client-side JavaScript, bypassing object validation and relational constraints.

@@ -11,7 +11,7 @@
 
 | Component | Upstream Origin | Relationship | License | Notes |
 |:---|:---|:---|:---|:---|
-| **NetAlertX** | https://github.com/netalertx/NetAlertX | Predecessor / Concept Reference | GPL-3.0 | 54 active plugins re-implemented clean room |
+| **WatchNet** | https://github.com/watchnet/WatchNet | Predecessor / Concept Reference | GPL-3.0 | 54 active plugins re-implemented clean room |
 | **WatchNet Core** | https://github.com/watchnet/watchnet | Derived Work (Clean-room rewrite) | GPL-3.0 | Modern FastAPI + Next.js + Go architecture |
 
 ---

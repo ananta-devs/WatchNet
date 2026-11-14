@@ -1,14 +1,14 @@
-# NetAlertX API Analysis
+# WatchNet API Analysis
 
 **Document Version:** 1.0.0  
-**Baseline Snapshot:** `D:\NetAlertX-Reference-Snapshot` (`server/api_server/`)  
+**Baseline Snapshot:** `D:\WatchNet-Reference-Snapshot` (`server/api_server/`)  
 **Target Platform:** WatchNet FastAPI REST & SSE Architecture  
 
 ---
 
 ## 1. Upstream API Architecture
 
-NetAlertX serves API requests through a Python Flask application (`server/api_server/api_server_start.py`) configured with:
+WatchNet serves API requests through a Python Flask application (`server/api_server/api_server_start.py`) configured with:
 - **REST Endpoints**: Endpoints returning JSON payloads for device queries, settings modification, and manual scan triggers.
 - **GraphQL Endpoint**: Single endpoint (`/graphql`) powered by Graphene-Python for querying devices, events, and settings.
 - **Server-Sent Events (SSE)**: Streaming endpoints (`/api/stream/log`) delivering live backend log output to the frontend.

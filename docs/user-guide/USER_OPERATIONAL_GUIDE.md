@@ -129,7 +129,7 @@ After logging in, an authenticated session cookie is issued, and you are automat
 - **Create Backups:** Click **"Create Database Backup"** to download a compressed archive of all devices, settings, profiles, policies, and histories.
 - **Disaster Recovery Restore:** Upload any previous backup file to restore your entire network state with transactional validation.
 - **Data Retention & Pruning:** Configure retention schedules (e.g., keep device sessions for 90 days, DNS logs for 14 days) and run on-demand database cleanups.
-- **CSV Export/Import:** Export and import device inventories matching legacy NetAlertX format.
+- **CSV Export/Import:** Export and import device inventories matching legacy network system format.
 
 ---
 

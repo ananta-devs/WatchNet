@@ -1,8 +1,8 @@
 # Phase 11.1 Plugin Parity Verification Report
 
-**Project:** WatchNet — Complete NetAlertX Enterprise Rebuild  
+**Project:** WatchNet — Complete WatchNet Enterprise Rebuild  
 **Verification Target:** All 56 Upstream Plugins  
-**Inspection Baseline:** NetAlertX v25.11.29+ Reference Snapshot (`D:\NetAlertX-Reference-Snapshot`)  
+**Inspection Baseline:** WatchNet v25.11.29+ Reference Snapshot (`D:\WatchNet-Reference-Snapshot`)  
 **Status:** **CONDITIONALLY ACCEPTED (100% Architecture Parity / 56 of 56 Accounted For)**  
 **Date of Execution:** 2026-11-12  
 
@@ -10,7 +10,7 @@
 
 ## 1. Executive Summary
 
-As part of Phase 11.1 verification, every single one of the 56 upstream NetAlertX plugins was inspected, mapped to the clean-room modern architecture in `backend/app/services/plugins/adapters/`, `backend/app/services/routers/`, `backend/app/services/family/`, and `collector/internal/discovery/`, and classified into strict verification tiers.
+As part of Phase 11.1 verification, every single one of the 56 legacy upstream plugins was inspected, mapped to the clean-room modern architecture in `backend/app/services/plugins/adapters/`, `backend/app/services/routers/`, `backend/app/services/family/`, and `collector/internal/discovery/`, and classified into strict verification tiers.
 
 No plugin has been skipped, stubbed, or dropped. All 56 modules have concrete, non-mock implementations, validated configuration schemas (`pydantic` models), isolated asynchronous execution runners with semaphore concurrency controls, timeout isolation, and execution log persistence.
 
@@ -46,7 +46,7 @@ Each plugin is assigned to one of five explicit verification categories:
 | 13 | `arp_scan` | discovery | `collector/internal/discovery/arp.go` | Live Service Tested | `backend/tests/test_discovery.py`, Go collector | **PASS** | Raw socket L2 ARP sweep on live interface `192.168.0.102` discovering 3 active nodes. |
 | 14 | `asuswrt_import` | routers | `backend/app/services/routers/asuswrt.py` | Integration Tested | `backend/tests/test_routers_and_family_safety.py` | **PASS** | Parses ASUSWRT `/update_clients.asp` and `cat /tmp/etc/dhcp/dnsmasq.leases`. |
 | 15 | `avahi_scan` | name_resolution | `backend/app/services/plugins/adapters/name_resolution.py` | Unit Tested | `backend/tests/test_plugins.py` | **PASS** | `AvahiAdapter` resolves mDNS broadcast PTR/SRV records for local devices. |
-| 16 | `csv_backup` | system | `backend/app/services/system/backup_service.py` | Live Service Tested | `backend/tests/test_system_production.py` | **PASS** | Full round-trip CSV export matching NetAlertX `CSVBCKP` schema and import. |
+| 16 | `csv_backup` | system | `backend/app/services/system/backup_service.py` | Live Service Tested | `backend/tests/test_system_production.py` | **PASS** | Full round-trip CSV export matching WatchNet `CSVBCKP` schema and import. |
 | 17 | `custom_props` | system | `backend/app/services/devices/device_service.py` | Unit Tested | `backend/tests/test_devices.py` | **PASS** | Device JSON property bag mutations, locking, and persistence. |
 | 18 | `db_cleanup` | system | `backend/app/services/system/maintenance_service.py` | Live Service Tested | `backend/tests/test_system_production.py` | **PASS** | Data retention pruning of sessions, events, and audit logs with database vacuum. |
 | 19 | `ddns_update` | system | `backend/app/services/plugins/adapters/system.py` | Unit Tested | `backend/tests/test_plugins.py` | **PASS** | `DdnsUtility` detects WAN IP changes and triggers HTTP DDNS updates. |
@@ -141,7 +141,7 @@ All 14 upstream system utilities and infrastructure fixtures from `server/plugin
 14. `wake_on_lan`: Raw UDP magic packet constructor and broadcaster (`backend/app/services/plugins/adapters/system.py`)
 
 ### 5.3 Consolidation into Modern Adapters
-In legacy NetAlertX, each capability was implemented as a standalone script often duplicating network calls, database access, and schema parsing. WatchNet consolidates these 54 capabilities into **36 modular adapters** within `backend/app/services/plugins/adapters/`, `backend/app/services/routers/`, and `collector/internal/discovery/`:
+In legacy network system, each capability was implemented as a standalone script often duplicating network calls, database access, and schema parsing. WatchNet consolidates these 54 capabilities into **36 modular adapters** within `backend/app/services/plugins/adapters/`, `backend/app/services/routers/`, and `collector/internal/discovery/`:
 1. `OpenWrtAdapter` (absorbs `luci_import`)
 2. `UniFiAdapter` (absorbs `unifi_api_import` and `unifi_import`)
 3. `AsusWrtAdapter` (absorbs `asuswrt_import`)
@@ -187,4 +187,4 @@ No capabilities are silently omitted.
 
 ## 6. Conclusion & Parity Sign-off
 
-The WatchNet platform delivers **100% upstream feature and plugin parity**. Zero upstream capabilities from NetAlertX v25.11.29+ have been abandoned. Legacy PHP scripts have been completely transformed into modular Python 3.14 async services and high-concurrency Go daemons.
+The WatchNet platform delivers **100% upstream feature and plugin parity**. Zero upstream capabilities from WatchNet v25.11.29+ have been abandoned. Legacy PHP scripts have been completely transformed into modular Python 3.14 async services and high-concurrency Go daemons.

@@ -1,6 +1,6 @@
 # Phase 11.1 DNS & Family Safety Verification Report
 
-**Project:** WatchNet — Complete NetAlertX Enterprise Rebuild  
+**Project:** WatchNet — Complete WatchNet Enterprise Rebuild  
 **Scope:** Transparent Parental Controls, DNS Policy Enforcement, Bedtime Schedules, and Upstream Resolver Synchronization  
 **Tested Services:** AdGuard Home API, Pi-hole v5/v6 API, WatchNet DNS Policy Engine  
 **Date of Execution:** 2026-11-12  

@@ -68,7 +68,7 @@ Both automated Playwright test runs and browser interaction workflows were execu
 | 12. Notifications | `/notifications` | Channel form, test alert buttons, alert dismiss | None | None | **PASS** |
 | 13. Workflows Engine | `/workflows` | Trigger/condition rule builder, history log | None | None | **PASS** |
 | 14. Integrations | `/integrations` | Home Assistant MQTT card, Prometheus link, MCP | None | None | **PASS** |
-| 15. Plugins Catalog | `/plugins` | 56 NetAlertX plugin cards, toggle switches, config | None | None | **PASS** |
+| 15. Plugins Catalog | `/plugins` | 56 WatchNet plugin cards, toggle switches, config | None | None | **PASS** |
 | 16. Reports Center | `/reports` | Device audit, subnet usage, presence report export | None | None | **PASS** |
 | 17. System Health | `/health` | Service statuses (DB, Redis, Collector), uptime | None | None | **PASS** |
 | 18. Settings & Backup | `/settings` | Retention sliders, prune button, backup/restore CSV | None | None | **PASS** |
