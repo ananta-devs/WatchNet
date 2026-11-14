@@ -7,8 +7,6 @@ import {
   Globe,
   Gauge,
   ExternalLink,
-  ShieldAlert,
-  ShieldCheck,
   RefreshCw,
   Plus,
   Play,
@@ -18,7 +16,8 @@ import {
   ArrowDownRight,
   CheckCircle2,
   XCircle,
-  Clock
+  Clock,
+  X
 } from "lucide-react";
 import Link from "next/link";
 
@@ -76,7 +75,7 @@ export default function MonitoringPage() {
 
   const fetchMonitoringData = async () => {
     try {
-      const token = typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") || localStorage.getItem("access_token") : null;
       const headers: Record<string, string> = {};
       if (token) headers["Authorization"] = `Bearer ${token}`;
 
@@ -98,14 +97,12 @@ export default function MonitoringPage() {
 
   useEffect(() => {
     fetchMonitoringData();
-    const interval = setInterval(fetchMonitoringData, 30000);
-    return () => clearInterval(interval);
   }, []);
 
   const triggerSpeedtest = async () => {
-    setRunningSpeedtest(true);
     try {
-      const token = typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
+      setRunningSpeedtest(true);
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") || localStorage.getItem("access_token") : null;
       const headers: Record<string, string> = {};
       if (token) headers["Authorization"] = `Bearer ${token}`;
 
@@ -115,8 +112,8 @@ export default function MonitoringPage() {
         credentials: "include"
       });
       if (res.ok) {
-        const newRun = await res.json();
-        setSpeedHistory((prev) => [...prev, newRun]);
+        const latest = await res.json();
+        setSpeedHistory((prev) => [...prev, latest]);
       }
     } catch (e) {
       console.error("Speedtest failed", e);
@@ -128,9 +125,9 @@ export default function MonitoringPage() {
   const addWebsite = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newUrl) return;
-    setActionLoading(true);
     try {
-      const token = typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
+      setActionLoading(true);
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") || localStorage.getItem("access_token") : null;
       const headers: Record<string, string> = { "Content-Type": "application/json" };
       if (token) headers["Authorization"] = `Bearer ${token}`;
 
@@ -138,11 +135,15 @@ export default function MonitoringPage() {
         method: "POST",
         headers,
         credentials: "include",
-        body: JSON.stringify({ url: newUrl, name: newName || newUrl, check_interval_sec: 60 })
+        body: JSON.stringify({
+          url: newUrl,
+          name: newName || null,
+          check_interval_sec: 60
+        })
       });
       if (res.ok) {
-        const added = await res.json();
-        setWebsites((prev) => [...prev, added]);
+        const created = await res.json();
+        setWebsites((prev) => [...prev, created]);
         setNewUrl("");
         setNewName("");
         setModalOpen(false);
@@ -156,7 +157,7 @@ export default function MonitoringPage() {
 
   const checkWebsiteNow = async (id: string) => {
     try {
-      const token = typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") || localStorage.getItem("access_token") : null;
       const headers: Record<string, string> = {};
       if (token) headers["Authorization"] = `Bearer ${token}`;
 
@@ -176,7 +177,7 @@ export default function MonitoringPage() {
 
   const deleteWebsite = async (id: string) => {
     try {
-      const token = typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") || localStorage.getItem("access_token") : null;
       const headers: Record<string, string> = {};
       if (token) headers["Authorization"] = `Bearer ${token}`;
 
@@ -196,19 +197,22 @@ export default function MonitoringPage() {
   const latestSpeed = speedHistory.length > 0 ? speedHistory[speedHistory.length - 1] : null;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-border pb-5">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 border-b border-border pb-3 sm:pb-5">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Active Network Monitoring</h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-text flex items-center gap-2">
+            <Activity className="w-5 h-5 sm:w-6 sm:h-6 text-accent shrink-0" />
+            <span>Active Network Monitoring</span>
+          </h1>
+          <p className="text-xs sm:text-sm text-muted mt-1">
             Real-time WAN telemetry, latency telemetry, automated speedtests & endpoint uptime
           </p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
           <Link
             href="/monitoring/wallboard"
-            className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-50 dark:bg-indigo-600/20 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30 hover:bg-indigo-100 dark:hover:bg-indigo-600/30 transition"
+            className="flex-1 sm:flex-none justify-center flex items-center gap-2 px-3.5 py-2 sm:py-1.5 text-xs font-semibold rounded-lg bg-accent/10 text-accent border border-accent/30 hover:bg-accent/20 transition min-h-[38px] sm:min-h-[32px]"
           >
             <Activity className="w-4 h-4 text-accent" />
             NOC Wallboard View
@@ -216,7 +220,7 @@ export default function MonitoringPage() {
           <button
             onClick={fetchMonitoringData}
             disabled={loading}
-            className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-border transition"
+            className="flex-1 sm:flex-none justify-center flex items-center gap-2 px-3.5 py-2 sm:py-1.5 text-xs font-semibold rounded-lg bg-surface hover:bg-hover text-text border border-border transition cursor-pointer min-h-[38px] sm:min-h-[32px]"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
             Refresh
@@ -225,87 +229,87 @@ export default function MonitoringPage() {
       </div>
 
       {/* Top WAN Connectivity & Gateway Health Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
-        <div className="bg-surface border border-border shadow-sm rounded-xl p-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
+        <div className="bg-surface border border-border shadow-xs rounded-xl p-4 sm:p-5">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">WAN Status</span>
-            <Globe className="w-5 h-5 text-indigo-400" />
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted">WAN Status</span>
+            <Globe className="w-5 h-5 text-accent" />
           </div>
           <div className="flex items-center gap-2">
             <div
               className={`w-3 h-3 rounded-full ${
-                internet?.is_connected ? "bg-status-online shadow-emerald-500/50 shadow" : "bg-red-500"
+                internet?.is_connected ? "bg-status-online" : "bg-status-critical"
               }`}
             />
-            <span className="text-2xl font-bold">
+            <span className="text-2xl font-bold text-text">
               {internet?.is_connected ? "Connected" : "Disconnected"}
             </span>
           </div>
-          <div className="text-xs text-slate-400 mt-2 font-mono truncate">
+          <div className="text-xs text-muted mt-2 font-mono truncate">
             IP: {internet?.wan_ip || "Auto-probing..."}
           </div>
         </div>
 
-        <div className="bg-surface border border-border shadow-sm rounded-xl p-5">
+        <div className="bg-surface border border-border shadow-xs rounded-xl p-4 sm:p-5">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Gateway Latency</span>
-            <Zap className="w-5 h-5 text-amber-400" />
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted">Gateway Latency</span>
+            <Zap className="w-5 h-5 text-amber-500" />
           </div>
-          <div className="text-3xl font-bold">
+          <div className="text-2xl sm:text-3xl font-bold text-text">
             {internet?.gateway_latency_ms !== null && internet?.gateway_latency_ms !== undefined
               ? `${internet.gateway_latency_ms} ms`
               : "—"}
           </div>
-          <div className="text-xs text-slate-500 mt-1">Hop 1 reachability</div>
+          <div className="text-xs text-muted mt-1">Hop 1 reachability</div>
         </div>
 
-        <div className="bg-surface border border-border shadow-sm rounded-xl p-5">
+        <div className="bg-surface border border-border shadow-xs rounded-xl p-4 sm:p-5">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">DNS Avg Resolution</span>
-            <Server className="w-5 h-5 text-indigo-400" />
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted">DNS Avg Resolution</span>
+            <Server className="w-5 h-5 text-accent" />
           </div>
-          <div className="text-3xl font-bold">
+          <div className="text-2xl sm:text-3xl font-bold text-text">
             {internet?.dns_resolution_ms !== null && internet?.dns_resolution_ms !== undefined
               ? `${internet.dns_resolution_ms} ms`
               : "—"}
           </div>
-          <div className="text-xs text-slate-500 mt-1">Multi-upstream resolver test</div>
+          <div className="text-xs text-muted mt-1">Multi-upstream resolver test</div>
         </div>
 
-        <div className="bg-surface border border-border shadow-sm rounded-xl p-5">
+        <div className="bg-surface border border-border shadow-xs rounded-xl p-4 sm:p-5">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Monitored Sites</span>
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted">Monitored Sites</span>
             <Activity className="w-5 h-5 text-status-online" />
           </div>
-          <div className="text-3xl font-bold text-status-online">
+          <div className="text-2xl sm:text-3xl font-bold text-status-online">
             {websites.filter((w) => w.is_up).length} / {websites.length}
           </div>
-          <div className="text-xs text-slate-500 mt-1">Active endpoint checks</div>
+          <div className="text-xs text-muted mt-1">Active endpoint checks</div>
         </div>
       </div>
 
       {/* Speedtest Widget & Latency History */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Speedtest Section */}
-        <div className="bg-surface border border-border shadow-sm rounded-xl p-6 lg:col-span-1 flex flex-col justify-between">
+        <div className="bg-surface border border-border shadow-xs rounded-xl p-4 sm:p-6 lg:col-span-1 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-2">
-                <Gauge className="w-4 h-4 text-indigo-400" />
+              <h2 className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-text flex items-center gap-2">
+                <Gauge className="w-4 h-4 text-accent" />
                 Network Throughput
               </h2>
               <button
                 onClick={triggerSpeedtest}
                 disabled={runningSpeedtest}
-                className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded bg-accent hover:bg-accent-hover text-white transition disabled:opacity-50"
+                className="flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded bg-accent hover:bg-accent-hover text-white transition disabled:opacity-50 cursor-pointer min-h-[32px]"
               >
                 {runningSpeedtest ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Play className="w-3.5 h-3.5" />}
                 {runningSpeedtest ? "Testing..." : "Run Test"}
               </button>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 my-6">
-              <div className="bg-background/60 p-4 rounded-lg border border-border/80">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4 my-4 sm:my-6">
+              <div className="bg-background/60 p-3 sm:p-4 rounded-lg border border-border">
                 <div className="flex items-center gap-1 text-xs text-muted">
                   <ArrowDownRight className="w-4 h-4 text-status-online" />
                   Download
@@ -316,7 +320,7 @@ export default function MonitoringPage() {
                 </div>
               </div>
 
-              <div className="bg-background/60 p-4 rounded-lg border border-border/80">
+              <div className="bg-background/60 p-3 sm:p-4 rounded-lg border border-border">
                 <div className="flex items-center gap-1 text-xs text-muted">
                   <ArrowUpRight className="w-4 h-4 text-accent" />
                   Upload
@@ -328,60 +332,60 @@ export default function MonitoringPage() {
               </div>
             </div>
 
-            <div className="space-y-2 text-xs text-slate-400 border-t border-border/80 pt-4">
+            <div className="space-y-2 text-xs text-muted border-t border-border pt-4">
               <div className="flex justify-between">
                 <span>Latency / Ping:</span>
-                <span className="font-semibold text-slate-200">
+                <span className="font-semibold text-text">
                   {latestSpeed ? `${latestSpeed.ping_ms} ms` : "—"}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span>Jitter:</span>
-                <span className="font-semibold text-slate-200">
+                <span className="font-semibold text-text">
                   {latestSpeed ? `${latestSpeed.jitter_ms} ms` : "—"}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span>Edge Server:</span>
-                <span className="text-slate-300 truncate max-w-[180px]">
+                <span className="text-text truncate max-w-[180px]">
                   {latestSpeed?.server_name || "Cloudflare Anycast"}
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="mt-6 text-[11px] text-slate-500 flex items-center gap-1">
+          <div className="mt-4 sm:mt-6 text-[11px] text-muted flex items-center gap-1">
             <Clock className="w-3 h-3" />
             Last run: {latestSpeed ? new Date(latestSpeed.timestamp).toLocaleTimeString() : "Never"}
           </div>
         </div>
 
         {/* Speed & Latency History Mini-Graph */}
-        <div className="bg-surface border border-border shadow-sm rounded-xl p-6 lg:col-span-2">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-4 flex items-center justify-between">
+        <div className="bg-surface border border-border shadow-xs rounded-xl p-4 sm:p-6 lg:col-span-2">
+          <h2 className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-text mb-4 flex items-center justify-between">
             <span>Throughput & Latency Trajectory</span>
-            <span className="text-xs text-slate-500 font-normal">Recent {speedHistory.length} Probes</span>
+            <span className="text-xs text-muted font-normal">Recent {speedHistory.length} Probes</span>
           </h2>
 
           {speedHistory.length === 0 ? (
-            <div className="h-48 flex items-center justify-center text-sm text-slate-500 border border-dashed border-border rounded-lg">
+            <div className="h-48 flex items-center justify-center text-xs sm:text-sm text-muted border border-dashed border-border rounded-lg">
               No historical speedtest data recorded yet. Run a speedtest above.
             </div>
           ) : (
-            <div className="h-52 flex items-end gap-2 pt-6 pb-2 px-2 border-b border-border overflow-x-auto">
+            <div className="h-48 sm:h-52 flex items-end gap-2 pt-6 pb-2 px-2 border-b border-border overflow-x-auto min-w-[280px]">
               {speedHistory.map((item, idx) => {
                 const maxMbps = Math.max(...speedHistory.map((s) => s.download_mbps), 100);
                 const heightPercent = Math.min(100, Math.max(10, (item.download_mbps / maxMbps) * 100));
                 return (
                   <div key={idx} className="flex-1 min-w-[32px] flex flex-col items-center gap-1 group relative">
-                    <div className="absolute -top-7 opacity-0 group-hover:opacity-100 bg-slate-900 dark:bg-slate-800 text-white dark:text-slate-200 text-[10px] px-2 py-0.5 rounded shadow pointer-events-none transition whitespace-nowrap z-10">
+                    <div className="absolute -top-7 opacity-0 group-hover:opacity-100 bg-surface border border-border text-text text-[10px] px-2 py-0.5 rounded shadow-xs pointer-events-none transition whitespace-nowrap z-10">
                       {item.download_mbps} Mbps | {item.ping_ms} ms
                     </div>
                     <div
                       style={{ height: `${heightPercent}%` }}
-                      className="w-full bg-gradient-to-t from-indigo-600 to-emerald-400 rounded-t-sm group-hover:brightness-125 transition"
+                      className="w-full bg-gradient-to-t from-accent to-status-online rounded-t-xs group-hover:brightness-110 transition"
                     />
-                    <span className="text-[9px] text-slate-500">
+                    <span className="text-[9px] text-muted font-mono">
                       {new Date(item.timestamp).getHours()}:{new Date(item.timestamp).getMinutes()}
                     </span>
                   </div>
@@ -390,13 +394,13 @@ export default function MonitoringPage() {
             </div>
           )}
 
-          <div className="flex items-center gap-6 mt-4 text-xs text-slate-400">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6 mt-4 text-xs text-muted">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+              <span className="w-2.5 h-2.5 rounded-full bg-status-online" />
               Download Throughput (Mbps)
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-indigo-500" />
+              <span className="w-2.5 h-2.5 rounded-full bg-accent" />
               Upload Throughput (Mbps)
             </div>
           </div>
@@ -404,29 +408,101 @@ export default function MonitoringPage() {
       </div>
 
       {/* Website Targets & SSL Monitoring Section */}
-      <div className="bg-surface border border-border shadow-sm rounded-xl p-6">
-        <div className="flex justify-between items-center mb-5">
+      <div className="bg-surface border border-border shadow-xs rounded-xl p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 sm:mb-5">
           <div>
-            <h2 className="text-base font-semibold text-slate-100 flex items-center gap-2">
-              <ExternalLink className="w-5 h-5 text-indigo-400" />
+            <h2 className="text-sm sm:text-base font-semibold text-text flex items-center gap-2">
+              <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 text-accent" />
               Website Uptime & SSL Expiration Probes
             </h2>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-muted mt-0.5">
               Automated HTTP status validation and TLS certificate renewal warnings
             </p>
           </div>
           <button
             onClick={() => setModalOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-accent hover:bg-accent-hover text-white transition"
+            className="w-full sm:w-auto justify-center flex items-center gap-1.5 px-3 py-2 sm:py-1.5 text-xs font-semibold rounded-lg bg-accent hover:bg-accent-hover text-white transition cursor-pointer min-h-[40px] sm:min-h-[32px]"
           >
             <Plus className="w-3.5 h-3.5" />
             Add Target
           </button>
         </div>
 
-        <div className="overflow-x-auto">
+        {/* Mobile card view for website probes */}
+        <div className="block md:hidden space-y-3">
+          {websites.length === 0 ? (
+            <div className="p-6 text-center text-xs text-muted border border-border rounded-xl">
+              No website targets currently being monitored. Click &quot;Add Target&quot; to begin.
+            </div>
+          ) : (
+            websites.map((site) => (
+              <div key={site.id} className="p-3.5 rounded-xl border border-border bg-background/50 space-y-2">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <span className="font-semibold text-text text-sm block truncate">{site.name || "Endpoint"}</span>
+                    <a
+                      href={site.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-xs text-muted hover:text-accent font-mono truncate block"
+                    >
+                      {site.url}
+                    </a>
+                  </div>
+                  <span
+                    className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold shrink-0 uppercase tracking-wider ${
+                      site.is_up
+                        ? "bg-status-online/10 text-status-online border border-status-online/20"
+                        : "bg-status-critical/10 text-status-critical border border-status-critical/20"
+                    }`}
+                  >
+                    {site.is_up ? <CheckCircle2 className="w-3 h-3" /> : <XCircle className="w-3 h-3" />}
+                    {site.is_up ? "UP" : "DOWN"}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 text-xs pt-2 border-t border-border/80">
+                  <div>
+                    <span className="text-[10px] text-muted block uppercase">HTTP Code</span>
+                    <span className="font-mono text-text font-medium">{site.last_status_code || "—"}</span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-muted block uppercase">Latency</span>
+                    <span className="font-mono text-text font-medium">{site.last_latency_ms !== null ? `${site.last_latency_ms} ms` : "—"}</span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-muted block uppercase">Uptime</span>
+                    <span className="text-text font-medium">{site.uptime_percentage ?? 100}%</span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-muted block uppercase">SSL Remaining</span>
+                    <span className="text-text font-medium">{site.ssl_days_remaining !== null ? `${site.ssl_days_remaining} days` : "N/A"}</span>
+                  </div>
+                </div>
+
+                <div className="flex justify-end gap-2 pt-2 border-t border-border/60">
+                  <button
+                    onClick={() => checkWebsiteNow(site.id)}
+                    className="px-3 py-1.5 text-xs rounded bg-surface hover:bg-hover text-text border border-border transition min-h-[36px]"
+                  >
+                    Probe Now
+                  </button>
+                  <button
+                    onClick={() => deleteWebsite(site.id)}
+                    className="px-3 py-1.5 text-xs rounded bg-status-critical/10 hover:bg-status-critical/20 text-status-critical border border-status-critical/30 transition min-h-[36px]"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        {/* Desktop Table view for website probes */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left text-sm text-text">
-            <thead className="bg-background/70 text-muted uppercase text-[11px] font-semibold border-b border-border">
+            <thead className="bg-hover/50 text-muted uppercase text-[11px] font-semibold border-b border-border">
               <tr>
                 <th className="px-4 py-3">Status</th>
                 <th className="px-4 py-3">Website Target</th>
@@ -437,77 +513,81 @@ export default function MonitoringPage() {
                 <th className="px-4 py-3 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
+            <tbody className="divide-y divide-border/60">
               {websites.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-4 py-8 text-center text-sm text-slate-500">
+                  <td colSpan={7} className="px-4 py-8 text-center text-sm text-muted">
                     No website targets currently being monitored. Click &quot;Add Target&quot; to begin.
                   </td>
                 </tr>
               ) : (
                 websites.map((site) => (
-                  <tr key={site.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/30 transition">
+                  <tr key={site.id} className="hover:bg-hover transition">
                     <td className="px-4 py-3">
-                      {site.is_up ? (
-                        <span className="flex items-center gap-1.5 text-xs text-status-online font-medium">
-                          <CheckCircle2 className="w-4 h-4" /> UP
-                        </span>
-                      ) : (
-                        <span className="flex items-center gap-1.5 text-xs text-status-critical font-medium">
-                          <XCircle className="w-4 h-4" /> DOWN
-                        </span>
-                      )}
+                      <span
+                        className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold ${
+                          site.is_up
+                            ? "bg-status-online/10 text-status-online border border-status-online/20"
+                            : "bg-status-critical/10 text-status-critical border border-status-critical/20"
+                        }`}
+                      >
+                        {site.is_up ? <CheckCircle2 className="w-3.5 h-3.5" /> : <XCircle className="w-3.5 h-3.5" />}
+                        {site.is_up ? "UP" : "DOWN"}
+                      </span>
                     </td>
                     <td className="px-4 py-3">
-                      <div className="font-semibold text-text">{site.name || site.url}</div>
-                      <div className="text-xs text-slate-500 font-mono">{site.url}</div>
+                      <div className="font-semibold text-text">{site.name || "Target"}</div>
+                      <a
+                        href={site.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-xs text-muted hover:text-accent font-mono truncate max-w-xs block"
+                      >
+                        {site.url}
+                      </a>
                     </td>
                     <td className="px-4 py-3 font-mono text-xs">
                       {site.last_status_code ? (
-                        <span
-                          className={`px-2 py-0.5 rounded ${
-                            site.last_status_code < 400
-                              ? "bg-emerald-50 dark:bg-status-online/10 text-emerald-700 dark:text-status-online border border-emerald-200 dark:border-emerald-500/20"
-                              : "bg-rose-50 dark:bg-status-critical/10 text-rose-700 dark:text-status-critical border border-rose-200 dark:border-rose-500/20"
-                          }`}
-                        >
+                        <span className={site.last_status_code < 400 ? "text-status-online" : "text-status-critical"}>
                           {site.last_status_code}
                         </span>
                       ) : (
                         "—"
                       )}
                     </td>
-                    <td className="px-4 py-3 text-xs">
-                      {site.last_latency_ms ? `${site.last_latency_ms} ms` : "—"}
+                    <td className="px-4 py-3 font-mono text-xs">
+                      {site.last_latency_ms !== null ? `${site.last_latency_ms} ms` : "—"}
+                    </td>
+                    <td className="px-4 py-3 text-xs font-medium">
+                      {site.uptime_percentage ? `${site.uptime_percentage}%` : "100%"}
                     </td>
                     <td className="px-4 py-3 text-xs">
-                      <span className="text-status-online font-semibold">{site.uptime_percentage}%</span>
-                    </td>
-                    <td className="px-4 py-3 text-xs">
-                      {site.ssl_days_remaining !== null && site.ssl_days_remaining !== undefined ? (
-                        site.ssl_days_remaining <= 15 ? (
-                          <span className="flex items-center gap-1 text-status-warning font-semibold">
-                            <ShieldAlert className="w-3.5 h-3.5" /> {site.ssl_days_remaining} days (Expiring Soon!)
-                          </span>
-                        ) : (
-                          <span className="flex items-center gap-1 text-text">
-                            <ShieldCheck className="w-3.5 h-3.5 text-status-online" /> {site.ssl_days_remaining} days
-                          </span>
-                        )
+                      {site.ssl_days_remaining !== null ? (
+                        <span
+                          className={
+                            site.ssl_days_remaining < 15
+                              ? "text-status-critical font-bold"
+                              : site.ssl_days_remaining < 30
+                              ? "text-status-warning font-semibold"
+                              : "text-muted"
+                          }
+                        >
+                          {site.ssl_days_remaining} days left
+                        </span>
                       ) : (
-                        <span className="text-slate-500">Non-SSL / Unavailable</span>
+                        <span className="text-muted">—</span>
                       )}
                     </td>
                     <td className="px-4 py-3 text-right space-x-2">
                       <button
                         onClick={() => checkWebsiteNow(site.id)}
-                        className="px-2 py-1 text-xs rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-border transition"
+                        className="px-2.5 py-1 text-xs rounded bg-surface hover:bg-hover text-text border border-border transition cursor-pointer"
                       >
                         Probe
                       </button>
                       <button
                         onClick={() => deleteWebsite(site.id)}
-                        className="px-2 py-1 text-xs rounded bg-rose-50 hover:bg-rose-100 dark:bg-rose-900/30 dark:hover:bg-rose-900/50 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800/40 transition"
+                        className="px-2.5 py-1 text-xs rounded bg-status-critical/10 hover:bg-status-critical/20 text-status-critical border border-status-critical/30 transition cursor-pointer"
                       >
                         Remove
                       </button>
@@ -522,9 +602,14 @@ export default function MonitoringPage() {
 
       {/* Quick Add Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-          <div className="bg-surface border border-border shadow-xl rounded-xl max-w-md w-full p-6">
-            <h3 className="text-lg font-bold text-text mb-1">Add Website Target</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4" role="dialog" aria-modal="true">
+          <div className="bg-surface border border-border shadow-xl rounded-xl max-w-md w-full p-5 sm:p-6">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-base sm:text-lg font-bold text-text">Add Website Target</h3>
+              <button onClick={() => setModalOpen(false)} className="text-muted hover:text-text p-1 cursor-pointer">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
             <p className="text-xs text-muted mb-4">
               Enter the full HTTP or HTTPS endpoint to monitor response codes, uptime, and SSL.
             </p>
@@ -539,7 +624,7 @@ export default function MonitoringPage() {
                   required
                   value={newUrl}
                   onChange={(e) => setNewUrl(e.target.value)}
-                  className="w-full bg-background border border-border rounded-lg px-3 py-2 text-sm text-text placeholder-slate-400 focus:outline-none focus:border-accent"
+                  className="w-full bg-background border border-border rounded-lg px-3 py-2 text-sm text-text placeholder-muted focus:outline-none focus:border-accent min-h-[38px]"
                 />
               </div>
               <div>
@@ -551,21 +636,21 @@ export default function MonitoringPage() {
                   placeholder="Corporate Website"
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
-                  className="w-full bg-background border border-border rounded-lg px-3 py-2 text-sm text-text placeholder-slate-400 focus:outline-none focus:border-accent"
+                  className="w-full bg-background border border-border rounded-lg px-3 py-2 text-sm text-text placeholder-muted focus:outline-none focus:border-accent min-h-[38px]"
                 />
               </div>
               <div className="flex justify-end gap-3 pt-3 border-t border-border">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-text border border-border transition"
+                  className="px-4 py-2 text-xs font-semibold rounded-lg bg-surface hover:bg-hover text-text border border-border transition min-h-[38px] cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={actionLoading}
-                  className="px-4 py-2 text-xs font-semibold rounded-lg bg-accent hover:bg-accent-hover text-white disabled:opacity-50 shadow-sm transition"
+                  className="px-4 py-2 text-xs font-semibold rounded-lg bg-accent hover:bg-accent-hover text-white disabled:opacity-50 shadow-xs transition min-h-[38px] cursor-pointer"
                 >
                   {actionLoading ? "Adding..." : "Add Target"}
                 </button>

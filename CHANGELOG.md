@@ -48,6 +48,25 @@ ead_only_api, passive_discovery, unsupported) in ackend/app/models/routers.py, 
 
 ## [Unreleased]
 
+### Comprehensive Responsive UI/UX Across All Breakpoints (2026-11-14)
+- **Responsive Global Application Shell (`Shell.tsx`)**:
+  - Implemented collapsible desktop/tablet navigation sidebar with state persistence (`watchnet_sidebar_collapsed`).
+  - Implemented slide-in mobile navigation drawer with touch gesture backdrop, 44px touch targets, safe-area offsets, and Escape key accessibility.
+  - Added full keyboard accessibility and body scroll locking (`useScrollLock`).
+- **Responsive Table Transformations (`/devices`)**:
+  - TanStack tabular inventory seamlessly transforms into high-density structured cards on mobile viewports (< 768px).
+  - Maintained column sorting, searching, multi-select, and bulk batch actions across mobile, tablet, and desktop views.
+- **Interactive Topology Zoom & Pan (`/topology`)**:
+  - Added responsive zoom controls (+15%, -15%, Reset) and touch-friendly node inspection drawer.
+- **Monitoring & NOC Wallboard (`/monitoring`, `/monitoring/wallboard`)**:
+  - Responsive trajectory bar graphs with internal scroll preservation.
+  - Flexible NOC wallboard layout with adaptive typography and fullscreen mode.
+- **Touch-Friendly Controls Across Modules**:
+  - Router vendor telemetry (`/routers`), DNS activity stream (`/activity`), Family Safety parental controls (`/family-safety`), and Workflow Builder (`/workflows`).
+- **Visual Evidence Matrix**:
+  - Automated Playwright suite verified zero horizontal overflow across 12 target viewports (320px, 360px, 375px, 390px, 414px, 640px, 768px, 1024px, 1280px, 1366px, 1920px, 2560px).
+  - Screenshot evidence stored under `docs/testing/manual/responsive/`.
+
 ### Enterprise Slate + Signal Blue Design System
 - **Centralized CSS Design Tokens**: Established authoritative tokens in `frontend/src/app/globals.css` mapping `--background`, `--surface`, `--sidebar`, `--accent`, `--accent-hover`, `--text`, `--muted`, `--border`, `--hover`, and semantic status tokens directly to Tailwind CSS `@theme inline`.
 - **ThemeContext & Reactive System Theme**: Added robust `light | dark | system` theme toggle with `window.matchMedia` dynamic listener, early script anti-flash execution, and `watchnet_theme` localStorage persistence.

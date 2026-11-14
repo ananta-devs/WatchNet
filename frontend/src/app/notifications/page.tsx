@@ -234,23 +234,23 @@ export default function NotificationsPage() {
   };
 
   return (
-    <div className="p-8 space-y-6 max-w-7xl mx-auto">
+    <div className="p-3.5 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 pb-3 border-b border-border">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-text flex items-center gap-3">
-            <Bell className="w-8 h-8 text-sky-600 dark:text-sky-400" />
-            Notifications & Dispatch
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-text flex items-center gap-2.5 sm:gap-3">
+            <Bell className="w-6 h-6 sm:w-8 sm:h-8 text-accent shrink-0" />
+            <span>Notifications & Dispatch</span>
           </h1>
-          <p className="text-muted text-sm mt-1">
+          <p className="text-muted text-xs sm:text-sm mt-1">
             Real-time in-app alerts, severity filtering, and multi-channel publisher delivery
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
           <button
             onClick={loadAll}
-            className="flex items-center gap-2 px-3 py-2 text-sm bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-text rounded-lg border border-border transition"
+            className="flex-1 sm:flex-none justify-center flex items-center gap-2 px-3 py-2 text-xs sm:text-sm bg-surface hover:bg-hover text-text rounded-lg border border-border transition cursor-pointer min-h-[38px]"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
             Refresh
@@ -258,7 +258,7 @@ export default function NotificationsPage() {
           {activeTab === "inbox" && (
             <button
               onClick={markAllRead}
-              className="flex items-center gap-2 px-3 py-2 text-sm bg-sky-600 hover:bg-sky-500 text-white rounded-lg font-medium shadow-md shadow-sky-900/30"
+              className="flex-1 sm:flex-none justify-center flex items-center gap-2 px-3 py-2 text-xs sm:text-sm bg-accent hover:bg-accent-hover text-white rounded-lg font-medium shadow-xs cursor-pointer min-h-[38px]"
             >
               <Check className="w-4 h-4" />
               Mark All Read
@@ -267,7 +267,7 @@ export default function NotificationsPage() {
           {activeTab === "channels" && (
             <button
               onClick={() => setShowChannelModal(true)}
-              className="flex items-center gap-2 px-3 py-2 text-sm bg-sky-600 hover:bg-sky-500 text-white rounded-lg font-medium shadow-md shadow-sky-900/30"
+              className="flex-1 sm:flex-none justify-center flex items-center gap-2 px-3 py-2 text-xs sm:text-sm bg-accent hover:bg-accent-hover text-white rounded-lg font-medium shadow-xs cursor-pointer min-h-[38px]"
             >
               <Plus className="w-4 h-4" />
               Add Delivery Channel
@@ -446,16 +446,16 @@ export default function NotificationsPage() {
 
       {/* Modal: Add Channel */}
       {showChannelModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xs p-4">
-          <div className="bg-surface border border-border rounded-2xl w-full max-w-lg p-6 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xs p-2 sm:p-4" role="dialog" aria-modal="true">
+          <div className="bg-surface border border-border rounded-2xl w-full max-w-lg max-h-[92vh] overflow-y-auto p-4 sm:p-6 shadow-2xl">
             <div className="flex items-center justify-between pb-4 border-b border-border">
-              <h2 className="text-lg font-bold text-text flex items-center gap-2">
+              <h2 className="text-base sm:text-lg font-bold text-text flex items-center gap-2">
                 <Send className="w-5 h-5 text-accent" />
                 Configure Delivery Channel
               </h2>
               <button
                 onClick={() => setShowChannelModal(false)}
-                className="text-slate-400 hover:text-slate-700 dark:hover:text-white"
+                className="text-muted hover:text-text cursor-pointer p-1"
               >
                 <X className="w-5 h-5" />
               </button>

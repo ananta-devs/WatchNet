@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -11,13 +11,7 @@ import {
   Clock,
   Activity,
   History,
-  Network,
   Cpu,
-  Laptop,
-  Smartphone,
-  Server,
-  Tv,
-  HelpCircle,
   Shield,
   Tag,
   CheckCircle2,
@@ -68,67 +62,67 @@ interface HistoryData {
     id: number;
     event_type: string;
     severity: string;
-    payload: Record<string, any>;
     timestamp: string;
+    payload: any;
   }>;
 }
 
 export default function DeviceDetailPage() {
   const params = useParams();
-  const router = useRouter();
   const id = params?.id as string;
 
   const [device, setDevice] = useState<DeviceDetail | null>(null);
-  const [presence, setPresence] = useState<PresenceDay[]>([]);
   const [history, setHistory] = useState<HistoryData | null>(null);
+  const [presence, setPresence] = useState<PresenceDay[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
 
-  // Form editable states
+  // Form states
   const [name, setName] = useState("");
   const [category, setCategory] = useState("Unknown");
-  const [icon, setIcon] = useState("help-circle");
   const [notes, setNotes] = useState("");
   const [isArchived, setIsArchived] = useState(false);
   const [lockedFields, setLockedFields] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState("");
 
   const fetchDeviceData = async () => {
     if (!id) return;
     setLoading(true);
     try {
-      const token = typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") || localStorage.getItem("access_token") : null;
       const headers: Record<string, string> = {};
       if (token) headers["Authorization"] = `Bearer ${token}`;
 
-      const [devRes, presRes, histRes] = await Promise.all([
-        fetch(`/api/v1/devices/${id}`, { credentials: "include", headers }),
-        fetch(`/api/v1/devices/${id}/presence?days=7`, { credentials: "include", headers }),
-        fetch(`/api/v1/devices/${id}/history`, { credentials: "include", headers }),
+      const [devRes, histRes, presRes] = await Promise.all([
+        fetch(`/api/v1/devices/${id}`, { headers, credentials: "include" }),
+        fetch(`/api/v1/devices/${id}/history`, { headers, credentials: "include" }),
+        fetch(`/api/v1/devices/${id}/presence?days=7`, { headers, credentials: "include" })
       ]);
 
       if (devRes.ok) {
-        const d: DeviceDetail = await devRes.json();
-        setDevice(d);
-        setName(d.name || "");
-        setCategory(d.category || "Unknown");
-        setIcon(d.icon || "help-circle");
-        setNotes(d.notes || "");
-        setIsArchived(d.is_archived || false);
-        setLockedFields(d.locked_fields || []);
-      }
-
-      if (presRes.ok) {
-        const p = await presRes.json();
-        setPresence(p || []);
+        const devData = await devRes.json();
+        setDevice(devData);
+        setName(devData.name || "");
+        setCategory(devData.category || "Unknown");
+        setNotes(devData.notes || "");
+        setIsArchived(devData.is_archived || false);
+        setLockedFields(devData.locked_fields || []);
+        setTags(devData.custom_properties?.tags || []);
       }
 
       if (histRes.ok) {
-        const h = await histRes.json();
-        setHistory(h);
+        const histData = await histRes.json();
+        setHistory(histData);
+      }
+
+      if (presRes.ok) {
+        const presData = await presRes.json();
+        setPresence(presData);
       }
     } catch (e) {
-      console.error("Failed to load device details", e);
+      console.error("Failed to fetch device detail", e);
     } finally {
       setLoading(false);
     }
@@ -139,16 +133,30 @@ export default function DeviceDetailPage() {
   }, [id]);
 
   const toggleLock = (field: string) => {
-    setLockedFields((prev) =>
-      prev.includes(field) ? prev.filter((f) => f !== field) : [...prev, field]
-    );
+    if (lockedFields.includes(field)) {
+      setLockedFields(lockedFields.filter((f) => f !== field));
+    } else {
+      setLockedFields([...lockedFields, field]);
+    }
   };
 
-  const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleAddTag = () => {
+    if (!tagInput.trim()) return;
+    if (!tags.includes(tagInput.trim())) {
+      setTags([...tags, tagInput.trim()]);
+    }
+    setTagInput("");
+  };
+
+  const handleRemoveTag = (t: string) => {
+    setTags(tags.filter((x) => x !== t));
+  };
+
+  const handleSave = async () => {
     setSaving(true);
+    setSaveSuccess(false);
     try {
-      const token = typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") || localStorage.getItem("access_token") : null;
       const headers: Record<string, string> = { "Content-Type": "application/json" };
       if (token) headers["Authorization"] = `Bearer ${token}`;
 
@@ -157,23 +165,25 @@ export default function DeviceDetailPage() {
         headers,
         credentials: "include",
         body: JSON.stringify({
-          name,
+          name: name.trim() || null,
           category,
-          icon,
-          notes,
+          notes: notes.trim() || null,
           is_archived: isArchived,
           locked_fields: lockedFields,
-        }),
+          custom_properties: {
+            ...(device?.custom_properties || {}),
+            tags
+          }
+        })
       });
 
       if (res.ok) {
-        const updated = await res.json();
-        setDevice(updated);
         setSaveSuccess(true);
         setTimeout(() => setSaveSuccess(false), 3000);
+        await fetchDeviceData();
       }
-    } catch (err) {
-      console.error("Save error", err);
+    } catch (e) {
+      console.error("Failed to save device", e);
     } finally {
       setSaving(false);
     }
@@ -181,9 +191,9 @@ export default function DeviceDetailPage() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] text-slate-500">
-        <RefreshCw className="w-6 h-6 animate-spin text-cyan-400 mb-2" />
-        Loading device telemetry...
+      <div className="p-8 text-center text-muted">
+        <RefreshCw className="w-8 h-8 animate-spin mx-auto mb-2 text-accent" />
+        <p className="text-sm">Loading technical telemetry & history...</p>
       </div>
     );
   }
@@ -191,7 +201,7 @@ export default function DeviceDetailPage() {
   if (!device) {
     return (
       <div className="p-8 text-center text-muted">
-        <AlertTriangle className="w-8 h-8 text-amber-500 dark:text-amber-400 mx-auto mb-2" />
+        <AlertTriangle className="w-8 h-8 text-status-warning mx-auto mb-2" />
         <h2 className="text-lg font-semibold text-text">Device Not Found</h2>
         <p className="text-sm mt-1 mb-4">The device record may have been deleted or does not exist.</p>
         <Link href="/devices" className="text-accent hover:underline text-sm">
@@ -204,18 +214,18 @@ export default function DeviceDetailPage() {
   const isOnline = device.status === "online";
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
-      {/* Top Navigation */}
-      <div className="flex items-center justify-between pb-4 border-b border-border">
+    <div className="space-y-4 sm:space-y-6 max-w-7xl mx-auto">
+      {/* Top Navigation Bar */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 sm:pb-4 border-b border-border">
         <Link
           href="/devices"
-          className="flex items-center gap-2 text-sm text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition"
+          className="flex items-center gap-2 text-xs sm:text-sm text-muted hover:text-text transition min-h-[36px]"
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to Device Inventory
+          <span>Back to Device Inventory</span>
         </Link>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
           {saveSuccess && (
             <span className="flex items-center gap-1.5 text-xs text-status-online font-medium">
               <CheckCircle2 className="w-4 h-4" /> Changes saved
@@ -224,7 +234,7 @@ export default function DeviceDetailPage() {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="flex items-center gap-1.5 px-4 py-2 bg-accent hover:bg-accent-hover dark:bg-cyan-600 dark:hover:bg-cyan-500 text-white rounded-lg text-sm font-medium transition shadow-sm"
+            className="w-full sm:w-auto justify-center flex items-center gap-1.5 px-4 py-2 bg-accent hover:bg-accent-hover text-white rounded-lg text-xs sm:text-sm font-medium transition shadow-xs cursor-pointer min-h-[44px] sm:min-h-[36px]"
           >
             <Save className="w-4 h-4" />
             {saving ? "Saving..." : "Save Changes"}
@@ -232,40 +242,42 @@ export default function DeviceDetailPage() {
         </div>
       </div>
 
-      {/* Hero Header */}
-      <div className="bg-surface p-6 rounded-2xl border border-border flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-sm">
-        <div className="flex items-center gap-4">
-          <div className="p-4 rounded-xl bg-hover border border-border/80 text-accent shadow-inner">
-            <Cpu className="w-8 h-8" />
+      {/* Hero Header: Adapts from stacked mobile to side-by-side tablet/desktop */}
+      <div className="bg-surface p-4 sm:p-6 rounded-2xl border border-border flex flex-col md:flex-row items-start md:items-center justify-between gap-4 sm:gap-6 shadow-xs">
+        <div className="flex items-start sm:items-center gap-3 sm:gap-4 min-w-0">
+          <div className="p-3 sm:p-4 rounded-xl bg-hover border border-border text-accent shadow-inner shrink-0">
+            <Cpu className="w-6 h-6 sm:w-8 sm:h-8" />
           </div>
-          <div>
-            <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-bold text-text tracking-tight">{device.name || device.mac}</h1>
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+              <h1 className="text-xl sm:text-2xl font-bold text-text tracking-tight break-all">
+                {device.name || device.mac}
+              </h1>
               <span
                 className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold ${
                   isOnline
-                    ? "bg-emerald-50 dark:bg-status-online/10 text-emerald-700 dark:text-status-online border border-emerald-200 dark:border-emerald-500/20"
+                    ? "bg-status-online/10 text-status-online border border-status-online/20"
                     : "bg-hover text-muted border border-border"
                 }`}
               >
-                <span className={`h-1.5 w-1.5 rounded-full ${isOnline ? "bg-status-online dark:bg-emerald-400 animate-pulse" : "bg-slate-400 dark:bg-slate-500"}`} />
+                <span className={`h-1.5 w-1.5 rounded-full ${isOnline ? "bg-status-online animate-pulse" : "bg-muted"}`} />
                 {device.status.toUpperCase()}
               </span>
               {device.is_archived && (
-                <span className="px-2 py-0.5 rounded-full text-xs bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-500/20">
+                <span className="px-2 py-0.5 rounded-full text-xs bg-status-warning/10 text-status-warning border border-status-warning/20">
                   Archived
                 </span>
               )}
             </div>
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted mt-2 font-mono">
-              <span>MAC: {device.mac}</span>
-              <span>•</span>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted mt-2 font-mono">
+              <span className="break-all">MAC: {device.mac}</span>
+              <span className="hidden sm:inline">•</span>
               <span>IPv4: {device.ipv4 || "—"}</span>
-              <span>•</span>
-              <span>Vendor: {device.vendor || "Unknown"}</span>
+              <span className="hidden sm:inline">•</span>
+              <span className="font-sans">Vendor: {device.vendor || "Unknown"}</span>
               {device.interface && (
                 <>
-                  <span>•</span>
+                  <span className="hidden sm:inline">•</span>
                   <span>Interface: {device.interface}</span>
                 </>
               )}
@@ -273,15 +285,15 @@ export default function DeviceDetailPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 text-xs text-muted bg-background/50 p-4 rounded-xl border border-border/80">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 text-xs text-muted bg-background/50 p-3 sm:p-4 rounded-xl border border-border w-full md:w-auto shrink-0">
           <div>
-            <div className="text-muted">First Seen</div>
+            <div className="text-muted text-[10px] uppercase tracking-wider">First Seen</div>
             <div className="font-medium text-text mt-0.5">
               {new Date(device.first_seen).toLocaleDateString()}
             </div>
           </div>
           <div>
-            <div className="text-muted">Last Seen</div>
+            <div className="text-muted text-[10px] uppercase tracking-wider">Last Seen</div>
             <div className="font-medium text-text mt-0.5">
               {new Date(device.last_seen).toLocaleDateString()} {new Date(device.last_seen).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </div>
@@ -290,11 +302,11 @@ export default function DeviceDetailPage() {
       </div>
 
       {/* Main Grid: Left Column = Edit & Lock, Right Column = Heatmap & History */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
         {/* Left Form: Editable Metadata & Field Locks */}
-        <div className="lg:col-span-5 space-y-6">
-          <div className="bg-surface p-6 rounded-2xl border border-border space-y-5 shadow-sm">
-            <h2 className="text-base font-semibold text-text flex items-center gap-2">
+        <div className="lg:col-span-5 space-y-4 sm:space-y-6">
+          <div className="bg-surface p-4 sm:p-6 rounded-2xl border border-border space-y-4 sm:space-y-5 shadow-xs">
+            <h2 className="text-sm sm:text-base font-semibold text-text flex items-center gap-2">
               <Shield className="w-4 h-4 text-accent" />
               Device Identity & Field Locks
             </h2>
@@ -309,8 +321,8 @@ export default function DeviceDetailPage() {
                 <button
                   type="button"
                   onClick={() => toggleLock("name")}
-                  className={`flex items-center gap-1 text-xs transition ${
-                    lockedFields.includes("name") ? "text-amber-500 dark:text-amber-400" : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+                  className={`flex items-center gap-1 text-xs transition cursor-pointer ${
+                    lockedFields.includes("name") ? "text-amber-500 font-semibold" : "text-muted hover:text-text"
                   }`}
                   title="Toggle field lock"
                 >
@@ -323,7 +335,7 @@ export default function DeviceDetailPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. Master Bedroom Smart TV"
-                className="w-full px-3 py-2 bg-background border border-border rounded-lg text-sm text-text placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-accent transition"
+                className="w-full px-3 py-2 bg-background border border-border rounded-lg text-xs sm:text-sm text-text placeholder-muted focus:outline-none focus:border-accent transition min-h-[38px]"
               />
             </div>
 
@@ -334,8 +346,8 @@ export default function DeviceDetailPage() {
                 <button
                   type="button"
                   onClick={() => toggleLock("category")}
-                  className={`flex items-center gap-1 text-xs transition ${
-                    lockedFields.includes("category") ? "text-amber-500 dark:text-amber-400" : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+                  className={`flex items-center gap-1 text-xs transition cursor-pointer ${
+                    lockedFields.includes("category") ? "text-amber-500 font-semibold" : "text-muted hover:text-text"
                   }`}
                 >
                   {lockedFields.includes("category") ? <Lock className="w-3.5 h-3.5" /> : <Unlock className="w-3.5 h-3.5" />}
@@ -345,152 +357,157 @@ export default function DeviceDetailPage() {
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full px-3 py-2 bg-background border border-border rounded-lg text-sm text-text focus:outline-none focus:border-accent transition"
+                className="w-full px-3 py-2 bg-background border border-border rounded-lg text-xs sm:text-sm text-text focus:outline-none focus:border-accent transition min-h-[38px]"
               >
                 <option value="Mobile">Mobile</option>
-                <option value="Desktop/Laptop">Desktop/Laptop</option>
-                <option value="IoT/Smart Home">IoT/Smart Home</option>
-                <option value="Network/Infrastructure">Network/Infrastructure</option>
+                <option value="Desktop/Laptop">Desktop / Laptop</option>
+                <option value="IoT/Smart Home">IoT / Smart Home</option>
+                <option value="Network/Infrastructure">Network / Infrastructure</option>
                 <option value="Server">Server</option>
-                <option value="Gaming/Media">Gaming/Media</option>
+                <option value="Gaming/Media">Gaming / Media</option>
                 <option value="Unknown">Unknown</option>
               </select>
             </div>
 
-            {/* Notes Field */}
+            {/* Custom Notes */}
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-text">Operator Notes</label>
+              <label className="text-xs font-medium text-text">Administrative Notes</label>
               <textarea
+                rows={3}
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                rows={3}
-                placeholder="Add device location, warranty, or owner details..."
-                className="w-full px-3 py-2 bg-background border border-border rounded-lg text-sm text-text placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-accent transition"
+                placeholder="Add deployment notes, room numbers, rack ID, or VLAN details..."
+                className="w-full px-3 py-2 bg-background border border-border rounded-lg text-xs sm:text-sm text-text placeholder-muted focus:outline-none focus:border-accent transition"
               />
             </div>
 
-            {/* Active / Archive Toggle */}
-            <div className="pt-2 border-t border-border/80 flex items-center justify-between">
+            {/* Tags Input */}
+            <div className="space-y-2">
+              <label className="text-xs font-medium text-text flex items-center gap-1.5">
+                <Tag className="w-3.5 h-3.5 text-accent" />
+                Custom Tags
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={tagInput}
+                  onChange={(e) => setTagInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), handleAddTag())}
+                  placeholder="e.g. static-dhcp, critical-infra"
+                  className="flex-1 px-3 py-1.5 bg-background border border-border rounded-lg text-xs text-text placeholder-muted focus:outline-none focus:border-accent min-h-[36px]"
+                />
+                <button
+                  type="button"
+                  onClick={handleAddTag}
+                  className="px-3 py-1.5 bg-hover hover:bg-border text-text rounded-lg text-xs font-medium border border-border cursor-pointer min-h-[36px]"
+                >
+                  Add
+                </button>
+              </div>
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                {tags.map((t) => (
+                  <span
+                    key={t}
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-hover border border-border text-xs text-text font-medium"
+                  >
+                    #{t}
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveTag(t)}
+                      className="text-muted hover:text-status-critical ml-1 text-sm font-bold"
+                      aria-label={`Remove tag ${t}`}
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Archive Device Toggle */}
+            <div className="pt-2 border-t border-border flex items-center justify-between">
               <div>
-                <div className="text-xs font-medium text-text">Archival Status</div>
-                <div className="text-xs text-slate-500">Archived devices do not trigger missing alerts</div>
+                <span className="text-xs font-medium text-text block">Archive Device</span>
+                <span className="text-[11px] text-muted">Hide from primary active inventory</span>
               </div>
               <button
                 type="button"
                 onClick={() => setIsArchived(!isArchived)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition ${
+                className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold border transition cursor-pointer min-h-[36px] ${
                   isArchived
-                    ? "bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800/60 text-amber-700 dark:text-amber-300"
-                    : "bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border-border text-text"
+                    ? "bg-status-warning/10 border-status-warning/30 text-status-warning"
+                    : "bg-surface border-border text-muted hover:text-text"
                 }`}
               >
-                {isArchived ? "Archived (Soft Deleted)" : "Active"}
+                <Archive className="w-3.5 h-3.5" />
+                {isArchived ? "Archived" : "Active"}
               </button>
             </div>
-          </div>
-
-          {/* Custom Properties / Tags Card */}
-          <div className="bg-surface p-6 rounded-2xl border border-border space-y-4 shadow-sm">
-            <h3 className="text-sm font-semibold text-text flex items-center gap-2">
-              <Tag className="w-4 h-4 text-accent" />
-              Tags & Heuristic Telemetry
-            </h3>
-
-            {/* Tags */}
-            <div className="flex flex-wrap gap-1.5">
-              {((device.custom_properties?.tags as string[]) || []).map((t, idx) => (
-                <span
-                  key={idx}
-                  className="px-2 py-0.5 rounded-md bg-cyan-50 dark:bg-cyan-950/50 border border-cyan-200 dark:border-cyan-800/50 text-cyan-700 dark:text-cyan-300 text-xs font-mono"
-                >
-                  #{t}
-                </span>
-              ))}
-              {(!device.custom_properties?.tags || (device.custom_properties.tags as string[]).length === 0) && (
-                <span className="text-xs text-slate-500">No tags assigned</span>
-              )}
-            </div>
-
-            {/* Confidence & Reasons */}
-            {device.custom_properties?.classification_confidence && (
-              <div className="p-3 rounded-xl bg-background/50 border border-border/80 text-xs space-y-1.5">
-                <div className="text-muted">
-                  Classification Confidence:{" "}
-                  <span className="text-cyan-600 dark:text-cyan-400 font-semibold">
-                    {Math.round((device.custom_properties.classification_confidence || 0) * 100)}%
-                  </span>
-                </div>
-                {device.custom_properties.classification_reasons && (
-                  <ul className="list-disc list-inside text-muted space-y-0.5">
-                    {device.custom_properties.classification_reasons.map((r: string, i: number) => (
-                      <li key={i}>{r}</li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            )}
           </div>
         </div>
 
         {/* Right Column: Hourly Presence Heatmap & Historical Logs */}
-        <div className="lg:col-span-7 space-y-6">
+        <div className="lg:col-span-7 space-y-4 sm:space-y-6">
           {/* 24-Bit Hourly Presence Matrix Heatmap */}
-          <div className="bg-surface p-6 rounded-2xl border border-border space-y-4 shadow-sm">
+          <div className="bg-surface p-4 sm:p-6 rounded-2xl border border-border space-y-3 sm:space-y-4 shadow-xs">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-semibold text-text flex items-center gap-2">
+                <h3 className="text-xs sm:text-sm font-semibold text-text flex items-center gap-2">
                   <Calendar className="w-4 h-4 text-accent" />
                   24-Hour Presence Matrix (Past 7 Days)
                 </h3>
-                <p className="text-xs text-muted mt-0.5">
+                <p className="text-[11px] sm:text-xs text-muted mt-0.5">
                   Bitmap matrix of observed device online connectivity per hour.
                 </p>
               </div>
             </div>
 
             {presence.length === 0 ? (
-              <div className="py-8 text-center text-xs text-slate-500">
+              <div className="py-8 text-center text-xs text-muted">
                 No presence timeline data recorded yet.
               </div>
             ) : (
-              <div className="space-y-3 pt-2">
-                {/* Hour indicator row */}
-                <div className="grid grid-cols-24 gap-1 text-[9px] text-muted font-mono text-center pl-24">
-                  {[0, 3, 6, 9, 12, 15, 18, 21].map((h) => (
-                    <div key={h} className="col-span-3 text-left">
-                      {h}:00
+              <div className="space-y-2 sm:space-y-3 pt-2 overflow-x-auto">
+                {/* Min-width container guarantees bitmap does not crush on 320px mobile */}
+                <div className="min-w-[420px]">
+                  {/* Hour indicator row */}
+                  <div className="grid grid-cols-24 gap-1 text-[9px] text-muted font-mono text-center pl-20 sm:pl-24 mb-1">
+                    {[0, 3, 6, 9, 12, 15, 18, 21].map((h) => (
+                      <div key={h} className="col-span-3 text-left">
+                        {h}:00
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Day rows */}
+                  {presence.map((day) => (
+                    <div key={day.date} className="flex items-center gap-2 sm:gap-3 py-0.5">
+                      <span className="w-16 sm:w-20 text-[11px] sm:text-xs text-muted font-mono shrink-0">
+                        {day.date}
+                      </span>
+                      <div className="flex-1 grid grid-cols-24 gap-1">
+                        {day.hours.map((isOnlineHour, hourIdx) => (
+                          <div
+                            key={hourIdx}
+                            title={`${day.date} at ${hourIdx}:00 - ${isOnlineHour ? "Online" : "Offline"}`}
+                            className={`h-4 sm:h-5 rounded-xs sm:rounded-sm transition-colors ${
+                              isOnlineHour
+                                ? "bg-status-online hover:opacity-80"
+                                : "bg-hover hover:bg-border"
+                            }`}
+                          />
+                        ))}
+                      </div>
                     </div>
                   ))}
                 </div>
-
-                {/* Day rows */}
-                {presence.map((day) => (
-                  <div key={day.date} className="flex items-center gap-3">
-                    <span className="w-20 text-xs text-muted font-mono flex-shrink-0">
-                      {day.date}
-                    </span>
-                    <div className="flex-1 grid grid-cols-24 gap-1">
-                      {day.hours.map((isOnlineHour, hourIdx) => (
-                        <div
-                          key={hourIdx}
-                          title={`${day.date} at ${hourIdx}:00 - ${isOnlineHour ? "Online" : "Offline"}`}
-                          className={`h-5 rounded-sm transition-colors ${
-                            isOnlineHour
-                              ? "bg-status-online hover:bg-emerald-400"
-                              : "bg-slate-200 dark:bg-slate-800/80 hover:bg-slate-300 dark:hover:bg-slate-700"
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                ))}
               </div>
             )}
           </div>
 
           {/* IP History Log & Sessions */}
-          <div className="bg-surface p-6 rounded-2xl border border-border space-y-4 shadow-sm">
-            <h3 className="text-sm font-semibold text-text flex items-center gap-2">
+          <div className="bg-surface p-4 sm:p-6 rounded-2xl border border-border space-y-4 shadow-xs">
+            <h3 className="text-xs sm:text-sm font-semibold text-text flex items-center gap-2">
               <History className="w-4 h-4 text-accent" />
               Historical IP Assignments & Session Durations
             </h3>
@@ -508,7 +525,7 @@ export default function DeviceDetailPage() {
                   </span>
                 ))}
                 {(!history || history.ip_history.length === 0) && (
-                  <span className="text-xs text-slate-500 font-mono">No IP history recorded</span>
+                  <span className="text-xs text-muted font-mono">No IP history recorded</span>
                 )}
               </div>
             </div>
@@ -518,32 +535,32 @@ export default function DeviceDetailPage() {
               <div className="text-xs font-medium text-text mb-2">Recent Sessions</div>
               <div className="overflow-x-auto rounded-lg border border-border bg-background">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-hover/90 text-muted border-b border-border">
+                  <thead className="bg-hover text-muted border-b border-border">
                     <tr>
-                      <th className="px-3 py-2">Session Start</th>
-                      <th className="px-3 py-2">Session End</th>
-                      <th className="px-3 py-2">Duration</th>
-                      <th className="px-3 py-2">State</th>
+                      <th className="px-3 py-2 whitespace-nowrap">Session Start</th>
+                      <th className="px-3 py-2 whitespace-nowrap">Session End</th>
+                      <th className="px-3 py-2 whitespace-nowrap">Duration</th>
+                      <th className="px-3 py-2 whitespace-nowrap">State</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border/60 text-text font-mono">
                     {history?.sessions.slice(0, 5).map((s) => (
-                      <tr key={s.id} className="hover:bg-slate-100/60 dark:hover:bg-slate-900/50">
-                        <td className="px-3 py-2">{new Date(s.start).toLocaleString()}</td>
-                        <td className="px-3 py-2">
+                      <tr key={s.id} className="hover:bg-hover transition">
+                        <td className="px-3 py-2 whitespace-nowrap">{new Date(s.start).toLocaleString()}</td>
+                        <td className="px-3 py-2 whitespace-nowrap">
                           {s.end ? new Date(s.end).toLocaleString() : "—"}
                         </td>
-                        <td className="px-3 py-2 text-accent font-semibold">
+                        <td className="px-3 py-2 text-accent font-semibold whitespace-nowrap">
                           {s.duration_seconds
                             ? `${Math.round(s.duration_seconds / 60)} mins`
                             : "Active"}
                         </td>
-                        <td className="px-3 py-2">
+                        <td className="px-3 py-2 whitespace-nowrap">
                           <span
                             className={`px-1.5 py-0.5 rounded text-[10px] ${
                               s.is_active
-                                ? "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60"
-                                : "bg-slate-200 dark:bg-slate-800 text-muted"
+                                ? "bg-status-online/10 text-status-online border border-status-online/20"
+                                : "bg-hover text-muted"
                             }`}
                           >
                             {s.is_active ? "Active" : "Closed"}
@@ -553,7 +570,7 @@ export default function DeviceDetailPage() {
                     ))}
                     {(!history || history.sessions.length === 0) && (
                       <tr>
-                        <td colSpan={4} className="px-3 py-4 text-center text-slate-500">
+                        <td colSpan={4} className="px-3 py-4 text-center text-muted">
                           No sessions logged yet.
                         </td>
                       </tr>
@@ -570,13 +587,13 @@ export default function DeviceDetailPage() {
                 {history?.events.map((evt) => (
                   <div
                     key={evt.id}
-                    className="p-2 rounded bg-background/70 border border-border/80 flex items-center justify-between text-xs"
+                    className="p-2 rounded bg-background border border-border flex flex-col sm:flex-row sm:items-center justify-between text-xs gap-1"
                   >
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold text-accent font-mono">{evt.event_type}</span>
-                      <span className="text-muted">{JSON.stringify(evt.payload)}</span>
+                    <div className="flex items-center gap-2 truncate">
+                      <span className="font-semibold text-accent font-mono shrink-0">{evt.event_type}</span>
+                      <span className="text-muted truncate">{JSON.stringify(evt.payload)}</span>
                     </div>
-                    <span className="text-[10px] text-muted font-mono flex-shrink-0">
+                    <span className="text-[10px] text-muted font-mono shrink-0 self-end sm:self-auto">
                       {new Date(evt.timestamp).toLocaleTimeString()}
                     </span>
                   </div>

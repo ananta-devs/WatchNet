@@ -7,7 +7,6 @@ import {
   useReactTable,
   getCoreRowModel,
   getSortedRowModel,
-  getFilteredRowModel,
   getPaginationRowModel,
   flexRender,
   ColumnDef,
@@ -15,11 +14,9 @@ import {
 } from "@tanstack/react-table";
 import {
   Search,
-  Filter,
   CheckSquare,
   Square,
   Lock,
-  Unlock,
   Archive,
   RefreshCw,
   Smartphone,
@@ -29,12 +26,8 @@ import {
   Server,
   Tv,
   HelpCircle,
-  Tag,
-  FolderSync,
   ChevronRight,
-  ExternalLink,
   ChevronLeft,
-  ChevronDown,
   Clock,
   ArrowUpDown
 } from "lucide-react";
@@ -71,7 +64,7 @@ const CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: string }>
 
 export default function DeviceInventoryPage() {
   return (
-    <Suspense fallback={<div className="p-6 text-slate-400">Loading devices...</div>}>
+    <Suspense fallback={<div className="p-6 text-muted">Loading devices...</div>}>
       <DeviceInventoryContent />
     </Suspense>
   );
@@ -100,23 +93,25 @@ function DeviceInventoryContent() {
   const fetchDevices = async () => {
     setLoading(true);
     try {
-      const token = typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") || localStorage.getItem("access_token") : null;
       const headers: Record<string, string> = {};
       if (token) headers["Authorization"] = `Bearer ${token}`;
 
-      let url = `/api/v1/devices?limit=1000&paginate=true&is_archived=${showArchived}`;
+      let url = "/api/v1/devices?limit=100&paginate=true";
       if (statusFilter !== "all") url += `&status=${statusFilter}`;
       if (categoryFilter !== "all") url += `&category=${encodeURIComponent(categoryFilter)}`;
-      if (siteFilter !== "all") url += `&site_id=${encodeURIComponent(siteFilter)}`;
-      if (search.trim()) url += `&search=${encodeURIComponent(search.trim())}`;
+      if (siteFilter !== "all") url += `&site_id=${siteFilter}`;
+      if (showArchived) url += `&include_archived=true`;
+      if (search) url += `&query=${encodeURIComponent(search)}`;
 
-      const res = await fetch(url, { credentials: "include", headers });
+      const res = await fetch(url, { headers, credentials: "include" });
       if (res.ok) {
         const data = await res.json();
-        setDevices(data.devices || []);
+        const devList = Array.isArray(data) ? data : data.devices || [];
+        setDevices(devList);
       }
     } catch (e) {
-      console.error("Failed to load device inventory", e);
+      console.error("Failed to fetch devices", e);
     } finally {
       setLoading(false);
     }
@@ -127,13 +122,14 @@ function DeviceInventoryContent() {
       const token = typeof window !== "undefined" ? localStorage.getItem("token") || localStorage.getItem("access_token") : null;
       const headers: Record<string, string> = {};
       if (token) headers["Authorization"] = `Bearer ${token}`;
-      const res = await fetch("/api/v1/sync/nodes", { headers });
+
+      const res = await fetch("/api/v1/sync/nodes", { headers, credentials: "include" });
       if (res.ok) {
         const data = await res.json();
-        setSites(data);
+        setSites(Array.isArray(data) ? data : []);
       }
-    } catch {
-      // Sites load fallback
+    } catch (e) {
+      console.error("Failed to fetch sites", e);
     }
   };
 
@@ -207,7 +203,8 @@ function DeviceInventoryContent() {
         header: ({ table }) => (
           <button
             onClick={table.getToggleAllRowsSelectedHandler()}
-            className="text-slate-400 hover:text-white"
+            className="text-muted hover:text-text cursor-pointer p-1"
+            aria-label="Select all"
           >
             {table.getIsAllRowsSelected() ? (
               <CheckSquare className="w-4 h-4 text-accent" />
@@ -219,7 +216,8 @@ function DeviceInventoryContent() {
         cell: ({ row }) => (
           <button
             onClick={row.getToggleSelectedHandler()}
-            className="text-slate-400 hover:text-white"
+            className="text-muted hover:text-text cursor-pointer p-1"
+            aria-label="Select row"
           >
             {row.getIsSelected() ? (
               <CheckSquare className="w-4 h-4 text-accent" />
@@ -238,15 +236,15 @@ function DeviceInventoryContent() {
             <div className="flex items-center gap-2">
               <span className="relative flex h-2.5 w-2.5">
                 {isOnline && (
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-status-online opacity-75" />
                 )}
                 <span
                   className={`relative inline-flex rounded-full h-2.5 w-2.5 ${
-                    isOnline ? "bg-status-online" : "bg-slate-600"
+                    isOnline ? "bg-status-online" : "bg-muted"
                   }`}
                 />
               </span>
-              <span className={`text-xs font-medium uppercase tracking-wider ${isOnline ? "text-status-online" : "text-slate-400"}`}>
+              <span className={`text-xs font-medium uppercase tracking-wider ${isOnline ? "text-status-online" : "text-muted"}`}>
                 {row.original.status}
               </span>
             </div>
@@ -261,22 +259,22 @@ function DeviceInventoryContent() {
           const isLocked = (row.original.locked_fields || []).includes("name");
           return (
             <div className="flex items-center gap-2.5">
-              <div className="p-1.5 rounded-lg bg-hover border border-border text-accent">
+              <div className="p-1.5 rounded-lg bg-hover border border-border text-accent shrink-0">
                 <IconComponent className="w-4 h-4" />
               </div>
               <div className="flex flex-col min-w-0">
                 <Link
                   href={`/devices/${row.original.id}`}
-                  className="font-medium text-slate-900 hover:text-indigo-600 dark:text-slate-200 dark:hover:text-cyan-400 truncate flex items-center gap-1.5"
+                  className="font-medium text-text hover:text-accent truncate flex items-center gap-1.5"
                 >
-                  {row.original.name || "(Unnamed Device)"}
+                  <span className="truncate">{row.original.name || "(Unnamed Device)"}</span>
                   {isLocked && (
                     <span title="Name locked against automated overwrite">
-                      <Lock className="w-3 h-3 text-amber-400 flex-shrink-0" />
+                      <Lock className="w-3 h-3 text-amber-500 shrink-0" />
                     </span>
                   )}
                 </Link>
-                <span className="text-xs text-slate-500 font-mono">{row.original.mac}</span>
+                <span className="text-xs text-muted font-mono truncate">{row.original.mac}</span>
               </div>
             </div>
           );
@@ -286,12 +284,12 @@ function DeviceInventoryContent() {
         accessorKey: "ipv4",
         header: "IP Address",
         cell: ({ row }) => (
-          <div className="flex flex-col">
-            <span className="text-sm font-mono text-slate-300">
+          <div className="flex flex-col font-mono text-xs">
+            <span className="text-text">
               {row.original.ipv4 || "—"}
             </span>
             {row.original.interface && (
-              <span className="text-xs text-slate-500 font-mono">
+              <span className="text-[11px] text-muted">
                 {row.original.interface}
               </span>
             )}
@@ -306,12 +304,12 @@ function DeviceInventoryContent() {
           const isLocked = (row.original.locked_fields || []).includes("category");
           return (
             <div className="flex items-center gap-1.5">
-              <span className="px-2 py-0.5 text-xs rounded-full bg-hover border border-border text-text">
+              <span className="px-2 py-0.5 text-xs rounded-full bg-hover border border-border text-text whitespace-nowrap">
                 {cat}
               </span>
               {isLocked && (
                 <span title="Category locked">
-                  <Lock className="w-3 h-3 text-amber-400" />
+                  <Lock className="w-3 h-3 text-amber-500 shrink-0" />
                 </span>
               )}
             </div>
@@ -332,7 +330,7 @@ function DeviceInventoryContent() {
         header: ({ column }) => (
           <button
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            className="flex items-center gap-1 hover:text-slate-900 dark:hover:text-white"
+            className="flex items-center gap-1 hover:text-text cursor-pointer"
           >
             Last Seen
             <ArrowUpDown className="w-3.5 h-3.5" />
@@ -341,8 +339,8 @@ function DeviceInventoryContent() {
         cell: ({ row }) => {
           const date = new Date(row.original.last_seen);
           return (
-            <div className="flex items-center gap-1.5 text-xs text-slate-400">
-              <Clock className="w-3.5 h-3.5 text-slate-500" />
+            <div className="flex items-center gap-1.5 text-xs text-muted whitespace-nowrap">
+              <Clock className="w-3.5 h-3.5 text-muted shrink-0" />
               <span>{date.toLocaleDateString()} {date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
             </div>
           );
@@ -354,8 +352,9 @@ function DeviceInventoryContent() {
         cell: ({ row }) => (
           <Link
             href={`/devices/${row.original.id}`}
-            className="p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-accent transition"
+            className="p-1.5 rounded hover:bg-hover text-muted hover:text-accent transition flex items-center justify-center min-w-[32px] min-h-[32px]"
             title="Inspect device telemetry & presence"
+            aria-label="Inspect device details"
           >
             <ChevronRight className="w-4 h-4" />
           </Link>
@@ -386,24 +385,24 @@ function DeviceInventoryContent() {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header bar */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-border">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 pb-3 sm:pb-4 border-b border-border">
         <div>
-          <h1 className="text-2xl font-bold text-text tracking-tight flex items-center gap-2.5">
-            <Smartphone className="w-6 h-6 text-accent" />
-            Device Inventory & Historical Intelligence
+          <h1 className="text-xl sm:text-2xl font-bold text-text tracking-tight flex items-center gap-2 sm:gap-2.5">
+            <Smartphone className="w-5 h-5 sm:w-6 sm:h-6 text-accent shrink-0" />
+            <span>Device Inventory & Historical Intelligence</span>
           </h1>
-          <p className="text-sm text-muted mt-1">
+          <p className="text-xs sm:text-sm text-muted mt-1">
             Real-time multi-signal device registry with field locks, OUI manufacturer resolution, and presence analysis.
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
           <button
             onClick={() => fetchDevices()}
             disabled={loading}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white hover:bg-hover dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-border shadow-sm text-sm font-medium transition"
+            className="w-full sm:w-auto justify-center flex items-center gap-1.5 px-3.5 py-2 sm:py-1.5 rounded-lg bg-surface hover:bg-hover text-text border border-border shadow-xs text-xs sm:text-sm font-medium transition cursor-pointer min-h-[40px] sm:min-h-[36px]"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin text-accent" : ""}`} />
             Refresh
@@ -412,17 +411,17 @@ function DeviceInventoryContent() {
       </div>
 
       {/* Filter and Search toolbar */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-3 bg-surface p-4 rounded-xl border border-border shadow-sm">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-2.5 sm:gap-3 bg-surface p-3 sm:p-4 rounded-xl border border-border shadow-xs">
         {/* Search */}
-        <div className="md:col-span-3 relative">
-          <Search className="w-4 h-4 text-slate-500 absolute left-3 top-3" />
+        <div className="sm:col-span-2 md:col-span-3 relative">
+          <Search className="w-4 h-4 text-muted absolute left-3 top-2.5 sm:top-3" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             onKeyDown={handleSearchKeyDown}
             placeholder="Search MAC, IP, vendor... (Enter)"
-            className="w-full pl-9 pr-4 py-2 bg-background border border-border rounded-lg text-sm text-text placeholder-slate-500 focus:outline-none focus:border-accent transition"
+            className="w-full pl-9 pr-3 py-2 bg-background border border-border rounded-lg text-xs sm:text-sm text-text placeholder-muted focus:outline-none focus:border-accent transition min-h-[38px]"
           />
         </div>
 
@@ -431,7 +430,7 @@ function DeviceInventoryContent() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full px-3 py-2 bg-background border border-border rounded-lg text-sm text-text focus:outline-none focus:border-accent transition"
+            className="w-full px-3 py-2 bg-background border border-border rounded-lg text-xs sm:text-sm text-text focus:outline-none focus:border-accent transition min-h-[38px]"
           >
             <option value="all">All Statuses</option>
             <option value="online">Online</option>
@@ -444,7 +443,7 @@ function DeviceInventoryContent() {
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="w-full px-3 py-2 bg-background border border-border rounded-lg text-sm text-text focus:outline-none focus:border-accent transition"
+            className="w-full px-3 py-2 bg-background border border-border rounded-lg text-xs sm:text-sm text-text focus:outline-none focus:border-accent transition min-h-[38px]"
           >
             <option value="all">All Categories</option>
             <option value="Mobile">Mobile</option>
@@ -462,7 +461,7 @@ function DeviceInventoryContent() {
           <select
             value={siteFilter}
             onChange={(e) => setSiteFilter(e.target.value)}
-            className="w-full px-3 py-2 bg-background border border-border rounded-lg text-sm text-text focus:outline-none focus:border-accent transition"
+            className="w-full px-3 py-2 bg-background border border-border rounded-lg text-xs sm:text-sm text-text focus:outline-none focus:border-accent transition min-h-[38px]"
           >
             <option value="all">All Sites / Hubs</option>
             {sites.map((s) => (
@@ -474,36 +473,36 @@ function DeviceInventoryContent() {
         </div>
 
         {/* Archival toggle */}
-        <div className="md:col-span-3 flex items-center justify-end">
-          <label className="flex items-center gap-2 cursor-pointer text-sm text-text">
+        <div className="sm:col-span-2 md:col-span-3 flex items-center justify-start md:justify-end">
+          <label className="flex items-center gap-2 cursor-pointer text-xs sm:text-sm text-text py-1">
             <input
               type="checkbox"
               checked={showArchived}
               onChange={(e) => setShowArchived(e.target.checked)}
-              className="rounded bg-white dark:bg-slate-950 border-slate-300 dark:border-slate-800 text-cyan-500 focus:ring-0"
+              className="rounded bg-background border-border text-accent focus:ring-0"
             />
-            Show Archived Devices
+            <span>Show Archived Devices</span>
           </label>
         </div>
       </div>
 
       {/* Bulk Action Bar */}
       {selectedDeviceIds.length > 0 && (
-        <div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-cyan-50 dark:bg-cyan-950/30 border border-cyan-200 dark:border-cyan-800/60 rounded-xl animate-in fade-in">
+        <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center justify-between gap-3 p-3 bg-accent/10 border border-accent/30 rounded-xl">
           <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-700 dark:text-cyan-300 text-xs font-semibold">
+            <span className="px-2 py-0.5 rounded bg-accent/20 text-accent text-xs font-semibold">
               {selectedDeviceIds.length} Selected
             </span>
             <span className="text-xs text-muted">Batch operations:</span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
             {/* Categorize */}
             <div className="flex items-center gap-1">
               <select
                 value={bulkCategory}
                 onChange={(e) => setBulkCategory(e.target.value)}
-                className="px-2 py-1 bg-surface border border-slate-300 dark:border-slate-700 rounded text-xs text-text"
+                className="px-2 py-1 bg-surface border border-border rounded text-xs text-text"
               >
                 <option value="">Category...</option>
                 <option value="Mobile">Mobile</option>
@@ -516,7 +515,7 @@ function DeviceInventoryContent() {
               <button
                 disabled={!bulkCategory || bulkProcessing}
                 onClick={() => handleBulkAction("categorize")}
-                className="px-2 py-1 rounded bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-white text-xs font-medium"
+                className="px-2.5 py-1 rounded bg-accent hover:bg-accent-hover disabled:opacity-50 text-white text-xs font-medium cursor-pointer"
               >
                 Apply
               </button>
@@ -529,12 +528,12 @@ function DeviceInventoryContent() {
                 placeholder="Add tag..."
                 value={bulkTag}
                 onChange={(e) => setBulkTag(e.target.value)}
-                className="px-2 py-1 bg-surface border border-slate-300 dark:border-slate-700 rounded text-xs text-text w-24"
+                className="px-2 py-1 bg-surface border border-border rounded text-xs text-text w-24"
               />
               <button
                 disabled={!bulkTag || bulkProcessing}
                 onClick={() => handleBulkAction("tag")}
-                className="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 disabled:opacity-50 text-text text-xs font-medium border border-border"
+                className="px-2.5 py-1 rounded bg-hover hover:bg-border disabled:opacity-50 text-text text-xs font-medium border border-border cursor-pointer"
               >
                 Tag
               </button>
@@ -545,7 +544,7 @@ function DeviceInventoryContent() {
               <button
                 disabled={bulkProcessing}
                 onClick={() => handleBulkAction("archive")}
-                className="flex items-center gap-1 px-2.5 py-1 rounded bg-rose-950/40 hover:bg-rose-900/60 border border-rose-800/50 text-rose-300 text-xs font-medium"
+                className="flex items-center gap-1 px-2.5 py-1 rounded bg-status-critical/10 hover:bg-status-critical/20 border border-status-critical/30 text-status-critical text-xs font-medium cursor-pointer"
               >
                 <Archive className="w-3.5 h-3.5" />
                 Archive
@@ -554,7 +553,7 @@ function DeviceInventoryContent() {
               <button
                 disabled={bulkProcessing}
                 onClick={() => handleBulkAction("unarchive")}
-                className="flex items-center gap-1 px-2.5 py-1 rounded bg-emerald-950/40 hover:bg-emerald-900/60 border border-emerald-800/50 text-emerald-300 text-xs font-medium"
+                className="flex items-center gap-1 px-2.5 py-1 rounded bg-status-online/10 hover:bg-status-online/20 border border-status-online/30 text-status-online text-xs font-medium cursor-pointer"
               >
                 <RefreshCw className="w-3.5 h-3.5" />
                 Restore
@@ -564,12 +563,109 @@ function DeviceInventoryContent() {
         </div>
       )}
 
-      {/* Devices TanStack Table */}
-      <div className="overflow-x-auto rounded-xl border border-border bg-surface/40 shadow-sm">
+      {/* Mobile Card List View (Visible on small screens < md) */}
+      <div className="block md:hidden space-y-3">
+        {loading ? (
+          <div className="p-8 text-center text-xs text-muted bg-surface rounded-xl border border-border">
+            <RefreshCw className="w-5 h-5 animate-spin mx-auto mb-2 text-accent" />
+            Loading devices...
+          </div>
+        ) : devices.length === 0 ? (
+          <div className="p-8 text-center text-xs text-muted bg-surface rounded-xl border border-border">
+            No devices found matching your criteria.
+          </div>
+        ) : (
+          table.getRowModel().rows.map((row) => {
+            const dev = row.original;
+            const IconComponent = CATEGORY_ICONS[dev.category] || HelpCircle;
+            const isOnline = dev.status === "online";
+            const isLocked = (dev.locked_fields || []).includes("name");
+            const isSelected = row.getIsSelected();
+
+            return (
+              <div
+                key={dev.id}
+                className={`p-3.5 rounded-xl border transition-all ${
+                  isSelected ? "bg-accent/10 border-accent/40" : "bg-surface border-border shadow-xs"
+                }`}
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <button
+                      onClick={row.getToggleSelectedHandler()}
+                      className="text-muted hover:text-text cursor-pointer p-0.5"
+                      aria-label="Select row"
+                    >
+                      {isSelected ? (
+                        <CheckSquare className="w-4 h-4 text-accent" />
+                      ) : (
+                        <Square className="w-4 h-4" />
+                      )}
+                    </button>
+                    <div className="p-1.5 rounded-lg bg-hover border border-border text-accent shrink-0">
+                      <IconComponent className="w-4 h-4" />
+                    </div>
+                    <div className="min-w-0">
+                      <Link
+                        href={`/devices/${dev.id}`}
+                        className="font-semibold text-sm text-text hover:text-accent truncate flex items-center gap-1.5"
+                      >
+                        <span className="truncate">{dev.name || "(Unnamed Device)"}</span>
+                        {isLocked && <Lock className="w-3 h-3 text-amber-500 shrink-0" />}
+                      </Link>
+                      <span className="text-[11px] text-muted font-mono truncate block">{dev.mac}</span>
+                    </div>
+                  </div>
+
+                  <span
+                    className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold shrink-0 uppercase tracking-wider ${
+                      isOnline
+                        ? "bg-status-online/10 text-status-online border border-status-online/20"
+                        : "bg-muted/10 text-muted border border-border"
+                    }`}
+                  >
+                    <span className={`w-1.5 h-1.5 rounded-full ${isOnline ? "bg-status-online" : "bg-muted"}`} />
+                    {dev.status}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 mt-3 pt-2.5 border-t border-border/80 text-xs font-mono">
+                  <div>
+                    <span className="text-[10px] text-muted uppercase tracking-wider block font-sans">IP Address</span>
+                    <span className="text-text font-medium">{dev.ipv4 || "—"}</span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-muted uppercase tracking-wider block font-sans">Vendor</span>
+                    <span className="text-text truncate block font-sans">{dev.vendor || "Unknown"}</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between mt-2.5 pt-2 border-t border-border/60 text-xs">
+                  <div className="flex items-center gap-1.5">
+                    <span className="px-2 py-0.5 rounded bg-hover border border-border text-[10px] text-text font-medium">
+                      {dev.category}
+                    </span>
+                  </div>
+                  <Link
+                    href={`/devices/${dev.id}`}
+                    className="text-accent hover:underline text-xs font-medium flex items-center gap-1 min-h-[36px]"
+                  >
+                    <span>View Details</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              </div>
+            );
+          })
+        )}
+      </div>
+
+      {/* Desktop TanStack Table (Hidden on small mobile screens) */}
+      <div className="hidden md:block overflow-x-auto rounded-xl border border-border bg-surface shadow-xs">
         <table className="w-full text-left border-collapse text-sm">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id} className="border-b border-border bg-slate-50 dark:bg-slate-900/80 text-muted font-medium">
+              <tr key={headerGroup.id} className="border-b border-border bg-hover/50 text-muted font-medium">
                 {headerGroup.headers.map((header) => (
                   <th key={header.id} className="px-4 py-3 text-xs uppercase tracking-wider font-semibold">
                     {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
@@ -578,17 +674,17 @@ function DeviceInventoryContent() {
               </tr>
             ))}
           </thead>
-          <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
+          <tbody className="divide-y divide-border/60">
             {loading ? (
               <tr>
-                <td colSpan={columns.length} className="px-4 py-8 text-center text-slate-500">
+                <td colSpan={columns.length} className="px-4 py-8 text-center text-muted">
                   <RefreshCw className="w-5 h-5 animate-spin mx-auto mb-2 text-accent" />
                   Loading devices...
                 </td>
               </tr>
             ) : table.getRowModel().rows.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} className="px-4 py-12 text-center text-slate-500">
+                <td colSpan={columns.length} className="px-4 py-12 text-center text-muted">
                   No devices found matching your criteria.
                 </td>
               </tr>
@@ -596,8 +692,8 @@ function DeviceInventoryContent() {
               table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
-                  className={`hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors ${
-                    row.getIsSelected() ? "bg-cyan-950/20" : ""
+                  className={`hover:bg-hover transition-colors ${
+                    row.getIsSelected() ? "bg-accent/10" : ""
                   }`}
                 >
                   {row.getVisibleCells().map((cell) => (
@@ -613,7 +709,7 @@ function DeviceInventoryContent() {
       </div>
 
       {/* Pagination Controls */}
-      <div className="flex items-center justify-between px-2 text-xs text-slate-400">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-2 text-xs text-muted">
         <div>
           Showing {table.getRowModel().rows.length} of {devices.length} devices
         </div>
@@ -621,18 +717,18 @@ function DeviceInventoryContent() {
           <button
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
-            className="flex items-center gap-1 px-3 py-1 rounded bg-white hover:bg-hover dark:hover:bg-slate-700 disabled:opacity-50 text-slate-700 dark:text-slate-200 border border-border"
+            className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface hover:bg-hover disabled:opacity-50 text-text border border-border cursor-pointer min-h-[36px]"
           >
             <ChevronLeft className="w-3.5 h-3.5" />
             Previous
           </button>
-          <span>
+          <span className="px-1 font-medium">
             Page {table.getState().pagination.pageIndex + 1} of {Math.max(1, table.getPageCount())}
           </span>
           <button
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
-            className="flex items-center gap-1 px-3 py-1 rounded bg-white hover:bg-hover dark:hover:bg-slate-700 disabled:opacity-50 text-slate-700 dark:text-slate-200 border border-border"
+            className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface hover:bg-hover disabled:opacity-50 text-text border border-border cursor-pointer min-h-[36px]"
           >
             Next
             <ChevronRight className="w-3.5 h-3.5" />

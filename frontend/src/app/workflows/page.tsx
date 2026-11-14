@@ -456,21 +456,21 @@ export default function WorkflowsPage() {
 
       {/* Modal: Rule Builder */}
       {showBuilder && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xs p-4">
-          <div className="bg-surface border border-border rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 shadow-2xl">
-            <div className="flex items-center justify-between pb-4 border-b border-border">
-              <h2 className="text-lg font-bold text-text flex items-center gap-2">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xs p-2 sm:p-4" role="dialog" aria-modal="true">
+          <div className="bg-surface border border-border rounded-2xl w-full max-w-2xl max-h-[92vh] overflow-y-auto p-4 sm:p-6 shadow-2xl">
+            <div className="flex items-center justify-between pb-3 sm:pb-4 border-b border-border">
+              <h2 className="text-base sm:text-lg font-bold text-text flex items-center gap-2">
                 <GitBranch className="w-5 h-5 text-accent" />
                 Workflow Rule Builder
               </h2>
-              <button onClick={() => setShowBuilder(false)} className="text-slate-400 hover:text-slate-700 dark:hover:text-white">
+              <button onClick={() => setShowBuilder(false)} className="text-muted hover:text-text cursor-pointer p-1">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleCreateRule} className="space-y-6 mt-4">
+            <form onSubmit={handleCreateRule} className="space-y-4 sm:space-y-6 mt-4">
               {/* Basic Rule Info */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                 <div>
                   <label className="block text-xs font-medium text-text mb-1">Rule Name</label>
                   <input
@@ -479,7 +479,7 @@ export default function WorkflowsPage() {
                     placeholder="e.g. Notify on Unknown IoT Device"
                     value={ruleName}
                     onChange={(e) => setRuleName(e.target.value)}
-                    className="w-full bg-background border border-border rounded-lg px-3 py-2 text-sm text-text placeholder-slate-400 focus:outline-hidden focus:border-sky-500"
+                    className="w-full bg-background border border-border rounded-lg px-3 py-2 text-xs sm:text-sm text-text placeholder-muted focus:outline-hidden focus:border-accent min-h-[38px]"
                   />
                 </div>
                 <div>
@@ -487,7 +487,7 @@ export default function WorkflowsPage() {
                   <select
                     value={triggerEvent}
                     onChange={(e) => setTriggerEvent(e.target.value)}
-                    className="w-full bg-background border border-border rounded-lg px-3 py-2 text-sm text-text focus:outline-hidden focus:border-sky-500"
+                    className="w-full bg-background border border-border rounded-lg px-3 py-2 text-xs sm:text-sm text-text focus:outline-hidden focus:border-accent min-h-[38px]"
                   >
                     {TRIGGER_EVENTS.map((t) => (
                       <option key={t.id} value={t.id}>
@@ -518,11 +518,11 @@ export default function WorkflowsPage() {
                   <p className="text-xs text-slate-500 italic">No conditions added (triggers on every event)</p>
                 ) : (
                   conditions.map((c, idx) => (
-                    <div key={idx} className="flex items-center gap-2 bg-surface p-2.5 rounded-lg border border-border">
+                    <div key={idx} className="flex flex-col sm:flex-row sm:items-center gap-2 bg-surface p-2.5 rounded-lg border border-border">
                       <select
                         value={c.type}
                         onChange={(e) => updateCondition(idx, "type", e.target.value)}
-                        className="bg-background border border-border rounded px-2 py-1 text-xs text-text"
+                        className="bg-background border border-border rounded px-2 py-1.5 text-xs text-text min-h-[36px]"
                       >
                         {CONDITION_TYPES.map((ct) => (
                           <option key={ct.id} value={ct.id}>
@@ -537,21 +537,21 @@ export default function WorkflowsPage() {
                             type="time"
                             value={c.start || "08:00"}
                             onChange={(e) => updateCondition(idx, "start", e.target.value)}
-                            className="bg-background border border-border rounded px-2 py-1 text-xs text-text"
+                            className="bg-background border border-border rounded px-2 py-1.5 text-xs text-text min-h-[36px]"
                           />
-                          <span className="text-slate-500 text-xs">to</span>
+                          <span className="text-muted text-xs">to</span>
                           <input
                             type="time"
                             value={c.end || "18:00"}
                             onChange={(e) => updateCondition(idx, "end", e.target.value)}
-                            className="bg-background border border-border rounded px-2 py-1 text-xs text-text"
+                            className="bg-background border border-border rounded px-2 py-1.5 text-xs text-text min-h-[36px]"
                           />
                         </div>
                       ) : c.type === "is_randomized_mac" ? (
                         <select
                           value={c.value || "true"}
                           onChange={(e) => updateCondition(idx, "value", e.target.value)}
-                          className="flex-1 bg-background border border-border rounded px-2 py-1 text-xs text-text"
+                          className="flex-1 bg-background border border-border rounded px-2 py-1.5 text-xs text-text min-h-[36px]"
                         >
                           <option value="true">True (Locally Administered)</option>
                           <option value="false">False (Standard OEM OUI)</option>
@@ -562,14 +562,14 @@ export default function WorkflowsPage() {
                           placeholder="Value"
                           value={c.value || ""}
                           onChange={(e) => updateCondition(idx, "value", e.target.value)}
-                          className="flex-1 bg-background border border-border rounded px-2 py-1 text-xs text-text"
+                          className="flex-1 bg-background border border-border rounded px-2 py-1.5 text-xs text-text min-h-[36px]"
                         />
                       )}
 
                       <button
                         type="button"
                         onClick={() => removeCondition(idx)}
-                        className="p-1 text-slate-400 hover:text-red-500"
+                        className="p-1.5 text-muted hover:text-status-critical self-end sm:self-center cursor-pointer min-h-[32px] min-w-[32px] flex items-center justify-center"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
@@ -797,16 +797,16 @@ export default function WorkflowsPage() {
 
       {/* Drawer: Execution Logs */}
       {logsRule && (
-        <div className="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-surface border-l border-border p-6 shadow-2xl flex flex-col">
+        <div className="fixed inset-y-0 right-0 z-50 w-full sm:max-w-md bg-surface border-l border-border p-4 sm:p-6 shadow-2xl flex flex-col" role="dialog" aria-modal="true">
           <div className="flex items-center justify-between pb-4 border-b border-border">
             <div>
-              <h2 className="text-lg font-bold text-text flex items-center gap-2">
+              <h2 className="text-base sm:text-lg font-bold text-text flex items-center gap-2">
                 <FileText className="w-5 h-5 text-accent" />
                 Execution History
               </h2>
               <p className="text-xs text-muted truncate max-w-xs">{logsRule.name}</p>
             </div>
-            <button onClick={() => setLogsRule(null)} className="text-slate-400 hover:text-slate-700 dark:hover:text-white">
+            <button onClick={() => setLogsRule(null)} className="text-muted hover:text-text cursor-pointer p-1">
               <X className="w-5 h-5" />
             </button>
           </div>

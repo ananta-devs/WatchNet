@@ -278,38 +278,38 @@ export default function SettingsDashboard() {
       )}
 
       {/* Tabs */}
-      <div className="flex border-b border-border space-x-4">
+      <div className="flex border-b border-border space-x-2 sm:space-x-4 overflow-x-auto no-scrollbar">
         <button
           onClick={() => setActiveTab("maintenance")}
-          className={`py-3 px-4 text-sm font-medium border-b-2 flex items-center gap-2 transition ${
+          className={`py-2.5 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm font-medium border-b-2 flex items-center gap-1.5 sm:gap-2 transition cursor-pointer whitespace-nowrap min-h-[40px] ${
             activeTab === "maintenance"
-              ? "border-indigo-500 text-indigo-400"
-              : "border-transparent text-slate-400 hover:text-slate-200"
+              ? "border-accent text-accent font-semibold"
+              : "border-transparent text-muted hover:text-text"
           }`}
         >
-          <Database className="w-4 h-4" />
+          <Database className="w-4 h-4 shrink-0" />
           Database & Retention Pruning
         </button>
         <button
           onClick={() => setActiveTab("backup")}
-          className={`py-3 px-4 text-sm font-medium border-b-2 flex items-center gap-2 transition ${
+          className={`py-2.5 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm font-medium border-b-2 flex items-center gap-1.5 sm:gap-2 transition cursor-pointer whitespace-nowrap min-h-[40px] ${
             activeTab === "backup"
-              ? "border-indigo-500 text-indigo-400"
-              : "border-transparent text-slate-400 hover:text-slate-200"
+              ? "border-accent text-accent font-semibold"
+              : "border-transparent text-muted hover:text-text"
           }`}
         >
-          <Archive className="w-4 h-4" />
+          <Archive className="w-4 h-4 shrink-0" />
           Backups & CSV Migration
         </button>
         <button
           onClick={() => setActiveTab("security")}
-          className={`py-3 px-4 text-sm font-medium border-b-2 flex items-center gap-2 transition ${
+          className={`py-2.5 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm font-medium border-b-2 flex items-center gap-1.5 sm:gap-2 transition cursor-pointer whitespace-nowrap min-h-[40px] ${
             activeTab === "security"
-              ? "border-indigo-500 text-indigo-400"
-              : "border-transparent text-slate-400 hover:text-slate-200"
+              ? "border-accent text-accent font-semibold"
+              : "border-transparent text-muted hover:text-text"
           }`}
         >
-          <Shield className="w-4 h-4" />
+          <Shield className="w-4 h-4 shrink-0" />
           Security & Access Hardening
         </button>
       </div>

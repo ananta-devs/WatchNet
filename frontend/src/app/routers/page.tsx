@@ -7,11 +7,8 @@ import {
   Plus,
   RefreshCw,
   Wifi,
-  Radio,
   Server,
   CheckCircle2,
-  XCircle,
-  AlertCircle,
   Signal,
   ArrowDownUp,
   Clock,
@@ -111,7 +108,7 @@ export default function RoutersPage() {
         setClients(data);
       }
     } catch (e) {
-      console.error("Failed to fetch clients", e);
+      console.error(e);
     } finally {
       setLoadingClients(false);
     }
@@ -125,12 +122,9 @@ export default function RoutersPage() {
     setTestingId(r.id);
     setTestResult(null);
     try {
-      const res = await fetch(`/api/v1/routers/${r.id}/test`, {
-        method: "POST"
-      });
+      const res = await fetch(`/api/v1/routers/${r.id}/test`, { method: "POST" });
       const data = await res.json();
-      setTestResult({ id: r.id, ...data });
-      fetchRouters();
+      setTestResult({ id: r.id, success: res.ok, message: data.message || (res.ok ? "Connected successfully" : "Connection failed") });
     } catch (e: any) {
       setTestResult({ id: r.id, success: false, message: e.message });
     } finally {
@@ -141,10 +135,10 @@ export default function RoutersPage() {
   const handleSyncClients = async (r: RouterItem) => {
     setSyncingId(r.id);
     try {
-      await fetch(`/api/v1/routers/${r.id}/sync`, { method: "POST" });
-      await fetchRouters();
-      if (activeRouter?.id === r.id) {
-        await fetchClients(r.id);
+      const res = await fetch(`/api/v1/routers/${r.id}/sync`, { method: "POST" });
+      if (res.ok) {
+        fetchClients(r.id);
+        fetchRouters();
       }
     } catch (e) {
       console.error(e);
@@ -188,29 +182,29 @@ export default function RoutersPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 pb-3 border-b border-border">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-text flex items-center gap-2">
-            <RouterIcon className="w-7 h-7 text-indigo-400" />
-            Router Intelligence & Vendor Adapters
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-text flex items-center gap-2">
+            <RouterIcon className="w-6 h-6 sm:w-7 sm:h-7 text-accent shrink-0" />
+            <span>Router Intelligence & Vendor Adapters</span>
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-muted mt-1">
             Real-time client extraction, signal strength (RSSI), frequency band & DHCP telemetry across OpenWrt, UniFi, ASUS, FRITZ!Box, MikroTik, and Omada.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
           <button
             onClick={fetchRouters}
-            className="flex items-center gap-2 px-3 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-sm font-medium rounded-lg border border-border transition"
+            className="flex-1 sm:flex-none justify-center flex items-center gap-2 px-3 py-2 bg-surface hover:bg-hover text-text text-xs sm:text-sm font-medium rounded-lg border border-border transition min-h-[38px] cursor-pointer"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
             Refresh
           </button>
           <button
             onClick={() => setModalOpen(true)}
-            className="flex items-center gap-2 px-3 py-2 bg-accent hover:bg-accent-hover text-white text-sm font-medium rounded-lg shadow-sm transition"
+            className="flex-1 sm:flex-none justify-center flex items-center gap-2 px-3 py-2 bg-accent hover:bg-accent-hover text-white text-xs sm:text-sm font-medium rounded-lg shadow-xs transition min-h-[38px] cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             Add Router
@@ -219,7 +213,7 @@ export default function RoutersPage() {
       </div>
 
       {/* Router Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         {routers.map((r) => {
           const isSelected = activeRouter?.id === r.id;
           return (
@@ -229,57 +223,53 @@ export default function RoutersPage() {
                 setActiveRouter(r);
                 fetchClients(r.id);
               }}
-              className={`p-5 rounded-xl border cursor-pointer transition-all shadow-sm ${
+              className={`p-4 sm:p-5 rounded-xl border cursor-pointer transition-all shadow-xs ${
                 isSelected
-                  ? "bg-indigo-50 dark:bg-slate-800/80 border-indigo-500 shadow-md shadow-indigo-500/10"
-                  : "bg-surface border-border hover:border-slate-300 dark:hover:border-slate-700"
+                  ? "bg-accent/10 border-accent ring-1 ring-accent/30"
+                  : "bg-surface border-border hover:bg-hover"
               }`}
             >
-              <div className="flex items-start justify-between">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold text-text">{r.name}</span>
-                    <span className="px-2 py-0.5 text-xs font-semibold rounded bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800/50">
+              <div className="flex items-start justify-between gap-2">
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                    <span className="font-semibold text-text text-sm sm:text-base truncate">{r.name}</span>
+                    <span className="px-2 py-0.5 text-xs font-semibold rounded bg-accent/10 text-accent border border-accent/20">
                       {r.vendor}
                     </span>
                     <span className={`px-2 py-0.5 text-[10px] font-semibold rounded uppercase tracking-wider border ${
                       r.integration_level === "full_api"
-                        ? "bg-emerald-50 dark:bg-emerald-950/80 text-emerald-700 dark:text-status-online border-emerald-200 dark:border-emerald-800/50"
-                        : r.integration_level === "read_only_api"
-                        ? "bg-blue-50 dark:bg-blue-950/80 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-800/50"
-                        : r.integration_level === "passive_discovery"
-                        ? "bg-amber-50 dark:bg-amber-950/80 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800/50"
-                        : "bg-rose-50 dark:bg-rose-950/80 text-rose-700 dark:text-status-critical border-rose-200 dark:border-rose-800/50"
+                        ? "bg-status-online/10 text-status-online border-status-online/20"
+                        : "bg-hover text-text border-border"
                     }`}>
                       {r.integration_level ? r.integration_level.replace(/_/g, " ") : "Read-only API"}
                     </span>
                   </div>
-                  <span className="text-xs text-muted mt-1 block">
+                  <span className="text-xs text-muted mt-1 block font-mono truncate">
                     {r.host}:{r.port}
                   </span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-status-online border border-emerald-200 dark:border-emerald-800/50">
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-medium bg-status-online/10 text-status-online border border-status-online/20">
                     <CheckCircle2 className="w-3 h-3" /> Active
                   </span>
                 </div>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-border/80 grid grid-cols-2 gap-2 text-xs">
+              <div className="mt-3 pt-3 border-t border-border grid grid-cols-2 gap-2 text-xs">
                 <div>
-                  <span className="text-muted">Model:</span>
+                  <span className="text-muted block text-[10px] uppercase">Model:</span>
                   <p className="font-medium text-text truncate">{r.model || "Generic"}</p>
                 </div>
                 <div>
-                  <span className="text-muted">Firmware:</span>
+                  <span className="text-muted block text-[10px] uppercase">Firmware:</span>
                   <p className="font-medium text-text truncate">{r.firmware || "Auto"}</p>
                 </div>
                 <div>
-                  <span className="text-muted">Live Clients:</span>
+                  <span className="text-muted block text-[10px] uppercase">Live Clients:</span>
                   <p className="font-medium text-accent">{r.client_count} connected</p>
                 </div>
                 <div>
-                  <span className="text-muted">Last Poll:</span>
+                  <span className="text-muted block text-[10px] uppercase">Last Poll:</span>
                   <p className="font-medium text-text truncate">
                     {r.last_connected_at ? new Date(r.last_connected_at).toLocaleTimeString() : "Never"}
                   </p>
@@ -287,140 +277,169 @@ export default function RoutersPage() {
               </div>
 
               {testResult && testResult.id === r.id && (
-                <div className={`mt-3 p-2 rounded text-xs border ${testResult.success ? "bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/50" : "bg-rose-50 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800/50"}`}>
+                <div className={`mt-3 p-2 rounded text-xs border ${testResult.success ? "bg-status-online/10 text-status-online border-status-online/30" : "bg-status-critical/10 text-status-critical border-status-critical/30"}`}>
                   {testResult.message}
                 </div>
               )}
 
-              <div className="mt-4 pt-3 border-t border-border/80 flex items-center justify-between" onClick={(e) => e.stopPropagation()}>
+              <div className="mt-3 pt-3 border-t border-border flex items-center justify-between" onClick={(e) => e.stopPropagation()}>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => handleTestConnection(r)}
                     disabled={testingId === r.id}
-                    className="px-2.5 py-1 text-xs font-medium rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-text border border-border transition"
+                    className="px-2.5 py-1 text-xs font-medium rounded bg-surface hover:bg-hover text-text border border-border transition cursor-pointer min-h-[32px]"
                   >
-                    {testingId === r.id ? "Testing..." : "Test Connection"}
+                    {testingId === r.id ? "Testing..." : "Test Link"}
                   </button>
                   <button
                     onClick={() => handleSyncClients(r)}
                     disabled={syncingId === r.id}
-                    className="px-2.5 py-1 text-xs font-medium rounded bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-900/40 dark:hover:bg-indigo-900/70 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/50 transition"
+                    className="px-2.5 py-1 text-xs font-medium rounded bg-accent/10 hover:bg-accent/20 text-accent border border-accent/30 transition cursor-pointer min-h-[32px]"
                   >
                     {syncingId === r.id ? "Syncing..." : "Sync Clients"}
                   </button>
                 </div>
                 <button
                   onClick={() => handleDeleteRouter(r.id)}
-                  className="p-1 text-slate-400 hover:text-rose-500 rounded transition"
-                  title="Remove Router"
+                  className="p-1.5 text-muted hover:text-status-critical rounded hover:bg-hover transition cursor-pointer min-h-[32px] min-w-[32px] flex items-center justify-center"
+                  title="Remove router"
+                  aria-label="Remove router"
                 >
-                  <Trash2 className="w-4 h-4" />
+                  <Trash2 className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>
           );
         })}
-
-        {routers.length === 0 && !loading && (
-          <div className="col-span-full py-12 text-center bg-surface/40 rounded-xl border border-dashed border-border shadow-sm">
-            <RouterIcon className="w-12 h-12 text-slate-400 dark:text-slate-600 mx-auto mb-3" />
-            <h3 className="text-base font-semibold text-text">No Routers Registered</h3>
-            <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
-              Add your OpenWrt, UniFi, ASUS, FRITZ!Box, MikroTik, or Omada gateway to inspect wireless stations and band telemetry.
-            </p>
-            <button
-              onClick={() => setModalOpen(true)}
-              className="mt-4 px-3 py-1.5 bg-accent hover:bg-accent-hover text-white text-xs font-semibold rounded-lg shadow-sm"
-            >
-              Add First Router
-            </button>
-          </div>
-        )}
       </div>
 
-      {/* Connected Clients Table */}
+      {/* Active Router Clients Inspection */}
       {activeRouter && (
-        <div className="bg-surface border border-border rounded-xl overflow-hidden shadow-sm">
-          <div className="px-6 py-4 border-b border-border flex items-center justify-between">
+        <div className="bg-surface border border-border rounded-xl shadow-xs overflow-hidden">
+          <div className="p-4 sm:p-5 border-b border-border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div>
-              <h2 className="text-base font-semibold text-text flex items-center gap-2">
-                <Wifi className="w-4 h-4 text-accent" />
-                Live Clients on {activeRouter.name} ({clients.length})
+              <h2 className="text-base sm:text-lg font-bold text-text flex items-center gap-2">
+                <Wifi className="w-5 h-5 text-accent" />
+                <span>Active Clients Extracted from {activeRouter.name}</span>
               </h2>
+              <p className="text-xs text-muted mt-0.5">
+                Real-time Wi-Fi associations, radio frequencies, signal dBm, PHY data rates & DHCP leases
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
               <span className="text-xs text-muted">
-                Synchronized Wi-Fi association metrics, band allocation, and lease duration
+                {clients.length} Total Connected Clients
               </span>
             </div>
-            <button
-              onClick={() => fetchClients(activeRouter.id)}
-              className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-text rounded-lg border border-border transition"
-            >
-              <RefreshCw className={`w-3.5 h-3.5 ${loadingClients ? "animate-spin" : ""}`} />
-              Refresh
-            </button>
           </div>
 
-          <div className="overflow-x-auto">
+          {/* Mobile Card View for Router Clients */}
+          <div className="block md:hidden divide-y divide-border">
+            {clients.length === 0 && !loadingClients ? (
+              <div className="p-6 text-center text-xs text-muted">
+                No active client associations currently reported by this router. Click &quot;Sync Clients&quot; above to poll.
+              </div>
+            ) : (
+              clients.map((c, idx) => {
+                const rssi = c.rssi || -65;
+                const signalPercent = Math.min(100, Math.max(0, (rssi + 100) * 1.6));
+                return (
+                  <div key={idx} className="p-3.5 space-y-2">
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <span className="font-semibold text-text text-sm block">{c.hostname || "Unknown Station"}</span>
+                        <span className="text-xs font-mono text-muted">{c.mac}</span>
+                        {c.ip && <span className="text-xs font-mono text-text block">{c.ip}</span>}
+                      </div>
+                      <span className="px-2 py-0.5 rounded text-[10px] font-semibold uppercase bg-hover text-text border border-border">
+                        {c.connection_type} {c.band ? `• ${c.band}` : ""}
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2 text-xs pt-1">
+                      <div>
+                        <span className="text-[10px] text-muted block uppercase">Signal Strength</span>
+                        <div className="flex items-center gap-2 mt-0.5">
+                          <div className="w-16 bg-hover rounded-full h-1.5 overflow-hidden">
+                            <div
+                              className={`h-full ${signalPercent > 60 ? "bg-status-online" : signalPercent > 35 ? "bg-status-warning" : "bg-status-critical"}`}
+                              style={{ width: `${signalPercent}%` }}
+                            />
+                          </div>
+                          <span className="text-[11px] text-muted">{rssi} dBm</span>
+                        </div>
+                      </div>
+                      <div>
+                        <span className="text-[10px] text-muted block uppercase">Throughput Rate</span>
+                        <span className="text-text font-mono text-[11px]">
+                          {c.tx_rate ? `${c.tx_rate}M` : "—"} / {c.rx_rate ? `${c.rx_rate}M` : "—"}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
+
+          {/* Desktop Table View for Router Clients */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-background/60 text-muted font-semibold border-b border-border">
+              <thead className="bg-hover/50 text-muted font-semibold border-b border-border">
                 <tr>
-                  <th className="px-6 py-3">Device / Hostname</th>
-                  <th className="px-6 py-3">MAC / IP</th>
-                  <th className="px-6 py-3">Connection</th>
-                  <th className="px-6 py-3">Band</th>
-                  <th className="px-6 py-3">Signal (RSSI)</th>
-                  <th className="px-6 py-3">TX / RX Rate</th>
-                  <th className="px-6 py-3">Lease Expiry</th>
+                  <th className="px-4 py-3">Hostname / Station</th>
+                  <th className="px-4 py-3">MAC / IP Address</th>
+                  <th className="px-4 py-3">Type</th>
+                  <th className="px-4 py-3">Band / Radio</th>
+                  <th className="px-4 py-3">Signal (RSSI)</th>
+                  <th className="px-4 py-3">PHY Tx/Rx Rate</th>
+                  <th className="px-4 py-3">DHCP Lease</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/60">
                 {clients.map((c, idx) => {
-                  const rssi = c.rssi || -70;
-                  const signalPercent = Math.min(100, Math.max(0, (rssi + 100) * 2));
+                  const rssi = c.rssi || -65;
+                  const signalPercent = Math.min(100, Math.max(0, (rssi + 100) * 1.6));
                   return (
-                    <tr key={idx} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition">
-                      <td className="px-6 py-3 font-medium text-text">
+                    <tr key={idx} className="hover:bg-hover transition">
+                      <td className="px-4 py-3 font-medium text-text">
                         {c.hostname || "Unknown Station"}
                       </td>
-                      <td className="px-6 py-3 text-muted font-mono text-[11px]">
+                      <td className="px-4 py-3 text-muted font-mono text-[11px]">
                         <div>{c.mac}</div>
-                        <div className="text-slate-500">{c.ip || "—"}</div>
+                        <div className="text-text">{c.ip || "—"}</div>
                       </td>
-                      <td className="px-6 py-3">
-                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold ${
-                          c.connection_type === "wifi"
-                            ? "bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800/40"
-                            : "bg-hover text-text border border-border"
-                        }`}>
-                          {c.connection_type === "wifi" ? <Wifi className="w-3 h-3" /> : <Server className="w-3 h-3" />}
+                      <td className="px-4 py-3">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold bg-hover text-text border border-border">
+                          {c.connection_type === "wifi" ? <Wifi className="w-3 h-3 text-accent" /> : <Server className="w-3 h-3 text-muted" />}
                           {c.connection_type.toUpperCase()}
                         </span>
                       </td>
-                      <td className="px-6 py-3 text-text font-medium">
+                      <td className="px-4 py-3 text-text font-medium">
                         {c.band || "—"}
                       </td>
-                      <td className="px-6 py-3">
+                      <td className="px-4 py-3">
                         {c.connection_type === "wifi" ? (
                           <div className="flex items-center gap-2">
-                            <div className="w-16 bg-slate-200 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                            <div className="w-16 bg-hover rounded-full h-1.5 overflow-hidden">
                               <div
-                                className={`h-full ${signalPercent > 60 ? "bg-emerald-400" : signalPercent > 35 ? "bg-amber-400" : "bg-rose-400"}`}
+                                className={`h-full ${signalPercent > 60 ? "bg-status-online" : signalPercent > 35 ? "bg-status-warning" : "bg-status-critical"}`}
                                 style={{ width: `${signalPercent}%` }}
                               />
                             </div>
                             <span className="text-[11px] text-muted">{rssi} dBm</span>
                           </div>
                         ) : (
-                          <span className="text-slate-500">Ethernet</span>
+                          <span className="text-muted">Ethernet</span>
                         )}
                       </td>
-                      <td className="px-6 py-3 text-muted">
+                      <td className="px-4 py-3 text-muted">
                         <div className="flex items-center gap-1 text-[11px]">
-                          <ArrowDownUp className="w-3 h-3 text-slate-500" />
+                          <ArrowDownUp className="w-3 h-3 text-muted" />
                           <span>{c.tx_rate ? `${c.tx_rate} Mbps` : "—"} / {c.rx_rate ? `${c.rx_rate} Mbps` : "—"}</span>
                         </div>
                       </td>
-                      <td className="px-6 py-3 text-muted text-[11px]">
+                      <td className="px-4 py-3 text-muted text-[11px]">
                         {c.lease_time_remaining ? `${Math.round(c.lease_time_remaining / 60)} min` : "Static / Unlimited"}
                       </td>
                     </tr>
@@ -429,8 +448,8 @@ export default function RoutersPage() {
 
                 {clients.length === 0 && !loadingClients && (
                   <tr>
-                    <td colSpan={7} className="px-6 py-8 text-center text-slate-500">
-                      No active client associations currently reported by this router. Click "Sync Clients" above to poll.
+                    <td colSpan={7} className="px-4 py-8 text-center text-muted">
+                      No active client associations currently reported by this router. Click &quot;Sync Clients&quot; above to poll.
                     </td>
                   </tr>
                 )}
@@ -442,123 +461,122 @@ export default function RoutersPage() {
 
       {/* Add Router Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-          <div className="bg-surface border border-border rounded-2xl w-full max-w-md p-6 shadow-2xl relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4" role="dialog" aria-modal="true">
+          <div className="bg-surface border border-border rounded-2xl w-full max-w-md p-5 sm:p-6 shadow-2xl relative">
             <button
               onClick={() => setModalOpen(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-slate-700 dark:hover:text-white"
+              className="absolute top-4 right-4 text-muted hover:text-text cursor-pointer p-1"
             >
               <X className="w-5 h-5" />
             </button>
-            <h3 className="text-lg font-bold text-text flex items-center gap-2 mb-4">
-              <Plus className="w-5 h-5 text-accent" /> Register Gateway Router
-            </h3>
-            <form onSubmit={handleRegister} className="space-y-4 text-xs">
+
+            <h3 className="text-lg font-bold text-text mb-1">Register Gateway Router</h3>
+            <p className="text-xs text-muted mb-4">
+              Connect OpenWrt, UniFi Controller, ASUSWRT, or other gateway adapters to pull client telemetry.
+            </p>
+
+            <form onSubmit={handleRegister} className="space-y-3.5">
               <div>
-                <label className="block text-text font-semibold mb-1">Router Name</label>
+                <label className="block text-xs font-medium text-text mb-1">Friendly Name</label>
                 <input
                   type="text"
                   required
+                  placeholder="e.g. Core OpenWrt Gateway"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g. Office Core Gateway"
-                  className="w-full bg-background border border-border rounded-lg px-3 py-2 text-text placeholder-slate-400 focus:outline-none focus:border-accent"
+                  className="w-full bg-background border border-border rounded-lg px-3 py-2 text-xs sm:text-sm text-text placeholder-muted focus:outline-none focus:border-accent min-h-[38px]"
                 />
               </div>
 
-              <div>
-                <label className="block text-text font-semibold mb-1">Router Vendor</label>
-                <select
-                  value={vendor}
-                  onChange={(e) => setVendor(e.target.value)}
-                  className="w-full bg-background border border-border rounded-lg px-3 py-2 text-text focus:outline-none focus:border-accent"
-                >
-                  <option value="OpenWrt">OpenWrt (LuCI RPC / ubus)</option>
-                  <option value="UniFi">Ubiquiti UniFi (UniFi OS / Controller)</option>
-                  <option value="AsusWrt">ASUSWRT / Merlin (dnsmasq / wl assoclist)</option>
-                  <option value="FRITZ!Box">AVM FRITZ!Box (TR-064 SOAP)</option>
-                  <option value="MikroTik">MikroTik RouterOS (v7 REST API)</option>
-                  <option value="Omada">TP-Link Omada SDN (OpenAPI Controller)</option>
-                  <option value="Generic">Generic Linux Gateway</option>
-                </select>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-medium text-text mb-1">Vendor / Type</label>
+                  <select
+                    value={vendor}
+                    onChange={(e) => setVendor(e.target.value)}
+                    className="w-full bg-background border border-border rounded-lg px-3 py-2 text-xs sm:text-sm text-text focus:outline-none focus:border-accent min-h-[38px]"
+                  >
+                    <option value="OpenWrt">OpenWrt (ubus / rpcd)</option>
+                    <option value="UniFi">UniFi Network Controller</option>
+                    <option value="ASUS">ASUSWRT (HTTP/SSH)</option>
+                    <option value="FRITZ!Box">AVM FRITZ!Box (TR-064)</option>
+                    <option value="MikroTik">MikroTik RouterOS (REST)</option>
+                    <option value="Omada">TP-Link Omada SDN</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-text mb-1">Integration Level</label>
+                  <select
+                    value={integrationLevel}
+                    onChange={(e) => setIntegrationLevel(e.target.value)}
+                    className="w-full bg-background border border-border rounded-lg px-3 py-2 text-xs sm:text-sm text-text focus:outline-none focus:border-accent min-h-[38px]"
+                  >
+                    <option value="read_only_api">Read-Only API</option>
+                    <option value="full_api">Full API Control</option>
+                    <option value="passive_discovery">Passive ARP / DHCP</option>
+                  </select>
+                </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-3 gap-3">
                 <div className="col-span-2">
-                  <label className="block text-text font-semibold mb-1">IP / Hostname</label>
+                  <label className="block text-xs font-medium text-text mb-1">IP / Hostname</label>
                   <input
                     type="text"
                     required
+                    placeholder="192.168.1.1"
                     value={host}
                     onChange={(e) => setHost(e.target.value)}
-                    placeholder="192.168.1.1"
-                    className="w-full bg-background border border-border rounded-lg px-3 py-2 text-text placeholder-slate-400 focus:outline-none focus:border-accent"
+                    className="w-full bg-background border border-border rounded-lg px-3 py-2 text-xs sm:text-sm text-text placeholder-muted focus:outline-none focus:border-accent min-h-[38px]"
                   />
                 </div>
                 <div>
-                  <label className="block text-text font-semibold mb-1">Port</label>
+                  <label className="block text-xs font-medium text-text mb-1">Port</label>
                   <input
                     type="number"
+                    required
                     value={port}
                     onChange={(e) => setPort(Number(e.target.value))}
-                    className="w-full bg-background border border-border rounded-lg px-3 py-2 text-text focus:outline-none focus:border-accent"
+                    className="w-full bg-background border border-border rounded-lg px-3 py-2 text-xs sm:text-sm text-text focus:outline-none focus:border-accent min-h-[38px]"
                   />
                 </div>
               </div>
 
-              <div>
-                <label className="block text-text font-semibold mb-1">Integration Level</label>
-                <select
-                  value={integrationLevel}
-                  onChange={(e) => setIntegrationLevel(e.target.value)}
-                  className="w-full bg-background border border-border rounded-lg px-3 py-2 text-text focus:outline-none focus:border-accent"
-                >
-                  <option value="full_api">Full API Integration (DHCP leases, client tables, Wi-Fi RSSI, bands)</option>
-                  <option value="read_only_api">Read-Only API Integration (REST / TR-064 / SOAP client polling)</option>
-                  <option value="passive_discovery">Passive Network Discovery (L2 ARP, ICMP reachability, ip neigh)</option>
-                  <option value="unsupported">Direct API Unsupported (Proprietary stock firmware encryption, e.g. WR841N)</option>
-                </select>
-              </div>
-
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-text font-semibold mb-1">Username</label>
+                  <label className="block text-xs font-medium text-text mb-1">Username</label>
                   <input
                     type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="w-full bg-background border border-border rounded-lg px-3 py-2 text-text placeholder-slate-400 focus:outline-none focus:border-accent"
+                    className="w-full bg-background border border-border rounded-lg px-3 py-2 text-xs sm:text-sm text-text focus:outline-none focus:border-accent min-h-[38px]"
                   />
                 </div>
                 <div>
-                  <label className="block text-text font-semibold mb-1">Password</label>
+                  <label className="block text-xs font-medium text-text mb-1">Password / API Key</label>
                   <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full bg-background border border-border rounded-lg px-3 py-2 text-text placeholder-slate-400 focus:outline-none focus:border-accent"
+                    className="w-full bg-background border border-border rounded-lg px-3 py-2 text-xs sm:text-sm text-text focus:outline-none focus:border-accent min-h-[38px]"
                   />
                 </div>
               </div>
 
-              <p className="text-[11px] text-slate-500 pt-1">
-                <Shield className="w-3.5 h-3.5 inline mr-1 text-status-online" />
-                Read-only adapter: WatchNet will never modify your router firewall or WAN settings.
-              </p>
-
-              <div className="flex justify-end gap-2 pt-3 border-t border-border">
+              <div className="flex justify-end gap-3 pt-3 border-t border-border">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-text rounded-lg border border-border font-medium"
+                  className="px-4 py-2 text-xs sm:text-sm bg-surface hover:bg-hover text-text rounded-lg border border-border transition min-h-[38px] cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 font-semibold shadow-sm"
+                  className="px-4 py-2 text-xs sm:text-sm bg-accent hover:bg-accent-hover text-white font-medium rounded-lg shadow-xs transition min-h-[38px] cursor-pointer"
                 >
-                  Save Router
+                  Save Adapter
                 </button>
               </div>
             </form>
@@ -568,4 +586,3 @@ export default function RoutersPage() {
     </div>
   );
 }
-

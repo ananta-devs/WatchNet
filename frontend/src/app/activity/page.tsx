@@ -3,17 +3,11 @@
 import React, { useState, useEffect } from "react";
 import {
   FileClock,
-  ShieldCheck,
-  ShieldAlert,
   Search,
   Filter,
-  RefreshCw,
-  AlertCircle,
   CheckCircle2,
   XCircle,
-  Info,
-  ExternalLink,
-  Laptop
+  ExternalLink
 } from "lucide-react";
 
 interface ActivityLogItem {
@@ -55,7 +49,6 @@ export default function ActivityCenterPage() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      // 1. Fetch Activity Logs
       let url = "/api/v1/family/activity?limit=100";
       if (filterAction !== "all") {
         url += `&action=${filterAction}`;
@@ -68,7 +61,6 @@ export default function ActivityCenterPage() {
         setLogs(await logsRes.json());
       }
 
-      // 2. Fetch Analytics
       const analRes = await fetch("/api/v1/family/analytics");
       if (analRes.ok) {
         setAnalytics(await analRes.json());
@@ -90,79 +82,67 @@ export default function ActivityCenterPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 pb-3 border-b border-border">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-text flex items-center gap-2">
-            <FileClock className="w-7 h-7 text-accent" />
-            DNS Activity & Telemetry Center
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-text flex items-center gap-2">
+            <FileClock className="w-6 h-6 sm:w-7 sm:h-7 text-accent shrink-0" />
+            <span>DNS Activity & Telemetry Center</span>
           </h1>
-          <p className="text-sm text-muted mt-1">
-            Real-time domain query stream, AdGuard Home / Pi-hole resolution telemetry, and transparent filtering inspection.
+          <p className="text-xs sm:text-sm text-muted mt-1">
+            Real-time multi-resolver DNS logs, AdGuard/Pi-hole query stream & privacy-preserving resolution metrics.
           </p>
         </div>
-
-        <button
-          onClick={fetchData}
-          className="flex items-center gap-2 px-3 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-text text-sm font-medium rounded-lg border border-border transition"
-        >
-          <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
-          Refresh Stream
-        </button>
       </div>
 
-      {/* Transparent Disclosure Notice Card */}
-      <div className="p-4 rounded-xl bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-800/50 flex items-start gap-3">
-        <Info className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-        <div className="text-xs text-indigo-900 dark:text-indigo-200 leading-relaxed">
-          <span className="font-semibold text-text block mb-0.5">Transparent Inspection Disclosure</span>
-          {analytics?.disclosure || (
-            "WatchNet Family Safety analyzes transparent DNS-layer query events only. It never performs HTTPS decryption, MITM SSL snooping, or content packet inspection. Bypass vectors such as DNS-over-HTTPS (DoH), encrypted VPN tunnels, and Apple iCloud Private Relay cannot be inspected at the DNS layer unless redirected at the gateway."
-          )}
+      {/* Analytics KPI Row */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+        <div className="p-4 sm:p-5 rounded-xl border border-border bg-surface shadow-xs">
+          <span className="text-[10px] sm:text-xs font-semibold uppercase text-muted tracking-wider">Total Queries (24h)</span>
+          <div className="text-2xl sm:text-3xl font-extrabold text-text mt-1">
+            {analytics?.total_queries ?? "—"}
+          </div>
+          <span className="text-[11px] text-muted">Across all local clients</span>
+        </div>
+
+        <div className="p-4 sm:p-5 rounded-xl border border-border bg-surface shadow-xs">
+          <span className="text-[10px] sm:text-xs font-semibold uppercase text-muted tracking-wider">Blocked (Policy & Threat)</span>
+          <div className="text-2xl sm:text-3xl font-extrabold text-status-critical mt-1">
+            {analytics?.blocked_queries ?? "—"}
+          </div>
+          <span className="text-[11px] text-muted">
+            {analytics?.total_queries ? `${Math.round(((analytics.blocked_queries || 0) / analytics.total_queries) * 100)}% block rate` : "0% block rate"}
+          </span>
+        </div>
+
+        <div className="p-4 sm:p-5 rounded-xl border border-border bg-surface shadow-xs">
+          <span className="text-[10px] sm:text-xs font-semibold uppercase text-muted tracking-wider">Allowed Queries</span>
+          <div className="text-2xl sm:text-3xl font-extrabold text-status-online mt-1">
+            {analytics?.allowed_queries ?? "—"}
+          </div>
+          <span className="text-[11px] text-muted">Clean resolution passing through</span>
         </div>
       </div>
 
-      {/* Analytics Summary Widget Cards */}
-      {analytics && (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="p-4 rounded-xl bg-surface border border-border shadow-sm">
-            <span className="text-xs text-muted">Total Ingested Queries</span>
-            <p className="text-2xl font-bold text-text mt-1">{analytics.total_queries}</p>
-          </div>
-          <div className="p-4 rounded-xl bg-surface border border-border shadow-sm">
-            <span className="text-xs text-muted">Allowed Queries</span>
-            <p className="text-2xl font-bold text-status-online mt-1">{analytics.allowed_queries}</p>
-          </div>
-          <div className="p-4 rounded-xl bg-surface border border-border shadow-sm">
-            <span className="text-xs text-muted">Policy & Security Blocked</span>
-            <p className="text-2xl font-bold text-status-critical mt-1">{analytics.blocked_queries}</p>
-          </div>
-          <div className="p-4 rounded-xl bg-surface border border-border shadow-sm">
-            <span className="text-xs text-muted">Active Resolver Source</span>
-            <p className="text-base font-semibold text-indigo-600 dark:text-indigo-300 mt-1.5 truncate">AdGuard Home & Pi-hole</p>
-          </div>
-        </div>
-      )}
-
-      {/* Filter and Search Bar */}
-      <div className="flex flex-col sm:flex-row gap-3 items-center justify-between">
-        <form onSubmit={handleSearchSubmit} className="relative w-full sm:w-80">
-          <Search className="w-4 h-4 absolute left-3 top-2.5 text-muted" />
+      {/* Search & Filter Toolbar */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <form onSubmit={handleSearchSubmit} className="relative flex-1">
+          <Search className="w-4 h-4 absolute left-3 top-2.5 sm:top-3 text-muted" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search domain (e.g. google.com)..."
-            className="w-full bg-surface border border-border rounded-lg pl-9 pr-3 py-1.5 text-xs text-text placeholder-slate-400 focus:outline-none focus:border-accent"
+            className="w-full bg-surface border border-border rounded-lg pl-9 pr-3 py-2 text-xs sm:text-sm text-text placeholder-muted focus:outline-none focus:border-accent min-h-[38px]"
           />
         </form>
 
-        <div className="flex items-center gap-2 self-end sm:self-auto">
-          <Filter className="w-3.5 h-3.5 text-muted" />
+        <div className="flex items-center gap-2 self-stretch sm:self-auto">
+          <Filter className="w-3.5 h-3.5 text-muted shrink-0" />
           <select
             value={filterAction}
             onChange={(e) => setFilterAction(e.target.value)}
-            className="bg-surface border border-border rounded-lg px-2.5 py-1.5 text-xs text-slate-800 dark:text-slate-300 focus:outline-none focus:border-accent"
+            className="w-full sm:w-auto bg-surface border border-border rounded-lg px-3 py-2 text-xs sm:text-sm text-text focus:outline-none focus:border-accent min-h-[38px]"
           >
             <option value="all">All Actions</option>
             <option value="ALLOWED">Allowed Only</option>
@@ -172,41 +152,92 @@ export default function ActivityCenterPage() {
         </div>
       </div>
 
-      {/* Query Stream Table */}
-      <div className="bg-surface border border-border rounded-xl overflow-hidden shadow-sm">
+      {/* Mobile Card View for Activity Logs */}
+      <div className="block md:hidden space-y-3">
+        {logs.length === 0 && !loading ? (
+          <div className="p-6 text-center text-xs text-muted border border-border rounded-xl bg-surface">
+            No DNS activity records match the current filter.
+          </div>
+        ) : (
+          logs.map((l) => (
+            <div key={l.id} className="p-3.5 rounded-xl border border-border bg-surface space-y-2">
+              <div className="flex items-start justify-between gap-2">
+                <div className="min-w-0">
+                  <div className="font-semibold text-text text-sm font-mono break-all">{l.domain}</div>
+                  <span className="text-[10px] text-muted font-mono px-1.5 py-0.5 rounded bg-hover border border-border inline-block mt-0.5">
+                    {l.query_type}
+                  </span>
+                </div>
+                <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold border shrink-0 ${
+                  l.action === "ALLOWED"
+                    ? "bg-status-online/10 text-status-online border-status-online/20"
+                    : l.action === "BLOCKED_SECURITY"
+                    ? "bg-status-critical/10 text-status-critical border-status-critical/20"
+                    : "bg-status-warning/10 text-status-warning border-status-warning/20"
+                }`}>
+                  {l.action === "ALLOWED" ? <CheckCircle2 className="w-3 h-3" /> : <XCircle className="w-3 h-3" />}
+                  {l.action}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-xs pt-2 border-t border-border">
+                <div>
+                  <span className="text-[10px] text-muted block uppercase">Client / Device</span>
+                  <span className="text-text truncate block">{l.device?.name || l.device?.mac || "Unassigned"}</span>
+                  {l.profile && (
+                    <span className="text-[10px] text-accent block">Profile: {l.profile.name}</span>
+                  )}
+                </div>
+                <div>
+                  <span className="text-[10px] text-muted block uppercase">Category</span>
+                  <span className="text-text font-medium">{l.category || "—"}</span>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between text-[11px] text-muted pt-1 border-t border-border/60">
+                <span className="font-mono">{l.resolver_source}</span>
+                <span>{new Date(l.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Desktop Query Stream Table */}
+      <div className="hidden md:block bg-surface border border-border rounded-xl overflow-hidden shadow-xs">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-background/60 text-muted font-semibold border-b border-border">
+            <thead className="bg-hover/50 text-muted font-semibold border-b border-border">
               <tr>
-                <th className="px-6 py-3">Timestamp</th>
-                <th className="px-6 py-3">Domain</th>
-                <th className="px-6 py-3">Action</th>
-                <th className="px-6 py-3">Category</th>
-                <th className="px-6 py-3">Device / Profile</th>
-                <th className="px-6 py-3">Resolver</th>
+                <th className="px-4 py-3">Timestamp</th>
+                <th className="px-4 py-3">Domain</th>
+                <th className="px-4 py-3">Action</th>
+                <th className="px-4 py-3">Category</th>
+                <th className="px-4 py-3">Device / Profile</th>
+                <th className="px-4 py-3">Resolver</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
+            <tbody className="divide-y divide-border/60">
               {logs.map((l) => (
-                <tr key={l.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/30 transition">
-                  <td className="px-6 py-3 text-muted text-[11px] whitespace-nowrap">
+                <tr key={l.id} className="hover:bg-hover transition">
+                  <td className="px-4 py-3 text-muted text-[11px] whitespace-nowrap">
                     {new Date(l.timestamp).toLocaleTimeString()}
                   </td>
-                  <td className="px-6 py-3 font-medium text-text">
+                  <td className="px-4 py-3 font-medium text-text">
                     <div className="flex items-center gap-1.5">
-                      <span className="font-mono text-slate-800 dark:text-slate-300">{l.domain}</span>
+                      <span className="font-mono text-text">{l.domain}</span>
                       <span className="text-[10px] text-muted px-1 py-0.5 rounded bg-hover font-mono border border-border">
                         {l.query_type}
                       </span>
                     </div>
                   </td>
-                  <td className="px-6 py-3">
+                  <td className="px-4 py-3">
                     <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold border ${
                       l.action === "ALLOWED"
-                        ? "bg-emerald-50 dark:bg-emerald-950/70 text-emerald-700 dark:text-status-online border-emerald-200 dark:border-emerald-800/50"
+                        ? "bg-status-online/10 text-status-online border-status-online/20"
                         : l.action === "BLOCKED_SECURITY"
-                        ? "bg-rose-50 dark:bg-rose-950/70 text-rose-700 dark:text-status-critical border-rose-200 dark:border-rose-800/50"
-                        : "bg-amber-50 dark:bg-amber-950/70 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800/50"
+                        ? "bg-status-critical/10 text-status-critical border-status-critical/20"
+                        : "bg-status-warning/10 text-status-warning border-status-warning/20"
                     }`}>
                       {l.action === "ALLOWED" ? (
                         <CheckCircle2 className="w-3 h-3" />
@@ -216,10 +247,10 @@ export default function ActivityCenterPage() {
                       {l.action}
                     </span>
                   </td>
-                  <td className="px-6 py-3 text-text font-medium">
+                  <td className="px-4 py-3 text-text font-medium">
                     {l.category || "—"}
                   </td>
-                  <td className="px-6 py-3 text-muted">
+                  <td className="px-4 py-3 text-muted">
                     <div>{l.device?.name || l.device?.mac || "Unassigned"}</div>
                     {l.profile && (
                       <span className="text-[10px] text-accent font-medium">
@@ -227,7 +258,7 @@ export default function ActivityCenterPage() {
                       </span>
                     )}
                   </td>
-                  <td className="px-6 py-3 text-slate-500 text-[11px]">
+                  <td className="px-4 py-3 text-muted text-[11px]">
                     {l.resolver_source}
                   </td>
                 </tr>
@@ -235,7 +266,7 @@ export default function ActivityCenterPage() {
 
               {logs.length === 0 && !loading && (
                 <tr>
-                  <td colSpan={6} className="px-6 py-8 text-center text-slate-500">
+                  <td colSpan={6} className="px-6 py-8 text-center text-muted">
                     No DNS activity records match the current filter.
                   </td>
                 </tr>
@@ -247,4 +278,3 @@ export default function ActivityCenterPage() {
     </div>
   );
 }
-
