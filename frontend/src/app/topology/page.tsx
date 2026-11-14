@@ -148,13 +148,13 @@ export default function TopologyPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-5">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-border pb-5">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight flex items-center gap-2.5">
-            <Network className="w-6 h-6 text-indigo-400" />
+          <h1 className="text-2xl font-bold tracking-tight text-text flex items-center gap-2.5">
+            <Network className="w-6 h-6 text-accent" />
             Interactive Network Topology
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <p className="text-sm text-muted mt-1">
             Dynamic hierarchical L2/L3 topology visualization: Gateway &rarr; Switches/APs &rarr; Clients
           </p>
         </div>
@@ -166,13 +166,13 @@ export default function TopologyPage() {
               placeholder="Search nodes, IP, MAC..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="bg-slate-900 border border-slate-800 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 w-56"
+              className="bg-surface border border-border rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-900 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-accent w-56 shadow-sm"
             />
           </div>
           <button
             onClick={fetchTopology}
             disabled={loading}
-            className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition"
+            className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-border transition"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
             Refresh Map
@@ -182,34 +182,34 @@ export default function TopologyPage() {
 
       {/* Summary KPI Bar */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
-          <span className="text-xs font-semibold uppercase text-slate-400">Total Nodes</span>
-          <div className="text-2xl font-bold text-slate-100 mt-1">{data?.summary.total_nodes ?? 0}</div>
+        <div className="bg-surface border border-border rounded-xl p-4 shadow-sm">
+          <span className="text-xs font-semibold uppercase text-muted">Total Nodes</span>
+          <div className="text-2xl font-bold text-text mt-1">{data?.summary.total_nodes ?? 0}</div>
         </div>
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
-          <span className="text-xs font-semibold uppercase text-slate-400">Total Links (Edges)</span>
-          <div className="text-2xl font-bold text-slate-100 mt-1">{data?.summary.total_edges ?? 0}</div>
+        <div className="bg-surface border border-border rounded-xl p-4 shadow-sm">
+          <span className="text-xs font-semibold uppercase text-muted">Total Links (Edges)</span>
+          <div className="text-2xl font-bold text-text mt-1">{data?.summary.total_edges ?? 0}</div>
         </div>
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
-          <span className="text-xs font-semibold uppercase text-slate-400">Infrastructure Nodes</span>
-          <div className="text-2xl font-bold text-indigo-400 mt-1">{data?.summary.infra_count ?? 1}</div>
+        <div className="bg-surface border border-border rounded-xl p-4 shadow-sm">
+          <span className="text-xs font-semibold uppercase text-muted">Infrastructure Nodes</span>
+          <div className="text-2xl font-bold text-accent mt-1">{data?.summary.infra_count ?? 1}</div>
         </div>
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
-          <span className="text-xs font-semibold uppercase text-slate-400">Client Devices</span>
-          <div className="text-2xl font-bold text-emerald-400 mt-1">{data?.summary.devices_count ?? 0}</div>
+        <div className="bg-surface border border-border rounded-xl p-4 shadow-sm">
+          <span className="text-xs font-semibold uppercase text-muted">Client Devices</span>
+          <div className="text-2xl font-bold text-status-online mt-1">{data?.summary.devices_count ?? 0}</div>
         </div>
       </div>
 
       {/* Main Interactive Diagram & Inspection Drawer */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Topology Diagram Grid Canvas */}
-        <div className="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-6 relative min-h-[500px] overflow-x-auto">
+        <div className="lg:col-span-2 bg-surface border border-border rounded-xl p-6 relative min-h-[500px] overflow-x-auto shadow-sm">
           <div className="flex justify-between items-center mb-6">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-              <Layers className="w-4 h-4 text-indigo-400" />
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted flex items-center gap-1.5">
+              <Layers className="w-4 h-4 text-accent" />
               Hierarchy View
             </span>
-            <div className="flex gap-4 text-xs text-slate-400">
+            <div className="flex gap-4 text-xs text-muted">
               <span className="flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-indigo-500" /> Gateway/WAN
               </span>
@@ -217,7 +217,7 @@ export default function TopologyPage() {
                 <span className="w-2.5 h-2.5 rounded-full bg-cyan-500" /> Switch / AP
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" /> Client
+                <span className="w-2.5 h-2.5 rounded-full bg-status-online" /> Client
               </span>
             </div>
           </div>
@@ -229,22 +229,22 @@ export default function TopologyPage() {
                 <div
                   key={node.id}
                   onClick={() => selectNode(node)}
-                  className={`cursor-pointer px-5 py-3 rounded-xl border transition flex items-center gap-3 shadow-lg ${
+                  className={`cursor-pointer px-5 py-3 rounded-xl border transition flex items-center gap-3 shadow-md ${
                     selectedNode?.id === node.id
-                      ? "bg-indigo-950/80 border-indigo-500 ring-2 ring-indigo-500/30"
-                      : "bg-slate-950 border-slate-800 hover:border-slate-700"
+                      ? "bg-indigo-50 dark:bg-indigo-950/80 border-indigo-500 ring-2 ring-indigo-500/30"
+                      : "bg-background border-border hover:border-slate-300 dark:hover:border-slate-700"
                   }`}
                 >
-                  <Server className="w-6 h-6 text-indigo-400" />
+                  <Server className="w-6 h-6 text-accent" />
                   <div>
-                    <div className="text-xs font-bold text-slate-200">{node.label}</div>
+                    <div className="text-xs font-bold text-slate-900 dark:text-slate-200">{node.label}</div>
                     <div className="text-[10px] text-slate-500">{node.ip}</div>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="w-0.5 h-6 bg-slate-800" />
+            <div className="w-0.5 h-6 bg-slate-200 dark:bg-slate-800" />
 
             {/* Level 1: Gateway */}
             <div className="flex justify-center w-full">
@@ -252,17 +252,17 @@ export default function TopologyPage() {
                 <div
                   key={node.id}
                   onClick={() => selectNode(node)}
-                  className={`cursor-pointer px-6 py-4 rounded-xl border transition flex items-center gap-3 shadow-lg ${
+                  className={`cursor-pointer px-6 py-4 rounded-xl border transition flex items-center gap-3 shadow-md ${
                     selectedNode?.id === node.id
-                      ? "bg-indigo-950/80 border-indigo-500 ring-2 ring-indigo-500/30"
-                      : "bg-slate-950 border-slate-800 hover:border-slate-700"
+                      ? "bg-indigo-50 dark:bg-indigo-950/80 border-indigo-500 ring-2 ring-indigo-500/30"
+                      : "bg-background border-border hover:border-slate-300 dark:hover:border-slate-700"
                   }`}
                 >
-                  <RouterIcon className="w-6 h-6 text-emerald-400" />
+                  <RouterIcon className="w-6 h-6 text-status-online" />
                   <div>
-                    <div className="text-sm font-bold text-slate-100">{node.label}</div>
-                    <div className="text-xs text-slate-400 font-mono">{node.ip}</div>
-                    <div className="text-[10px] text-slate-500 font-mono">{node.mac}</div>
+                    <div className="text-sm font-bold text-text">{node.label}</div>
+                    <div className="text-xs text-muted font-mono">{node.ip}</div>
+                    <div className="text-[10px] text-muted font-mono">{node.mac}</div>
                   </div>
                 </div>
               ))}
@@ -271,7 +271,7 @@ export default function TopologyPage() {
             {/* Level 2: Infrastructure Switches / APs (if any) */}
             {nodesByLevel[2]?.length > 0 && (
               <>
-                <div className="w-0.5 h-6 bg-slate-800" />
+                <div className="w-0.5 h-6 bg-slate-200 dark:bg-slate-800" />
                 <div className="flex flex-wrap justify-center gap-4 w-full">
                   {nodesByLevel[2].map((node) => (
                     <div
@@ -279,14 +279,14 @@ export default function TopologyPage() {
                       onClick={() => selectNode(node)}
                       className={`cursor-pointer px-4 py-3 rounded-lg border transition flex items-center gap-2.5 ${
                         selectedNode?.id === node.id
-                          ? "bg-indigo-950/80 border-indigo-500"
-                          : "bg-slate-950 border-slate-800 hover:border-slate-700"
+                          ? "bg-indigo-50 dark:bg-indigo-950/80 border-indigo-500"
+                          : "bg-background border-border hover:border-slate-300 dark:hover:border-slate-700"
                       }`}
                     >
-                      <Layers className="w-5 h-5 text-cyan-400" />
+                      <Layers className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
                       <div>
-                        <div className="text-xs font-semibold text-slate-200">{node.label}</div>
-                        <div className="text-[11px] text-slate-400 font-mono">{node.ip}</div>
+                        <div className="text-xs font-semibold text-slate-900 dark:text-slate-200">{node.label}</div>
+                        <div className="text-[11px] text-muted font-mono">{node.ip}</div>
                       </div>
                     </div>
                   ))}
@@ -294,7 +294,7 @@ export default function TopologyPage() {
               </>
             )}
 
-            <div className="w-0.5 h-6 bg-slate-800" />
+            <div className="w-0.5 h-6 bg-slate-200 dark:bg-slate-800" />
 
             {/* Level 3: Client Devices */}
             <div className="w-full">
@@ -308,24 +308,24 @@ export default function TopologyPage() {
                     onClick={() => selectNode(node)}
                     className={`cursor-pointer p-3 rounded-lg border transition flex flex-col justify-between ${
                       selectedNode?.id === node.id
-                        ? "bg-indigo-950/80 border-indigo-500 ring-2 ring-indigo-500/20"
-                        : "bg-slate-950/60 border-slate-800 hover:border-slate-700"
+                        ? "bg-indigo-50 dark:bg-indigo-950/80 border-indigo-500 ring-2 ring-indigo-500/20"
+                        : "bg-background/60 border-border hover:border-slate-300 dark:hover:border-slate-700"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-2">
                       {node.category?.toLowerCase().includes("mobile") ? (
-                        <Smartphone className="w-4 h-4 text-emerald-400" />
+                        <Smartphone className="w-4 h-4 text-status-online" />
                       ) : (
-                        <Laptop className="w-4 h-4 text-slate-400" />
+                        <Laptop className="w-4 h-4 text-muted" />
                       )}
                       <span
                         className={`w-2 h-2 rounded-full ${
-                          node.status === "online" ? "bg-emerald-500" : "bg-slate-600"
+                          node.status === "online" ? "bg-status-online" : "bg-slate-400 dark:bg-slate-600"
                         }`}
                       />
                     </div>
-                    <div className="text-xs font-semibold text-slate-200 truncate">{node.label}</div>
-                    <div className="text-[11px] text-slate-400 font-mono truncate">{node.ip || "No IP"}</div>
+                    <div className="text-xs font-semibold text-slate-900 dark:text-slate-200 truncate">{node.label}</div>
+                    <div className="text-[11px] text-muted font-mono truncate">{node.ip || "No IP"}</div>
                   </div>
                 ))}
               </div>
@@ -334,15 +334,15 @@ export default function TopologyPage() {
         </div>
 
         {/* Selected Node Details & Port Scanning Drawer */}
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 flex flex-col justify-between">
+        <div className="bg-surface border border-border rounded-xl p-6 flex flex-col justify-between shadow-sm">
           <div>
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-2">
-                <Info className="w-4 h-4 text-indigo-400" />
+            <div className="flex items-center justify-between border-b border-border pb-3 mb-4">
+              <h2 className="text-sm font-semibold uppercase tracking-wider text-text flex items-center gap-2">
+                <Info className="w-4 h-4 text-accent" />
                 Node Inspector
               </h2>
               {selectedNode && (
-                <span className="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400 uppercase font-mono">
+                <span className="text-xs px-2 py-0.5 rounded bg-hover text-slate-700 dark:text-slate-400 uppercase font-mono border border-border">
                   {selectedNode.type}
                 </span>
               )}
@@ -352,32 +352,32 @@ export default function TopologyPage() {
               <div className="space-y-4">
                 <div>
                   <div className="text-xs text-slate-500">Device / Node Name</div>
-                  <div className="text-lg font-bold text-slate-100">{selectedNode.label}</div>
+                  <div className="text-lg font-bold text-text">{selectedNode.label}</div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3 text-xs">
-                  <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+                  <div className="bg-background p-2.5 rounded-lg border border-border">
                     <span className="text-slate-500 block">IP Address</span>
-                    <span className="font-mono text-slate-200">{selectedNode.ip || "N/A"}</span>
+                    <span className="font-mono text-slate-900 dark:text-slate-200">{selectedNode.ip || "N/A"}</span>
                   </div>
-                  <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+                  <div className="bg-background p-2.5 rounded-lg border border-border">
                     <span className="text-slate-500 block">MAC Address</span>
-                    <span className="font-mono text-slate-200 truncate block">{selectedNode.mac || "N/A"}</span>
+                    <span className="font-mono text-slate-900 dark:text-slate-200 truncate block">{selectedNode.mac || "N/A"}</span>
                   </div>
                 </div>
 
-                <div className="text-xs bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1.5">
+                <div className="text-xs bg-background p-3 rounded-lg border border-border space-y-1.5">
                   <div className="flex justify-between">
                     <span className="text-slate-500">Category:</span>
-                    <span className="text-slate-300">{selectedNode.category || "General"}</span>
+                    <span className="text-text font-medium">{selectedNode.category || "General"}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-500">Vendor:</span>
-                    <span className="text-slate-300">{selectedNode.vendor || "Generic Device"}</span>
+                    <span className="text-text font-medium">{selectedNode.vendor || "Generic Device"}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-500">Hierarchy Level:</span>
-                    <span className="text-slate-300">Level {selectedNode.level}</span>
+                    <span className="text-text font-medium">Level {selectedNode.level}</span>
                   </div>
                 </div>
 
@@ -385,20 +385,20 @@ export default function TopologyPage() {
                 {selectedNode.id.startsWith("dev-") && (
                   <div className="pt-2">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs font-semibold uppercase text-slate-400">
+                      <span className="text-xs font-semibold uppercase text-muted">
                         Open TCP Ports ({ports.length})
                       </span>
                       <button
                         onClick={triggerPortScan}
                         disabled={scanningPorts}
-                        className="px-2.5 py-1 text-xs rounded bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition disabled:opacity-50"
+                        className="px-2.5 py-1 text-xs rounded bg-accent hover:bg-accent-hover text-white font-medium transition disabled:opacity-50 shadow-sm"
                       >
                         {scanningPorts ? "Scanning..." : "Scan Ports"}
                       </button>
                     </div>
 
                     {ports.length === 0 ? (
-                      <div className="text-xs text-slate-500 bg-slate-950/60 p-3 rounded-lg border border-dashed border-slate-800 text-center">
+                      <div className="text-xs text-slate-500 bg-background/60 p-3 rounded-lg border border-dashed border-border text-center">
                         No open ports detected. Click &quot;Scan Ports&quot; to probe common TCP services.
                       </div>
                     ) : (
@@ -406,13 +406,13 @@ export default function TopologyPage() {
                         {ports.map((p, idx) => (
                           <div
                             key={idx}
-                            className="flex items-center justify-between text-xs bg-slate-950 p-2 rounded border border-slate-800/80"
+                            className="flex items-center justify-between text-xs bg-background p-2 rounded border border-border/80"
                           >
                             <div className="flex items-center gap-2">
-                              <span className="px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-mono text-[11px] font-semibold border border-emerald-500/20">
+                              <span className="px-1.5 py-0.5 rounded bg-emerald-50 dark:bg-status-online/10 text-emerald-700 dark:text-status-online font-mono text-[11px] font-semibold border border-emerald-200 dark:border-emerald-500/20">
                                 {p.port}/{p.protocol}
                               </span>
-                              <span className="text-slate-300 font-medium">{p.service_name}</span>
+                              <span className="text-slate-800 dark:text-slate-300 font-medium">{p.service_name}</span>
                             </div>
                             <span className="text-[10px] text-slate-500 truncate max-w-[120px]">
                               {p.banner || "Open"}
@@ -426,7 +426,7 @@ export default function TopologyPage() {
               </div>
             ) : (
               <div className="h-64 flex flex-col items-center justify-center text-sm text-slate-500 text-center px-4">
-                <Network className="w-10 h-10 text-slate-700 mb-2" />
+                <Network className="w-10 h-10 text-slate-400 dark:text-slate-700 mb-2" />
                 Select any node from the diagram to inspect IP, MAC, hardware vendor, and scan TCP ports.
               </div>
             )}

@@ -48,6 +48,15 @@ ead_only_api, passive_discovery, unsupported) in ackend/app/models/routers.py, 
 
 ## [Unreleased]
 
+### Enterprise Slate + Signal Blue Design System
+- **Centralized CSS Design Tokens**: Established authoritative tokens in `frontend/src/app/globals.css` mapping `--background`, `--surface`, `--sidebar`, `--accent`, `--accent-hover`, `--text`, `--muted`, `--border`, `--hover`, and semantic status tokens directly to Tailwind CSS `@theme inline`.
+- **ThemeContext & Reactive System Theme**: Added robust `light | dark | system` theme toggle with `window.matchMedia` dynamic listener, early script anti-flash execution, and `watchnet_theme` localStorage persistence.
+- **Enterprise Shell Overhaul**: Modernized desktop navigation sidebar and topbar with segmented theme switcher (`Light`, `Dark`, `System`), Signal Blue active states, and persistent user profile display.
+- **Full Application Tokenization**: Cleanly refactored all 18 primary sections + Login screen, NOC Wallboard, and Device details to eliminate decorative gradients and inconsistent slates in favor of clean enterprise density and subtle 1px borders.
+- **Automated Visual Verification**: Created `capture_theme_screenshots.spec.ts` capturing 40 high-resolution Light and Dark viewport screenshots into `docs/testing/manual/ui-theme/`.
+- **100% E2E Pass Rate**: Successfully passed all 43 Playwright browser tests and verified 0 ESLint errors.
+
+
 ### Added
 - **Phase 0: Upstream NetAlertX Repository Inspection & Snapshot Verification**:
   - Validated clean-room state of `D:\NetAlertX-main\NetAlertX-main`.

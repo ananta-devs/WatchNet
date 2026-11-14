@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useScrollLock } from "@/hooks/useScrollLock";
 import {
   Users,
   Plus,
@@ -63,6 +64,8 @@ export default function FamilySafetyPage() {
   const [availableDevices, setAvailableDevices] = useState<Array<{ id: string; name: string | null; mac: string; ipv4: string | null }>>([]);
   const [selectedDeviceToAssign, setSelectedDeviceToAssign] = useState<string>("");
   const [temporaryPassOpen, setTemporaryPassOpen] = useState<string | null>(null);
+
+  useScrollLock(createModalOpen || assignModalOpen || Boolean(temporaryPassOpen));
 
   // New profile state
   const [newName, setNewName] = useState("");
@@ -242,11 +245,11 @@ export default function FamilySafetyPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
-            <Users className="w-7 h-7 text-indigo-400" />
+          <h1 className="text-2xl font-bold tracking-tight text-text flex items-center gap-2">
+            <Users className="w-7 h-7 text-accent" />
             Family Safety & Transparent Parental Controls
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <p className="text-sm text-muted mt-1">
             Household member profiles, one-click Internet Pause, category-based DNS filtering, and bedtime access windows.
           </p>
         </div>
@@ -254,14 +257,14 @@ export default function FamilySafetyPage() {
         <div className="flex items-center gap-3">
           <button
             onClick={fetchProfiles}
-            className="flex items-center gap-2 px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-medium rounded-lg transition"
+            className="flex items-center gap-2 px-3 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-sm font-medium rounded-lg border border-border transition"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
             Refresh
           </button>
           <button
             onClick={() => setCreateModalOpen(true)}
-            className="flex items-center gap-2 px-3 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-sm transition"
+            className="flex items-center gap-2 px-3 py-2 bg-accent hover:bg-accent-hover text-white text-sm font-medium rounded-lg shadow-sm transition"
           >
             <Plus className="w-4 h-4" />
             New Profile
@@ -279,8 +282,8 @@ export default function FamilySafetyPage() {
               onClick={() => selectProfile(p)}
               className={`p-5 rounded-xl border cursor-pointer transition-all ${
                 isSelected
-                  ? "bg-slate-800/80 border-indigo-500 shadow-md shadow-indigo-500/10"
-                  : "bg-slate-900/60 border-slate-800 hover:border-slate-700"
+                  ? "bg-slate-50 dark:bg-slate-800/80 border-indigo-500 shadow-md shadow-indigo-500/10"
+                  : "bg-surface border-border hover:border-slate-300 dark:hover:border-slate-700 shadow-sm"
               }`}
             >
               <div className="flex items-start justify-between">
@@ -289,33 +292,33 @@ export default function FamilySafetyPage() {
                     {p.name.charAt(0).toUpperCase()}
                   </div>
                   <div>
-                    <h3 className="font-semibold text-white leading-tight">{p.name}</h3>
-                    <span className="text-[11px] text-slate-400 font-medium">{p.role}</span>
+                    <h3 className="font-semibold text-text leading-tight">{p.name}</h3>
+                    <span className="text-[11px] text-muted font-medium">{p.role}</span>
                   </div>
                 </div>
 
                 <span className={`px-2 py-0.5 rounded text-[11px] font-semibold border ${
                   p.is_paused
-                    ? "bg-rose-950/80 text-rose-400 border-rose-800/60"
-                    : "bg-emerald-950/80 text-emerald-400 border-emerald-800/60"
+                    ? "bg-rose-50 dark:bg-rose-950/80 text-rose-700 dark:text-status-critical border-rose-200 dark:border-rose-800/60"
+                    : "bg-emerald-50 dark:bg-emerald-950/80 text-emerald-700 dark:text-status-online border-emerald-200 dark:border-emerald-800/60"
                 }`}>
                   {p.is_paused ? "PAUSED" : "ONLINE"}
                 </span>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-slate-800/80 text-xs text-slate-400 flex items-center justify-between">
+              <div className="mt-4 pt-3 border-t border-border/80 text-xs text-muted flex items-center justify-between">
                 <span>{p.devices.length} Devices assigned</span>
                 <span>{p.policies.length} Active rules</span>
               </div>
 
               {/* Quick Pause Action Switch */}
-              <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between" onClick={(e) => e.stopPropagation()}>
-                <span className="text-xs text-slate-400 font-medium">Internet Access</span>
+              <div className="mt-4 pt-3 border-t border-border/80 flex items-center justify-between" onClick={(e) => e.stopPropagation()}>
+                <span className="text-xs text-muted font-medium">Internet Access</span>
                 <div className="flex items-center gap-1.5">
                   {p.is_paused ? (
                     <button
                       onClick={() => handleTogglePause(p, false)}
-                      className="flex items-center gap-1.5 px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-xs font-semibold shadow transition"
+                      className="flex items-center gap-1.5 px-3 py-1 bg-emerald-600 hover:bg-status-online text-white rounded text-xs font-semibold shadow transition"
                     >
                       <Play className="w-3.5 h-3.5" /> Resume
                     </button>
@@ -324,13 +327,13 @@ export default function FamilySafetyPage() {
                       <button
                         onClick={() => handleTogglePause(p, true, 30)}
                         title="Pause for 30 minutes"
-                        className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-[11px] font-medium transition"
+                        className="px-2 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-text rounded text-[11px] font-medium border border-border transition"
                       >
                         30m
                       </button>
                       <button
                         onClick={() => handleTogglePause(p, true)}
-                        className="flex items-center gap-1.5 px-3 py-1 bg-rose-600 hover:bg-rose-500 text-white rounded text-xs font-semibold shadow transition"
+                        className="flex items-center gap-1.5 px-3 py-1 bg-rose-600 hover:bg-status-critical text-white rounded text-xs font-semibold shadow transition"
                       >
                         <Pause className="w-3.5 h-3.5" /> Pause
                       </button>
@@ -347,10 +350,10 @@ export default function FamilySafetyPage() {
       {activeProfile && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Assigned Devices */}
-          <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-5">
+          <div className="bg-surface border border-border rounded-xl p-5 shadow-sm">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-semibold text-white flex items-center gap-2">
-                <Smartphone className="w-4 h-4 text-indigo-400" />
+              <h3 className="text-sm font-semibold text-text flex items-center gap-2">
+                <Smartphone className="w-4 h-4 text-accent" />
                 Assigned Devices ({activeProfile.devices.length})
               </h3>
               <button
@@ -358,28 +361,28 @@ export default function FamilySafetyPage() {
                   fetchAvailableDevices();
                   setAssignModalOpen(true);
                 }}
-                className="flex items-center gap-1 px-2.5 py-1 bg-indigo-600/80 hover:bg-indigo-600 text-white rounded text-[11px] font-medium transition"
+                className="flex items-center gap-1 px-2.5 py-1 bg-accent hover:bg-accent-hover text-white rounded text-[11px] font-medium transition"
               >
                 <Plus className="w-3.5 h-3.5" /> Assign Device
               </button>
             </div>
             <div className="space-y-2">
               {activeProfile.devices.map((d) => (
-                <div key={d.id} className="p-3 bg-slate-950/50 rounded-lg border border-slate-800/80 flex items-center justify-between text-xs">
+                <div key={d.id} className="p-3 bg-background/50 rounded-lg border border-border/80 flex items-center justify-between text-xs">
                   <div>
-                    <span className="font-semibold text-slate-200 block">{d.name || "Unnamed Device"}</span>
+                    <span className="font-semibold text-text block">{d.name || "Unnamed Device"}</span>
                     <span className="text-slate-500 font-mono text-[11px]">{d.mac} • {d.ipv4 || "No IP"}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className={`px-2 py-0.5 rounded text-[10px] font-semibold ${
-                      d.status === "online" ? "bg-emerald-950 text-emerald-400" : "bg-slate-800 text-slate-400"
+                      d.status === "online" ? "bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-status-online border border-emerald-200 dark:border-emerald-800" : "bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-400"
                     }`}>
                       {d.status}
                     </span>
                     <button
                       onClick={() => handleUnassignDevice(d.id)}
                       title="Remove device from profile"
-                      className="text-slate-500 hover:text-rose-400 transition p-1"
+                      className="text-slate-400 hover:text-rose-500 transition p-1"
                     >
                       <X className="w-3.5 h-3.5" />
                     </button>
@@ -395,9 +398,9 @@ export default function FamilySafetyPage() {
           </div>
 
           {/* DNS Policy Categories */}
-          <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-5">
-            <h3 className="text-sm font-semibold text-white flex items-center gap-2 mb-3">
-              <Shield className="w-4 h-4 text-indigo-400" />
+          <div className="bg-surface border border-border rounded-xl p-5 shadow-sm">
+            <h3 className="text-sm font-semibold text-text flex items-center gap-2 mb-3">
+              <Shield className="w-4 h-4 text-accent" />
               Domain Category Filters
             </h3>
             <div className="space-y-2 text-xs">
@@ -406,9 +409,9 @@ export default function FamilySafetyPage() {
                 return (
                   <label
                     key={cat}
-                    className="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/50 border border-slate-800/80 cursor-pointer hover:bg-slate-800/30 transition"
+                    className="flex items-center justify-between p-2.5 rounded-lg bg-background/50 border border-border/80 cursor-pointer hover:bg-slate-100/60 dark:hover:bg-slate-800/30 transition"
                   >
-                    <span className="text-slate-300 font-medium">{cat}</span>
+                    <span className="text-text font-medium">{cat}</span>
                     <input
                       type="checkbox"
                       checked={isBlocked}
@@ -419,16 +422,16 @@ export default function FamilySafetyPage() {
                           setSelectedCategories(selectedCategories.filter((c) => c !== cat));
                         }
                       }}
-                      className="rounded bg-slate-900 border-slate-700 text-indigo-600 focus:ring-0"
+                      className="rounded bg-surface border-slate-300 dark:border-slate-700 text-indigo-600 focus:ring-0"
                     />
                   </label>
                 );
               })}
             </div>
 
-            <div className="mt-4 pt-3 border-t border-slate-800/80 space-y-2">
+            <div className="mt-4 pt-3 border-t border-border/80 space-y-2">
               <div>
-                <label className="block text-[11px] font-semibold text-slate-400 mb-1">
+                <label className="block text-[11px] font-semibold text-muted mb-1">
                   Custom Blocklist (comma-separated domains)
                 </label>
                 <input
@@ -436,12 +439,12 @@ export default function FamilySafetyPage() {
                   value={blockedDomainsInput}
                   onChange={(e) => setBlockedDomainsInput(e.target.value)}
                   placeholder="e.g. distracting-site.com, video-game.net"
-                  className="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-background border border-border rounded px-2.5 py-1.5 text-xs text-text placeholder-slate-400 focus:outline-none focus:border-accent"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold text-slate-400 mb-1">
+                <label className="block text-[11px] font-semibold text-muted mb-1">
                   Custom Allowlist (whitelist overrides)
                 </label>
                 <input
@@ -449,46 +452,46 @@ export default function FamilySafetyPage() {
                   value={allowedDomainsInput}
                   onChange={(e) => setAllowedDomainsInput(e.target.value)}
                   placeholder="e.g. wikipedia.org, school.edu"
-                  className="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-background border border-border rounded px-2.5 py-1.5 text-xs text-text placeholder-slate-400 focus:outline-none focus:border-accent"
                 />
               </div>
             </div>
           </div>
 
           {/* Bedtime Restriction Matrix */}
-          <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-5 flex flex-col justify-between">
+          <div className="bg-surface border border-border rounded-xl p-5 flex flex-col justify-between shadow-sm">
             <div>
-              <h3 className="text-sm font-semibold text-white flex items-center gap-2 mb-3">
-                <Clock className="w-4 h-4 text-indigo-400" />
+              <h3 className="text-sm font-semibold text-text flex items-center gap-2 mb-3">
+                <Clock className="w-4 h-4 text-accent" />
                 Bedtime & Study Windows
               </h3>
-              <p className="text-xs text-slate-400 mb-4">
+              <p className="text-xs text-muted mb-4">
                 Automated DNS curfew: requests will be transparently rejected during the configured time frame.
               </p>
 
               <div className="grid grid-cols-2 gap-3 mb-4">
                 <div>
-                  <label className="block text-[11px] text-slate-400 font-semibold mb-1">Bedtime Starts</label>
+                  <label className="block text-[11px] text-muted font-semibold mb-1">Bedtime Starts</label>
                   <input
                     type="time"
                     value={bedtimeStart}
                     onChange={(e) => setBedtimeStart(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-background border border-border rounded px-2.5 py-1.5 text-xs text-text focus:outline-none focus:border-accent"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] text-slate-400 font-semibold mb-1">Access Resumes</label>
+                  <label className="block text-[11px] text-muted font-semibold mb-1">Access Resumes</label>
                   <input
                     type="time"
                     value={bedtimeEnd}
                     onChange={(e) => setBedtimeEnd(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-background border border-border rounded px-2.5 py-1.5 text-xs text-text focus:outline-none focus:border-accent"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-[11px] text-slate-400 font-semibold mb-1.5">Active Days</label>
+                <label className="block text-[11px] text-muted font-semibold mb-1.5">Active Days</label>
                 <div className="flex gap-1">
                   {["mon", "tue", "wed", "thu", "fri", "sat", "sun"].map((day) => {
                     const active = selectedDays.includes(day);
@@ -503,7 +506,7 @@ export default function FamilySafetyPage() {
                         className={`flex-1 py-1 rounded text-[11px] font-bold uppercase transition ${
                           active
                             ? "bg-indigo-600 text-white"
-                            : "bg-slate-950 text-slate-500 hover:text-slate-300"
+                            : "bg-background text-slate-600 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-300"
                         }`}
                       >
                         {day.charAt(0)}
@@ -514,10 +517,10 @@ export default function FamilySafetyPage() {
               </div>
             </div>
 
-            <div className="pt-5 border-t border-slate-800 mt-5">
+            <div className="pt-5 border-t border-border mt-5">
               <button
                 onClick={handleSavePolicy}
-                className="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold shadow transition"
+                className="w-full py-2 bg-accent hover:bg-accent-hover text-white rounded-lg text-xs font-semibold shadow transition"
               >
                 Save All Profile Rules
               </button>
@@ -529,35 +532,35 @@ export default function FamilySafetyPage() {
       {/* Create Profile Modal */}
       {createModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-sm p-6 shadow-2xl relative">
+          <div className="bg-surface border border-border rounded-2xl w-full max-w-sm p-6 shadow-2xl relative">
             <button
               onClick={() => setCreateModalOpen(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white"
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-700 dark:hover:text-white"
             >
               <X className="w-5 h-5" />
             </button>
-            <h3 className="text-lg font-bold text-white flex items-center gap-2 mb-4">
-              <Plus className="w-5 h-5 text-indigo-400" /> Create Member Profile
+            <h3 className="text-lg font-bold text-text flex items-center gap-2 mb-4">
+              <Plus className="w-5 h-5 text-accent" /> Create Member Profile
             </h3>
             <form onSubmit={handleCreateProfile} className="space-y-4 text-xs">
               <div>
-                <label className="block text-slate-300 font-semibold mb-1">Name</label>
+                <label className="block text-text font-semibold mb-1">Name</label>
                 <input
                   type="text"
                   required
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
                   placeholder="e.g. Sarah"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-background border border-border rounded-lg px-3 py-2 text-text placeholder-slate-400 focus:outline-none focus:border-accent"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 font-semibold mb-1">Role</label>
+                <label className="block text-text font-semibold mb-1">Role</label>
                 <select
                   value={newRole}
                   onChange={(e) => setNewRole(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-background border border-border rounded-lg px-3 py-2 text-text focus:outline-none focus:border-accent"
                 >
                   <option value="Adult">Adult</option>
                   <option value="Child">Child</option>
@@ -566,17 +569,17 @@ export default function FamilySafetyPage() {
                 </select>
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-slate-800">
+              <div className="flex justify-end gap-2 pt-3 border-t border-border">
                 <button
                   type="button"
                   onClick={() => setCreateModalOpen(false)}
-                  className="px-3 py-1.5 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 font-medium"
+                  className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-text rounded-lg border border-border font-medium"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 font-semibold"
+                  className="px-4 py-1.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 font-semibold shadow-sm"
                 >
                   Create Profile
                 </button>
@@ -589,24 +592,24 @@ export default function FamilySafetyPage() {
       {/* Assign Device Modal */}
       {assignModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-sm p-6 shadow-2xl relative">
+          <div className="bg-surface border border-border rounded-2xl w-full max-w-sm p-6 shadow-2xl relative">
             <button
               onClick={() => setAssignModalOpen(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white"
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-700 dark:hover:text-white"
             >
               <X className="w-5 h-5" />
             </button>
-            <h3 className="text-lg font-bold text-white flex items-center gap-2 mb-4">
-              <Smartphone className="w-5 h-5 text-indigo-400" /> Assign Device to {activeProfile?.name}
+            <h3 className="text-lg font-bold text-text flex items-center gap-2 mb-4">
+              <Smartphone className="w-5 h-5 text-accent" /> Assign Device to {activeProfile?.name}
             </h3>
             <div className="space-y-4 text-xs">
               <div>
-                <label className="block text-slate-300 font-semibold mb-1">Select Discovered Device</label>
+                <label className="block text-text font-semibold mb-1">Select Discovered Device</label>
                 {availableDevices.length > 0 ? (
                   <select
                     value={selectedDeviceToAssign}
                     onChange={(e) => setSelectedDeviceToAssign(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-background border border-border rounded-lg px-3 py-2 text-text focus:outline-none focus:border-accent"
                   >
                     {availableDevices.map((d) => (
                       <option key={d.id} value={d.id}>
@@ -615,15 +618,15 @@ export default function FamilySafetyPage() {
                     ))}
                   </select>
                 ) : (
-                  <p className="text-slate-400 py-2">No devices discovered yet.</p>
+                  <p className="text-muted py-2">No devices discovered yet.</p>
                 )}
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-slate-800">
+              <div className="flex justify-end gap-2 pt-3 border-t border-border">
                 <button
                   type="button"
                   onClick={() => setAssignModalOpen(false)}
-                  className="px-3 py-1.5 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 font-medium"
+                  className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-text rounded-lg border border-border font-medium"
                 >
                   Cancel
                 </button>
@@ -631,7 +634,7 @@ export default function FamilySafetyPage() {
                   type="button"
                   onClick={handleAssignDevice}
                   disabled={!selectedDeviceToAssign}
-                  className="px-4 py-1.5 bg-indigo-600 disabled:opacity-50 text-white rounded-lg hover:bg-indigo-500 font-semibold"
+                  className="px-4 py-1.5 bg-indigo-600 disabled:opacity-50 text-white rounded-lg hover:bg-indigo-500 font-semibold shadow-sm"
                 >
                   Confirm Assignment
                 </button>

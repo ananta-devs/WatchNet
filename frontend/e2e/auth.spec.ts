@@ -99,7 +99,7 @@ test.describe("Authentication Module", () => {
     // Should navigate to dashboard
     await expect(page).toHaveURL(/.*dashboard/);
     await expect(page.locator("aside")).toBeVisible();
-    await expect(page.locator("aside")).toContainText("admin");
+    await expect(page.locator("header")).toContainText("admin");
 
     // Click logout
     const logoutBtn = page.locator('button[title="Sign Out"]');

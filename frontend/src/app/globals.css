@@ -1,26 +1,118 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Enterprise Slate + Signal Blue Tokens (Light Theme) */
+  --background: #F4F6F9;
+  --surface: #FFFFFF;
+  --sidebar: #FFFFFF;
+  --accent: #2563EB;
+  --accent-hover: #1D4ED8;
+  --text: #172334;
+  --muted: #64748B;
+  --border: #DCE3EB;
+  --hover: #EFF4FB;
+
+  /* Semantic Status Tokens (Light Theme) */
+  --status-online: #15803D;
+  --status-warning: #B45309;
+  --status-critical: #B91C1C;
+  --status-info: #0369A1;
+  --status-offline: #64748B;
+
+  /* Backwards compatibility bindings */
+  --foreground: #172334;
+}
+
+.dark {
+  /* Enterprise Slate + Signal Blue Tokens (Dark Theme) */
+  --background: #0E1624;
+  --surface: #151F2E;
+  --sidebar: #111B2A;
+  --accent: #60A5FA;
+  --accent-hover: #3B82F6;
+  --text: #E6EDF5;
+  --muted: #9AA9BA;
+  --border: #29374A;
+  --hover: #1D2B3E;
+
+  /* Semantic Status Tokens (Dark Theme) */
+  --status-online: #4ADE80;
+  --status-warning: #FBBF24;
+  --status-critical: #F87171;
+  --status-info: #38BDF8;
+  --status-offline: #94A3B8;
+
+  /* Backwards compatibility bindings */
+  --foreground: #E6EDF5;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-sidebar: var(--sidebar);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-hover: var(--hover);
+
+  --color-status-online: var(--status-online);
+  --color-status-warning: var(--status-warning);
+  --color-status-critical: var(--status-critical);
+  --color-status-info: var(--status-info);
+  --color-status-offline: var(--status-offline);
+
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Authoritative Theme-Aware Scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+html.dark *,
+.dark * {
+  scrollbar-color: var(--border) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--muted);
 }

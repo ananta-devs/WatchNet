@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useScrollLock } from "@/hooks/useScrollLock";
 import {
   GitBranch,
   Play,
@@ -97,6 +98,8 @@ export default function WorkflowsPage() {
   const [logsRule, setLogsRule] = useState<WorkflowRule | null>(null);
   const [logs, setLogs] = useState<WorkflowLog[]>([]);
   const [loadingLogs, setLoadingLogs] = useState(false);
+
+  useScrollLock(Boolean(showBuilder || testingRule || logsRule));
 
   const getAuthHeaders = (): Record<string, string> => {
     const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
@@ -297,11 +300,11 @@ export default function WorkflowsPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-white flex items-center gap-3">
-            <GitBranch className="w-8 h-8 text-sky-400" />
+          <h1 className="text-3xl font-bold tracking-tight text-text flex items-center gap-3">
+            <GitBranch className="w-8 h-8 text-sky-600 dark:text-sky-400" />
             Workflow Automation Engine
           </h1>
-          <p className="text-slate-400 text-sm mt-1">
+          <p className="text-muted text-sm mt-1">
             Build event-driven rules, automated classification, notification routing, and network actions
           </p>
         </div>
@@ -309,7 +312,7 @@ export default function WorkflowsPage() {
         <div className="flex items-center gap-3">
           <button
             onClick={fetchRules}
-            className="flex items-center gap-2 px-3 py-2 text-sm bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700"
+            className="flex items-center gap-2 px-3 py-2 text-sm bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-text rounded-lg border border-border transition"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
             Refresh
@@ -336,10 +339,10 @@ export default function WorkflowsPage() {
       {/* Rules Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {rules.length === 0 ? (
-          <div className="col-span-full p-12 text-center bg-slate-900/50 rounded-xl border border-slate-800">
-            <Zap className="w-12 h-12 text-slate-600 mx-auto mb-3" />
-            <p className="text-slate-400 font-medium">No workflow automation rules configured</p>
-            <p className="text-slate-600 text-xs mt-1">
+          <div className="col-span-full p-12 text-center bg-surface/50 rounded-xl border border-border shadow-sm">
+            <Zap className="w-12 h-12 text-slate-400 dark:text-slate-600 mx-auto mb-3" />
+            <p className="text-slate-700 dark:text-slate-400 font-medium">No workflow automation rules configured</p>
+            <p className="text-slate-500 dark:text-slate-600 text-xs mt-1">
               Create rules to auto-tag devices, trigger webhooks, or wake sleeping servers on LAN events
             </p>
           </div>
@@ -347,75 +350,75 @@ export default function WorkflowsPage() {
           rules.map((rule) => (
             <div
               key={rule.id}
-              className={`p-5 rounded-2xl border transition-all flex flex-col justify-between ${
+              className={`p-5 rounded-2xl border transition-all flex flex-col justify-between shadow-sm ${
                 rule.is_enabled
-                  ? "bg-slate-900/80 border-slate-800 hover:border-slate-700"
-                  : "bg-slate-950/60 border-slate-900 opacity-60"
+                  ? "bg-surface border-border hover:border-slate-300 dark:hover:border-slate-700"
+                  : "bg-background/60 border-slate-200 dark:border-slate-900 opacity-60"
               }`}
             >
               <div>
                 <div className="flex items-start justify-between gap-2 mb-3">
                   <div>
-                    <h3 className="font-semibold text-white text-base leading-snug">{rule.name}</h3>
+                    <h3 className="font-semibold text-text text-base leading-snug">{rule.name}</h3>
                     <div className="flex items-center gap-2 mt-1">
-                      <span className="text-[10px] px-2 py-0.5 bg-sky-950 text-sky-400 border border-sky-800 font-mono rounded-full font-bold">
+                      <span className="text-[10px] px-2 py-0.5 bg-sky-50 dark:bg-sky-950 text-sky-700 dark:text-sky-400 border border-sky-200 dark:border-sky-800 font-mono rounded-full font-bold">
                         {rule.trigger_event}
                       </span>
                     </div>
                   </div>
                   <button
                     onClick={() => handleToggle(rule.id)}
-                    className="text-slate-400 hover:text-white transition-colors"
+                    className="text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors"
                   >
                     {rule.is_enabled ? (
-                      <ToggleRight className="w-7 h-7 text-sky-400" />
+                      <ToggleRight className="w-7 h-7 text-sky-600 dark:text-sky-400" />
                     ) : (
-                      <ToggleLeft className="w-7 h-7 text-slate-600" />
+                      <ToggleLeft className="w-7 h-7 text-slate-400 dark:text-slate-600" />
                     )}
                   </button>
                 </div>
 
                 {/* Conditions Summary */}
                 <div className="space-y-1.5 my-3">
-                  <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
+                  <span className="text-[11px] font-semibold text-muted uppercase tracking-wider block">
                     Conditions ({rule.conditions_json?.length || 0})
                   </span>
                   {rule.conditions_json && rule.conditions_json.length > 0 ? (
                     <div className="space-y-1">
                       {rule.conditions_json.map((c, i) => (
-                        <div key={i} className="text-xs font-mono bg-slate-950/70 px-2 py-1 rounded border border-slate-800 text-slate-300 truncate">
-                          <span className="text-slate-500">{c.type}:</span> {String(c.value || `${c.start} to ${c.end}`)}
+                        <div key={i} className="text-xs font-mono bg-background/70 px-2 py-1 rounded border border-border text-text truncate">
+                          <span className="text-muted">{c.type}:</span> {String(c.value || `${c.start} to ${c.end}`)}
                         </div>
                       ))}
                     </div>
                   ) : (
-                    <div className="text-xs text-slate-500 italic">Always executes on trigger</div>
+                    <div className="text-xs text-muted italic">Always executes on trigger</div>
                   )}
                 </div>
 
                 {/* Actions Summary */}
                 <div className="space-y-1.5 my-3">
-                  <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
+                  <span className="text-[11px] font-semibold text-muted uppercase tracking-wider block">
                     Actions ({rule.actions_json?.length || 0})
                   </span>
                   {rule.actions_json && rule.actions_json.length > 0 ? (
                     <div className="flex flex-wrap gap-1.5">
                       {rule.actions_json.map((a, i) => (
-                        <span key={i} className="text-[10px] font-mono px-2 py-0.5 bg-slate-800 border border-slate-700 text-slate-300 rounded">
+                        <span key={i} className="text-[10px] font-mono px-2 py-0.5 bg-hover border border-border text-text rounded">
                           {a.action}
                         </span>
                       ))}
                     </div>
                   ) : (
-                    <div className="text-xs text-slate-500 italic">No actions defined</div>
+                    <div className="text-xs text-muted italic">No actions defined</div>
                   )}
                 </div>
               </div>
 
               {/* Footer */}
-              <div className="pt-3 border-t border-slate-800/80 mt-4 flex items-center justify-between text-xs text-slate-400">
+              <div className="pt-3 border-t border-border/80 mt-4 flex items-center justify-between text-xs text-muted">
                 <span className="flex items-center gap-1">
-                  <Zap className="w-3.5 h-3.5 text-amber-400" />
+                  <Zap className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
                   Ran {rule.execution_count} times
                 </span>
                 <div className="flex items-center gap-2">
@@ -424,7 +427,7 @@ export default function WorkflowsPage() {
                       setTestingRule(rule);
                       setTestResult(null);
                     }}
-                    className="p-1.5 hover:bg-slate-800 text-sky-400 rounded-lg transition-colors font-medium flex items-center gap-1"
+                    className="p-1.5 hover:bg-hover text-sky-600 dark:text-sky-400 rounded-lg transition-colors font-medium flex items-center gap-1"
                     title="Simulate Event / Test"
                   >
                     <Play className="w-3.5 h-3.5" />
@@ -432,14 +435,14 @@ export default function WorkflowsPage() {
                   </button>
                   <button
                     onClick={() => openLogs(rule)}
-                    className="p-1.5 hover:bg-slate-800 text-slate-400 hover:text-white rounded-lg transition-colors"
+                    className="p-1.5 hover:bg-hover text-slate-400 hover:text-slate-700 dark:hover:text-white rounded-lg transition-colors"
                     title="Execution Logs"
                   >
                     <FileText className="w-3.5 h-3.5" />
                   </button>
                   <button
                     onClick={() => handleDeleteRule(rule.id)}
-                    className="p-1.5 hover:bg-red-950/40 text-slate-500 hover:text-red-400 rounded-lg transition-colors"
+                    className="p-1.5 hover:bg-red-50 dark:hover:bg-red-950/40 text-slate-400 hover:text-red-500 rounded-lg transition-colors"
                     title="Delete Rule"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -454,13 +457,13 @@ export default function WorkflowsPage() {
       {/* Modal: Rule Builder */}
       {showBuilder && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xs p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 shadow-2xl">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-800">
-              <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                <GitBranch className="w-5 h-5 text-sky-400" />
+          <div className="bg-surface border border-border rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 shadow-2xl">
+            <div className="flex items-center justify-between pb-4 border-b border-border">
+              <h2 className="text-lg font-bold text-text flex items-center gap-2">
+                <GitBranch className="w-5 h-5 text-accent" />
                 Workflow Rule Builder
               </h2>
-              <button onClick={() => setShowBuilder(false)} className="text-slate-400 hover:text-white">
+              <button onClick={() => setShowBuilder(false)} className="text-slate-400 hover:text-slate-700 dark:hover:text-white">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -469,22 +472,22 @@ export default function WorkflowsPage() {
               {/* Basic Rule Info */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">Rule Name</label>
+                  <label className="block text-xs font-medium text-text mb-1">Rule Name</label>
                   <input
                     type="text"
                     required
                     placeholder="e.g. Notify on Unknown IoT Device"
                     value={ruleName}
                     onChange={(e) => setRuleName(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-hidden focus:border-sky-500"
+                    className="w-full bg-background border border-border rounded-lg px-3 py-2 text-sm text-text placeholder-slate-400 focus:outline-hidden focus:border-sky-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">Trigger Event</label>
+                  <label className="block text-xs font-medium text-text mb-1">Trigger Event</label>
                   <select
                     value={triggerEvent}
                     onChange={(e) => setTriggerEvent(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-hidden focus:border-sky-500"
+                    className="w-full bg-background border border-border rounded-lg px-3 py-2 text-sm text-text focus:outline-hidden focus:border-sky-500"
                   >
                     {TRIGGER_EVENTS.map((t) => (
                       <option key={t.id} value={t.id}>
@@ -496,16 +499,16 @@ export default function WorkflowsPage() {
               </div>
 
               {/* Conditions Section */}
-              <div className="space-y-3 p-4 bg-slate-950/60 rounded-xl border border-slate-800">
+              <div className="space-y-3 p-4 bg-background/60 rounded-xl border border-border">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                    <Sliders className="w-4 h-4 text-sky-400" />
+                  <span className="text-xs font-semibold text-text uppercase tracking-wider flex items-center gap-1.5">
+                    <Sliders className="w-4 h-4 text-accent" />
                     Conditions (All must match - AND)
                   </span>
                   <button
                     type="button"
                     onClick={addCondition}
-                    className="px-2.5 py-1 text-xs bg-slate-800 hover:bg-slate-700 text-sky-300 rounded font-medium flex items-center gap-1"
+                    className="px-2.5 py-1 text-xs bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-sky-700 dark:text-sky-300 rounded font-medium flex items-center gap-1 border border-border transition"
                   >
                     <Plus className="w-3 h-3" /> Add Condition
                   </button>
@@ -515,11 +518,11 @@ export default function WorkflowsPage() {
                   <p className="text-xs text-slate-500 italic">No conditions added (triggers on every event)</p>
                 ) : (
                   conditions.map((c, idx) => (
-                    <div key={idx} className="flex items-center gap-2 bg-slate-900 p-2.5 rounded-lg border border-slate-800">
+                    <div key={idx} className="flex items-center gap-2 bg-surface p-2.5 rounded-lg border border-border">
                       <select
                         value={c.type}
                         onChange={(e) => updateCondition(idx, "type", e.target.value)}
-                        className="bg-slate-950 border border-slate-800 rounded px-2 py-1 text-xs text-white"
+                        className="bg-background border border-border rounded px-2 py-1 text-xs text-text"
                       >
                         {CONDITION_TYPES.map((ct) => (
                           <option key={ct.id} value={ct.id}>
@@ -534,21 +537,21 @@ export default function WorkflowsPage() {
                             type="time"
                             value={c.start || "08:00"}
                             onChange={(e) => updateCondition(idx, "start", e.target.value)}
-                            className="bg-slate-950 border border-slate-800 rounded px-2 py-1 text-xs text-white"
+                            className="bg-background border border-border rounded px-2 py-1 text-xs text-text"
                           />
                           <span className="text-slate-500 text-xs">to</span>
                           <input
                             type="time"
                             value={c.end || "18:00"}
                             onChange={(e) => updateCondition(idx, "end", e.target.value)}
-                            className="bg-slate-950 border border-slate-800 rounded px-2 py-1 text-xs text-white"
+                            className="bg-background border border-border rounded px-2 py-1 text-xs text-text"
                           />
                         </div>
                       ) : c.type === "is_randomized_mac" ? (
                         <select
                           value={c.value || "true"}
                           onChange={(e) => updateCondition(idx, "value", e.target.value)}
-                          className="flex-1 bg-slate-950 border border-slate-800 rounded px-2 py-1 text-xs text-white"
+                          className="flex-1 bg-background border border-border rounded px-2 py-1 text-xs text-text"
                         >
                           <option value="true">True (Locally Administered)</option>
                           <option value="false">False (Standard OEM OUI)</option>
@@ -559,14 +562,14 @@ export default function WorkflowsPage() {
                           placeholder="Value"
                           value={c.value || ""}
                           onChange={(e) => updateCondition(idx, "value", e.target.value)}
-                          className="flex-1 bg-slate-950 border border-slate-800 rounded px-2 py-1 text-xs text-white"
+                          className="flex-1 bg-background border border-border rounded px-2 py-1 text-xs text-text"
                         />
                       )}
 
                       <button
                         type="button"
                         onClick={() => removeCondition(idx)}
-                        className="p-1 text-slate-500 hover:text-red-400"
+                        className="p-1 text-slate-400 hover:text-red-500"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
@@ -576,16 +579,16 @@ export default function WorkflowsPage() {
               </div>
 
               {/* Actions Section */}
-              <div className="space-y-3 p-4 bg-slate-950/60 rounded-xl border border-slate-800">
+              <div className="space-y-3 p-4 bg-background/60 rounded-xl border border-border">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                    <Zap className="w-4 h-4 text-amber-400" />
+                  <span className="text-xs font-semibold text-text uppercase tracking-wider flex items-center gap-1.5">
+                    <Zap className="w-4 h-4 text-amber-500 dark:text-amber-400" />
                     Actions to Execute
                   </span>
                   <button
                     type="button"
                     onClick={addAction}
-                    className="px-2.5 py-1 text-xs bg-slate-800 hover:bg-slate-700 text-amber-300 rounded font-medium flex items-center gap-1"
+                    className="px-2.5 py-1 text-xs bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-amber-700 dark:text-amber-300 rounded font-medium flex items-center gap-1 border border-border transition"
                   >
                     <Plus className="w-3 h-3" /> Add Action
                   </button>
@@ -595,12 +598,12 @@ export default function WorkflowsPage() {
                   <p className="text-xs text-slate-500 italic">No actions defined</p>
                 ) : (
                   actions.map((act, idx) => (
-                    <div key={idx} className="bg-slate-900 p-3 rounded-lg border border-slate-800 space-y-2">
+                    <div key={idx} className="bg-surface p-3 rounded-lg border border-border space-y-2">
                       <div className="flex items-center justify-between">
                         <select
                           value={act.action}
                           onChange={(e) => updateAction(idx, "action", e.target.value)}
-                          className="bg-slate-950 border border-slate-800 rounded px-2 py-1 text-xs text-white font-medium"
+                          className="bg-background border border-border rounded px-2 py-1 text-xs text-text font-medium"
                         >
                           {ACTION_TYPES.map((at) => (
                             <option key={at.id} value={at.id}>
@@ -611,7 +614,7 @@ export default function WorkflowsPage() {
                         <button
                           type="button"
                           onClick={() => removeAction(idx)}
-                          className="p-1 text-slate-500 hover:text-red-400"
+                          className="p-1 text-slate-400 hover:text-red-500"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
@@ -625,13 +628,13 @@ export default function WorkflowsPage() {
                             placeholder="Message Template (supports {name}, {mac}, {ip})"
                             value={act.message || ""}
                             onChange={(e) => updateAction(idx, "message", e.target.value)}
-                            className="w-full bg-slate-950 border border-slate-800 rounded px-2 py-1.5 text-xs text-white"
+                            className="w-full bg-background border border-border rounded px-2 py-1.5 text-xs text-text placeholder-slate-400"
                           />
                           <div className="flex gap-2">
                             <select
                               value={act.severity || "INFO"}
                               onChange={(e) => updateAction(idx, "severity", e.target.value)}
-                              className="bg-slate-950 border border-slate-800 rounded px-2 py-1 text-xs text-white"
+                              className="bg-background border border-border rounded px-2 py-1 text-xs text-text"
                             >
                               <option value="INFO">Severity: INFO</option>
                               <option value="WARNING">Severity: WARNING</option>
@@ -647,7 +650,7 @@ export default function WorkflowsPage() {
                           placeholder="Category (e.g. IoT/Smart Home, Mobile, Server)"
                           value={act.category || ""}
                           onChange={(e) => updateAction(idx, "category", e.target.value)}
-                          className="w-full bg-slate-950 border border-slate-800 rounded px-2 py-1.5 text-xs text-white"
+                          className="w-full bg-background border border-border rounded px-2 py-1.5 text-xs text-text placeholder-slate-400"
                         />
                       )}
 
@@ -657,7 +660,7 @@ export default function WorkflowsPage() {
                           placeholder="Tag string (e.g. guest-network, vip, suspicious)"
                           value={act.tag || ""}
                           onChange={(e) => updateAction(idx, "tag", e.target.value)}
-                          className="w-full bg-slate-950 border border-slate-800 rounded px-2 py-1.5 text-xs text-white"
+                          className="w-full bg-background border border-border rounded px-2 py-1.5 text-xs text-text placeholder-slate-400"
                         />
                       )}
 
@@ -667,7 +670,7 @@ export default function WorkflowsPage() {
                           placeholder="Device Name Template"
                           value={act.name || ""}
                           onChange={(e) => updateAction(idx, "name", e.target.value)}
-                          className="w-full bg-slate-950 border border-slate-800 rounded px-2 py-1.5 text-xs text-white"
+                          className="w-full bg-background border border-border rounded px-2 py-1.5 text-xs text-text placeholder-slate-400"
                         />
                       )}
 
@@ -677,7 +680,7 @@ export default function WorkflowsPage() {
                           placeholder="Endpoint URL (https://...)"
                           value={act.url || ""}
                           onChange={(e) => updateAction(idx, "url", e.target.value)}
-                          className="w-full bg-slate-950 border border-slate-800 rounded px-2 py-1.5 text-xs text-white"
+                          className="w-full bg-background border border-border rounded px-2 py-1.5 text-xs text-text placeholder-slate-400"
                         />
                       )}
 
@@ -687,7 +690,7 @@ export default function WorkflowsPage() {
                           placeholder="MAC address (or leave empty to use triggering device)"
                           value={act.mac || ""}
                           onChange={(e) => updateAction(idx, "mac", e.target.value)}
-                          className="w-full bg-slate-950 border border-slate-800 rounded px-2 py-1.5 text-xs text-white font-mono"
+                          className="w-full bg-background border border-border rounded px-2 py-1.5 text-xs text-text font-mono placeholder-slate-400"
                         />
                       )}
                     </div>
@@ -695,17 +698,17 @@ export default function WorkflowsPage() {
                 )}
               </div>
 
-              <div className="flex justify-end gap-3 pt-3 border-t border-slate-800">
+              <div className="flex justify-end gap-3 pt-3 border-t border-border">
                 <button
                   type="button"
                   onClick={() => setShowBuilder(false)}
-                  className="px-4 py-2 text-sm bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg"
+                  className="px-4 py-2 text-sm bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-text rounded-lg border border-border transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-sm bg-sky-600 hover:bg-sky-500 text-white font-medium rounded-lg"
+                  className="px-4 py-2 text-sm bg-accent hover:bg-accent-hover text-white font-medium rounded-lg shadow-sm transition"
                 >
                   Create Rule
                 </button>
@@ -718,27 +721,27 @@ export default function WorkflowsPage() {
       {/* Modal: Rule Simulation & Test */}
       {testingRule && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xs p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg p-6 shadow-2xl">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-800">
-              <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                <Play className="w-5 h-5 text-sky-400" />
+          <div className="bg-surface border border-border rounded-2xl w-full max-w-lg p-6 shadow-2xl">
+            <div className="flex items-center justify-between pb-4 border-b border-border">
+              <h2 className="text-lg font-bold text-text flex items-center gap-2">
+                <Play className="w-5 h-5 text-accent" />
                 Simulate Rule: {testingRule.name}
               </h2>
-              <button onClick={() => setTestingRule(null)} className="text-slate-400 hover:text-white">
+              <button onClick={() => setTestingRule(null)} className="text-slate-400 hover:text-slate-700 dark:hover:text-white">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <div className="space-y-4 mt-4">
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
+                <label className="block text-xs font-medium text-text mb-1">
                   Simulated Event Payload (JSON)
                 </label>
                 <textarea
                   rows={5}
                   value={testSimData}
                   onChange={(e) => setTestSimData(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs font-mono text-white focus:outline-hidden focus:border-sky-500"
+                  className="w-full bg-background border border-border rounded-lg p-3 text-xs font-mono text-text placeholder-slate-400 focus:outline-hidden focus:border-sky-500"
                 />
               </div>
 
@@ -746,7 +749,7 @@ export default function WorkflowsPage() {
                 <button
                   onClick={runRuleTest}
                   disabled={testingInProgress}
-                  className="px-4 py-2 text-sm bg-sky-600 hover:bg-sky-500 text-white font-medium rounded-lg flex items-center gap-2"
+                  className="px-4 py-2 text-sm bg-accent hover:bg-accent-hover text-white font-medium rounded-lg flex items-center gap-2 shadow-sm transition"
                 >
                   <Play className={`w-4 h-4 ${testingInProgress ? "animate-spin" : ""}`} />
                   {testingInProgress ? "Evaluating..." : "Evaluate Rule"}
@@ -754,23 +757,23 @@ export default function WorkflowsPage() {
               </div>
 
               {testResult && (
-                <div className="p-4 bg-slate-950/80 rounded-xl border border-slate-800 space-y-2">
+                <div className="p-4 bg-background/80 rounded-xl border border-border space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-semibold text-slate-300">Rule Match Outcome:</span>
+                    <span className="text-xs font-semibold text-text">Rule Match Outcome:</span>
                     <span
                       className={`text-xs px-2 py-0.5 rounded font-bold uppercase ${
-                        testResult.matched ? "bg-emerald-950 text-emerald-400" : "bg-red-950 text-red-400"
+                        testResult.matched ? "bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-status-online border border-emerald-200 dark:border-emerald-800" : "bg-red-50 dark:bg-red-950 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800"
                       }`}
                     >
                       {testResult.matched ? "MATCHED" : "NO MATCH"}
                     </span>
                   </div>
 
-                  <div className="text-[11px] font-mono text-slate-400 space-y-1">
+                  <div className="text-[11px] font-mono text-muted space-y-1">
                     {testResult.condition_evaluations?.map((ce: any, idx: number) => (
                       <div key={idx} className="flex justify-between">
                         <span>{ce.condition.type}:</span>
-                        <span className={ce.matched ? "text-emerald-400" : "text-red-400"}>
+                        <span className={ce.matched ? "text-status-online" : "text-red-600 dark:text-red-400"}>
                           {ce.matched ? "✓ PASS" : "✗ FAIL"}
                         </span>
                       </div>
@@ -778,9 +781,9 @@ export default function WorkflowsPage() {
                   </div>
 
                   {testResult.matched && (
-                    <div className="pt-2 border-t border-slate-800">
-                      <span className="text-xs text-slate-400 font-semibold block mb-1">Actions Executed:</span>
-                      <pre className="text-[10px] text-sky-300 bg-slate-900 p-2 rounded overflow-x-auto">
+                    <div className="pt-2 border-t border-border">
+                      <span className="text-xs text-muted font-semibold block mb-1">Actions Executed:</span>
+                      <pre className="text-[10px] text-indigo-700 dark:text-sky-300 bg-surface border border-border p-2 rounded overflow-x-auto">
                         {JSON.stringify(testResult.action_results, null, 2)}
                       </pre>
                     </div>
@@ -794,16 +797,16 @@ export default function WorkflowsPage() {
 
       {/* Drawer: Execution Logs */}
       {logsRule && (
-        <div className="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-slate-900 border-l border-slate-800 p-6 shadow-2xl flex flex-col">
-          <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+        <div className="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-surface border-l border-border p-6 shadow-2xl flex flex-col">
+          <div className="flex items-center justify-between pb-4 border-b border-border">
             <div>
-              <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                <FileText className="w-5 h-5 text-sky-400" />
+              <h2 className="text-lg font-bold text-text flex items-center gap-2">
+                <FileText className="w-5 h-5 text-accent" />
                 Execution History
               </h2>
-              <p className="text-xs text-slate-400 truncate max-w-xs">{logsRule.name}</p>
+              <p className="text-xs text-muted truncate max-w-xs">{logsRule.name}</p>
             </div>
-            <button onClick={() => setLogsRule(null)} className="text-slate-400 hover:text-white">
+            <button onClick={() => setLogsRule(null)} className="text-slate-400 hover:text-slate-700 dark:hover:text-white">
               <X className="w-5 h-5" />
             </button>
           </div>
@@ -815,24 +818,24 @@ export default function WorkflowsPage() {
               <p className="text-center text-slate-500 text-xs py-8">No execution history recorded</p>
             ) : (
               logs.map((log) => (
-                <div key={log.id} className="p-3 bg-slate-950/70 border border-slate-800 rounded-lg text-xs space-y-1">
+                <div key={log.id} className="p-3 bg-background/70 border border-border rounded-lg text-xs space-y-1">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-sky-400">{log.trigger_event}</span>
-                    <span className="text-slate-500">{new Date(log.executed_at).toLocaleTimeString()}</span>
+                    <span className="font-mono text-accent">{log.trigger_event}</span>
+                    <span className="text-muted">{new Date(log.executed_at).toLocaleTimeString()}</span>
                   </div>
-                  <div className="text-slate-400">
-                    Matched: <span className="text-white">{log.matched ? "Yes" : "No"}</span>
+                  <div className="text-muted">
+                    Matched: <span className="text-text font-medium">{log.matched ? "Yes" : "No"}</span>
                   </div>
                   {log.actions_executed && log.actions_executed.length > 0 && (
                     <div className="pt-1">
                       <span className="text-slate-500 block">Actions:</span>
-                      <pre className="text-[10px] text-slate-300 bg-slate-900 p-1.5 rounded overflow-x-auto mt-0.5">
+                      <pre className="text-[10px] text-text bg-surface border border-border p-1.5 rounded overflow-x-auto mt-0.5">
                         {JSON.stringify(log.actions_executed, null, 2)}
                       </pre>
                     </div>
                   )}
                   {log.error_message && (
-                    <div className="text-red-400 text-[11px] pt-1 font-mono">
+                    <div className="text-red-600 dark:text-red-400 text-[11px] pt-1 font-mono">
                       Error: {log.error_message}
                     </div>
                   )}

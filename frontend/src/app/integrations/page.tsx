@@ -29,8 +29,14 @@ export default function IntegrationsPage() {
   const [haMqttPort, setHaMqttPort] = useState("1883");
   const [haPrefix, setHaPrefix] = useState("homeassistant");
 
-  const copyText = (text: string, id: string) => {
-    navigator.clipboard.writeText(text);
+  const copyText = async (text: string, id: string) => {
+    try {
+      if (navigator?.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+      }
+    } catch {
+      // Gracefully handle clipboard write rejection without crashing
+    }
     setCopiedKey(id);
     setTimeout(() => setCopiedKey(null), 2000);
   };
@@ -141,7 +147,7 @@ mqtt:
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex gap-2 border-b border-slate-800 pb-2 overflow-x-auto">
+      <div className="flex gap-2 border-b border-border pb-2 overflow-x-auto">
         {[
           { id: "overview", label: "Overview", icon: Plug },
           { id: "homeassistant", label: "Home Assistant (MQTT)", icon: Home },
@@ -157,7 +163,7 @@ mqtt:
               className={`flex items-center gap-2 px-4 py-2 text-xs font-medium rounded-lg transition ${
                 active
                   ? "bg-indigo-600 text-white font-semibold"
-                  : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/60"
+                  : "text-muted hover:text-slate-900 dark:hover:text-slate-200 hover:bg-hover/60"
               }`}
             >
               <Icon className="w-4 h-4" />
@@ -170,55 +176,55 @@ mqtt:
       {/* Tab: Overview */}
       {activeTab === "overview" && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-6 rounded-xl border border-slate-800 bg-slate-900/60 flex flex-col justify-between">
+          <div className="p-6 rounded-xl border border-border bg-surface flex flex-col justify-between shadow-sm">
             <div className="space-y-3">
-              <div className="w-10 h-10 rounded-lg bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400">
+              <div className="w-10 h-10 rounded-lg bg-sky-50 dark:bg-sky-500/10 border border-sky-200 dark:border-sky-500/20 flex items-center justify-center text-sky-600 dark:text-sky-400">
                 <Home className="w-5 h-5" />
               </div>
-              <h3 className="font-semibold text-slate-100">Home Assistant</h3>
-              <p className="text-xs text-slate-400">
+              <h3 className="font-semibold text-text">Home Assistant</h3>
+              <p className="text-xs text-muted">
                 Automatic MQTT discovery publishes device trackers and telemetry entities straight into Home Assistant.
               </p>
             </div>
             <button
               onClick={() => setActiveTab("homeassistant")}
-              className="mt-4 px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-800 text-slate-200 hover:bg-slate-700 self-start"
+              className="mt-4 px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-text border border-border self-start transition"
             >
               Configure MQTT &rarr;
             </button>
           </div>
 
-          <div className="p-6 rounded-xl border border-slate-800 bg-slate-900/60 flex flex-col justify-between">
+          <div className="p-6 rounded-xl border border-border bg-surface flex flex-col justify-between shadow-sm">
             <div className="space-y-3">
-              <div className="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+              <div className="w-10 h-10 rounded-lg bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 flex items-center justify-center text-status-warning">
                 <Activity className="w-5 h-5" />
               </div>
-              <h3 className="font-semibold text-slate-100">Prometheus Metrics</h3>
-              <p className="text-xs text-slate-400">
+              <h3 className="font-semibold text-text">Prometheus Metrics</h3>
+              <p className="text-xs text-muted">
                 Expose real-time device counters, gateway latency, and bandwidth gauges for Grafana and VictoriaMetrics.
               </p>
             </div>
             <button
               onClick={() => setActiveTab("prometheus")}
-              className="mt-4 px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-800 text-slate-200 hover:bg-slate-700 self-start"
+              className="mt-4 px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-text border border-border self-start transition"
             >
               View Metrics Endpoint &rarr;
             </button>
           </div>
 
-          <div className="p-6 rounded-xl border border-slate-800 bg-slate-900/60 flex flex-col justify-between">
+          <div className="p-6 rounded-xl border border-border bg-surface flex flex-col justify-between shadow-sm">
             <div className="space-y-3">
-              <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+              <div className="w-10 h-10 rounded-lg bg-emerald-50 dark:bg-status-online/10 border border-emerald-200 dark:border-emerald-500/20 flex items-center justify-center text-status-online">
                 <Bot className="w-5 h-5" />
               </div>
-              <h3 className="font-semibold text-slate-100">Model Context Protocol</h3>
-              <p className="text-xs text-slate-400">
+              <h3 className="font-semibold text-text">Model Context Protocol</h3>
+              <p className="text-xs text-muted">
                 Give Claude, Cursor, and agentic LLMs real-time tool access to query devices and trigger network scans.
               </p>
             </div>
             <button
               onClick={() => setActiveTab("mcp")}
-              className="mt-4 px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-800 text-slate-200 hover:bg-slate-700 self-start"
+              className="mt-4 px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-text border border-border self-start transition"
             >
               Setup MCP Tool &rarr;
             </button>
@@ -229,42 +235,42 @@ mqtt:
       {/* Tab: Home Assistant */}
       {activeTab === "homeassistant" && (
         <div className="space-y-6">
-          <div className="p-6 rounded-xl border border-slate-800 bg-slate-900/60 space-y-4">
-            <h2 className="text-base font-bold text-slate-100 flex items-center gap-2">
-              <Radio className="w-5 h-5 text-indigo-400" />
+          <div className="p-6 rounded-xl border border-border bg-surface space-y-4 shadow-sm">
+            <h2 className="text-base font-bold text-text flex items-center gap-2">
+              <Radio className="w-5 h-5 text-accent" />
               MQTT Auto-Discovery Settings
             </h2>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-muted">
               When enabled, WatchNet automatically broadcasts retained MQTT discovery packets formatted according to
-              Home Assistant specifications (<code className="text-indigo-300">homeassistant/device_tracker/&lt;mac&gt;/config</code>).
+              Home Assistant specifications (<code className="text-indigo-600 dark:text-indigo-300">homeassistant/device_tracker/&lt;mac&gt;/config</code>).
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">MQTT Broker Host</label>
+                <label className="block text-xs font-medium text-text mb-1">MQTT Broker Host</label>
                 <input
                   type="text"
                   value={haMqttHost}
                   onChange={(e) => setHaMqttHost(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-lg bg-slate-950 border border-slate-800 text-slate-100"
+                  className="w-full px-3 py-2 text-sm rounded-lg bg-background border border-border text-text focus:outline-none focus:border-accent"
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">Port</label>
+                <label className="block text-xs font-medium text-text mb-1">Port</label>
                 <input
                   type="text"
                   value={haMqttPort}
                   onChange={(e) => setHaMqttPort(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-lg bg-slate-950 border border-slate-800 text-slate-100"
+                  className="w-full px-3 py-2 text-sm rounded-lg bg-background border border-border text-text focus:outline-none focus:border-accent"
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">Discovery Prefix</label>
+                <label className="block text-xs font-medium text-text mb-1">Discovery Prefix</label>
                 <input
                   type="text"
                   value={haPrefix}
                   onChange={(e) => setHaPrefix(e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-lg bg-slate-950 border border-slate-800 text-slate-100"
+                  className="w-full px-3 py-2 text-sm rounded-lg bg-background border border-border text-text focus:outline-none focus:border-accent"
                 />
               </div>
             </div>
@@ -272,25 +278,25 @@ mqtt:
             <div className="flex gap-3 pt-2">
               <button
                 onClick={() => alert("Settings saved. Publishing MQTT Auto-Discovery topics for online devices...")}
-                className="px-4 py-2 text-xs font-semibold rounded-lg bg-indigo-600 text-white hover:bg-indigo-500 transition"
+                className="px-4 py-2 text-xs font-semibold rounded-lg bg-indigo-600 text-white hover:bg-indigo-500 transition shadow-sm"
               >
                 Save & Broadcast Discovery
               </button>
             </div>
           </div>
 
-          <div className="p-6 rounded-xl border border-slate-800 bg-slate-900/60 space-y-3">
+          <div className="p-6 rounded-xl border border-border bg-surface space-y-3 shadow-sm">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-slate-200">Manual Home Assistant YAML Snippet</h3>
+              <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-200">Manual Home Assistant YAML Snippet</h3>
               <button
                 onClick={() => copyText(sampleHaYaml, "ha_yaml")}
-                className="flex items-center gap-1.5 px-3 py-1 text-xs bg-slate-800 text-slate-300 rounded hover:bg-slate-700"
+                className="flex items-center gap-1.5 px-3 py-1 text-xs bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-text rounded border border-border transition"
               >
-                {copiedKey === "ha_yaml" ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                {copiedKey === "ha_yaml" ? <Check className="w-3.5 h-3.5 text-status-online" /> : <Copy className="w-3.5 h-3.5" />}
                 Copy YAML
               </button>
             </div>
-            <pre className="p-4 rounded-lg bg-slate-950 border border-slate-800 text-xs font-mono text-slate-300 overflow-x-auto">
+            <pre className="p-4 rounded-lg bg-background border border-border text-xs font-mono text-slate-800 dark:text-slate-300 overflow-x-auto">
               {sampleHaYaml}
             </pre>
           </div>
@@ -300,22 +306,22 @@ mqtt:
       {/* Tab: Prometheus */}
       {activeTab === "prometheus" && (
         <div className="space-y-6">
-          <div className="p-6 rounded-xl border border-slate-800 bg-slate-900/60 space-y-4">
+          <div className="p-6 rounded-xl border border-border bg-surface space-y-4 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-base font-bold text-slate-100 flex items-center gap-2">
-                  <Activity className="w-5 h-5 text-amber-400" />
+                <h2 className="text-base font-bold text-text flex items-center gap-2">
+                  <Activity className="w-5 h-5 text-amber-500 dark:text-amber-400" />
                   Live Prometheus Exporter
                 </h2>
-                <p className="text-xs text-slate-400 mt-1">
-                  Scrape endpoint: <code className="text-amber-400 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">GET /api/v1/metrics</code>
+                <p className="text-xs text-muted mt-1">
+                  Scrape endpoint: <code className="text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-slate-950 px-2 py-0.5 rounded border border-amber-200 dark:border-slate-800">GET /api/v1/metrics</code>
                 </p>
               </div>
 
               <div className="flex items-center gap-2">
                 <button
                   onClick={fetchPrometheusMetrics}
-                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-slate-800 text-slate-200 rounded-lg hover:bg-slate-700 transition"
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg border border-border transition"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 ${loadingMetrics ? "animate-spin" : ""}`} />
                   Refresh
@@ -324,7 +330,7 @@ mqtt:
                   href="/api/v1/metrics"
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-1 px-3 py-1.5 text-xs bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition"
+                  className="flex items-center gap-1 px-3 py-1.5 text-xs bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition shadow-sm"
                 >
                   Raw Endpoint
                   <ExternalLink className="w-3.5 h-3.5" />
@@ -333,7 +339,7 @@ mqtt:
             </div>
 
             <div className="relative">
-              <pre className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono text-emerald-400 overflow-x-auto max-h-96">
+              <pre className="p-4 rounded-xl bg-background border border-border text-xs font-mono text-status-online overflow-x-auto max-h-96">
                 {metricsPreview || "Loading metrics..."}
               </pre>
             </div>
@@ -344,50 +350,50 @@ mqtt:
       {/* Tab: MCP (AI Assistant) */}
       {activeTab === "mcp" && (
         <div className="space-y-6">
-          <div className="p-6 rounded-xl border border-slate-800 bg-slate-900/60 space-y-4">
-            <h2 className="text-base font-bold text-slate-100 flex items-center gap-2">
-              <Bot className="w-5 h-5 text-emerald-400" />
+          <div className="p-6 rounded-xl border border-border bg-surface space-y-4 shadow-sm">
+            <h2 className="text-base font-bold text-text flex items-center gap-2">
+              <Bot className="w-5 h-5 text-status-online" />
               Claude Desktop & AI Assistant Configuration
             </h2>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-muted">
               WatchNet exposes Model Context Protocol (MCP) tools allowing AI agents to query inventory, inspect network health,
               and run diagnostic scans. Add this configuration block to your Claude Desktop config (
-              <code className="text-slate-300">claude_desktop_config.json</code>).
+              <code className="text-text">claude_desktop_config.json</code>).
             </p>
 
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-slate-300">claude_desktop_config.json snippet</span>
+                <span className="text-xs font-semibold text-text">claude_desktop_config.json snippet</span>
                 <button
                   onClick={() => copyText(mcpConfigJson, "mcp_json")}
-                  className="flex items-center gap-1.5 px-3 py-1 text-xs bg-slate-800 text-slate-300 rounded hover:bg-slate-700"
+                  className="flex items-center gap-1.5 px-3 py-1 text-xs bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-text rounded border border-border transition"
                 >
-                  {copiedKey === "mcp_json" ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                  {copiedKey === "mcp_json" ? <Check className="w-3.5 h-3.5 text-status-online" /> : <Copy className="w-3.5 h-3.5" />}
                   Copy JSON
                 </button>
               </div>
-              <pre className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono text-sky-300 overflow-x-auto">
+              <pre className="p-4 rounded-xl bg-background border border-border text-xs font-mono text-indigo-700 dark:text-sky-300 overflow-x-auto">
                 {mcpConfigJson}
               </pre>
             </div>
 
             <div className="pt-2">
-              <h4 className="text-xs font-semibold text-slate-300 mb-2">Available MCP Tools in WatchNet:</h4>
-              <ul className="space-y-2 text-xs text-slate-400">
+              <h4 className="text-xs font-semibold text-slate-800 dark:text-slate-300 mb-2">Available MCP Tools in WatchNet:</h4>
+              <ul className="space-y-2 text-xs text-muted">
                 <li className="flex items-center gap-2">
-                  <code className="text-indigo-400 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">get_device_inventory(query, status, category)</code>
+                  <code className="text-accent bg-background px-2 py-0.5 rounded border border-border">get_device_inventory(query, status, category)</code>
                   <span>Search online/offline devices, filter by category or vendor.</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <code className="text-indigo-400 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">get_network_health()</code>
+                  <code className="text-accent bg-background px-2 py-0.5 rounded border border-border">get_network_health()</code>
                   <span>Retrieve gateway latency, WAN IP, and recent speedtest benchmarks.</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <code className="text-indigo-400 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">trigger_network_scan(interface)</code>
+                  <code className="text-accent bg-background px-2 py-0.5 rounded border border-border">trigger_network_scan(interface)</code>
                   <span>Trigger asynchronous network discovery scans on local subnets.</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <code className="text-indigo-400 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">get_device_details(device_id_or_mac)</code>
+                  <code className="text-accent bg-background px-2 py-0.5 rounded border border-border">get_device_details(device_id_or_mac)</code>
                   <span>Fetch in-depth metadata, port scan logs, and event history for a device.</span>
                 </li>
               </ul>

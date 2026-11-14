@@ -35,8 +35,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const checkAuth = async () => {
     try {
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") || localStorage.getItem("access_token") : null;
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+
       const res = await fetch("/api/v1/auth/me", {
-        headers: { "Content-Type": "application/json" },
+        headers,
         credentials: "include",
       });
       if (res.ok) {
@@ -44,9 +50,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(data);
       } else {
         setUser(null);
+        if (typeof window !== "undefined" && window.location.pathname !== "/login") {
+          router.push("/login");
+        }
       }
     } catch {
       setUser(null);
+      if (typeof window !== "undefined" && window.location.pathname !== "/login") {
+        router.push("/login");
+      }
     } finally {
       setLoading(false);
     }
@@ -69,6 +81,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
       if (res.ok) {
+        const tokenData = await res.json();
+        if (tokenData?.access_token && typeof window !== "undefined") {
+          localStorage.setItem("token", tokenData.access_token);
+          localStorage.setItem("access_token", tokenData.access_token);
+        }
         await checkAuth();
         router.push("/dashboard");
         return true;
@@ -86,6 +103,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         credentials: "include",
       });
     } finally {
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("token");
+        localStorage.removeItem("access_token");
+      }
       setUser(null);
       router.push("/login");
     }

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useScrollLock } from "@/hooks/useScrollLock";
 import {
   Activity,
   Globe,
@@ -70,6 +71,8 @@ export default function MonitoringPage() {
   const [newUrl, setNewUrl] = useState("");
   const [newName, setNewName] = useState("");
   const [actionLoading, setActionLoading] = useState(false);
+
+  useScrollLock(modalOpen);
 
   const fetchMonitoringData = async () => {
     try {
@@ -195,7 +198,7 @@ export default function MonitoringPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-5">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-border pb-5">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Active Network Monitoring</h1>
           <p className="text-sm text-slate-400 mt-1">
@@ -205,15 +208,15 @@ export default function MonitoringPage() {
         <div className="flex gap-3">
           <Link
             href="/monitoring/wallboard"
-            className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 hover:bg-indigo-600/30 transition"
+            className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-50 dark:bg-indigo-600/20 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30 hover:bg-indigo-100 dark:hover:bg-indigo-600/30 transition"
           >
-            <Activity className="w-4 h-4 text-indigo-400" />
+            <Activity className="w-4 h-4 text-accent" />
             NOC Wallboard View
           </Link>
           <button
             onClick={fetchMonitoringData}
             disabled={loading}
-            className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition"
+            className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-border transition"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
             Refresh
@@ -223,7 +226,7 @@ export default function MonitoringPage() {
 
       {/* Top WAN Connectivity & Gateway Health Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <div className="bg-surface border border-border shadow-sm rounded-xl p-5">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">WAN Status</span>
             <Globe className="w-5 h-5 text-indigo-400" />
@@ -231,7 +234,7 @@ export default function MonitoringPage() {
           <div className="flex items-center gap-2">
             <div
               className={`w-3 h-3 rounded-full ${
-                internet?.is_connected ? "bg-emerald-500 shadow-emerald-500/50 shadow" : "bg-red-500"
+                internet?.is_connected ? "bg-status-online shadow-emerald-500/50 shadow" : "bg-red-500"
               }`}
             />
             <span className="text-2xl font-bold">
@@ -243,7 +246,7 @@ export default function MonitoringPage() {
           </div>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <div className="bg-surface border border-border shadow-sm rounded-xl p-5">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Gateway Latency</span>
             <Zap className="w-5 h-5 text-amber-400" />
@@ -256,7 +259,7 @@ export default function MonitoringPage() {
           <div className="text-xs text-slate-500 mt-1">Hop 1 reachability</div>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <div className="bg-surface border border-border shadow-sm rounded-xl p-5">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">DNS Avg Resolution</span>
             <Server className="w-5 h-5 text-indigo-400" />
@@ -269,12 +272,12 @@ export default function MonitoringPage() {
           <div className="text-xs text-slate-500 mt-1">Multi-upstream resolver test</div>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <div className="bg-surface border border-border shadow-sm rounded-xl p-5">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Monitored Sites</span>
-            <Activity className="w-5 h-5 text-emerald-400" />
+            <Activity className="w-5 h-5 text-status-online" />
           </div>
-          <div className="text-3xl font-bold text-emerald-400">
+          <div className="text-3xl font-bold text-status-online">
             {websites.filter((w) => w.is_up).length} / {websites.length}
           </div>
           <div className="text-xs text-slate-500 mt-1">Active endpoint checks</div>
@@ -284,7 +287,7 @@ export default function MonitoringPage() {
       {/* Speedtest Widget & Latency History */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Speedtest Section */}
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 lg:col-span-1 flex flex-col justify-between">
+        <div className="bg-surface border border-border shadow-sm rounded-xl p-6 lg:col-span-1 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-2">
@@ -294,7 +297,7 @@ export default function MonitoringPage() {
               <button
                 onClick={triggerSpeedtest}
                 disabled={runningSpeedtest}
-                className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded bg-indigo-600 hover:bg-indigo-500 text-white transition disabled:opacity-50"
+                className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded bg-accent hover:bg-accent-hover text-white transition disabled:opacity-50"
               >
                 {runningSpeedtest ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Play className="w-3.5 h-3.5" />}
                 {runningSpeedtest ? "Testing..." : "Run Test"}
@@ -302,30 +305,30 @@ export default function MonitoringPage() {
             </div>
 
             <div className="grid grid-cols-2 gap-4 my-6">
-              <div className="bg-slate-950/60 p-4 rounded-lg border border-slate-800/80">
-                <div className="flex items-center gap-1 text-xs text-slate-400">
-                  <ArrowDownRight className="w-4 h-4 text-emerald-400" />
+              <div className="bg-background/60 p-4 rounded-lg border border-border/80">
+                <div className="flex items-center gap-1 text-xs text-muted">
+                  <ArrowDownRight className="w-4 h-4 text-status-online" />
                   Download
                 </div>
-                <div className="text-2xl font-bold text-emerald-400 mt-1">
+                <div className="text-2xl font-bold text-status-online mt-1">
                   {latestSpeed ? `${latestSpeed.download_mbps}` : "—"}
-                  <span className="text-xs text-slate-400 font-normal ml-1">Mbps</span>
+                  <span className="text-xs text-muted font-normal ml-1">Mbps</span>
                 </div>
               </div>
 
-              <div className="bg-slate-950/60 p-4 rounded-lg border border-slate-800/80">
-                <div className="flex items-center gap-1 text-xs text-slate-400">
-                  <ArrowUpRight className="w-4 h-4 text-indigo-400" />
+              <div className="bg-background/60 p-4 rounded-lg border border-border/80">
+                <div className="flex items-center gap-1 text-xs text-muted">
+                  <ArrowUpRight className="w-4 h-4 text-accent" />
                   Upload
                 </div>
-                <div className="text-2xl font-bold text-indigo-400 mt-1">
+                <div className="text-2xl font-bold text-accent mt-1">
                   {latestSpeed ? `${latestSpeed.upload_mbps}` : "—"}
-                  <span className="text-xs text-slate-400 font-normal ml-1">Mbps</span>
+                  <span className="text-xs text-muted font-normal ml-1">Mbps</span>
                 </div>
               </div>
             </div>
 
-            <div className="space-y-2 text-xs text-slate-400 border-t border-slate-800/80 pt-4">
+            <div className="space-y-2 text-xs text-slate-400 border-t border-border/80 pt-4">
               <div className="flex justify-between">
                 <span>Latency / Ping:</span>
                 <span className="font-semibold text-slate-200">
@@ -354,24 +357,24 @@ export default function MonitoringPage() {
         </div>
 
         {/* Speed & Latency History Mini-Graph */}
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 lg:col-span-2">
+        <div className="bg-surface border border-border shadow-sm rounded-xl p-6 lg:col-span-2">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-4 flex items-center justify-between">
             <span>Throughput & Latency Trajectory</span>
             <span className="text-xs text-slate-500 font-normal">Recent {speedHistory.length} Probes</span>
           </h2>
 
           {speedHistory.length === 0 ? (
-            <div className="h-48 flex items-center justify-center text-sm text-slate-500 border border-dashed border-slate-800 rounded-lg">
+            <div className="h-48 flex items-center justify-center text-sm text-slate-500 border border-dashed border-border rounded-lg">
               No historical speedtest data recorded yet. Run a speedtest above.
             </div>
           ) : (
-            <div className="h-52 flex items-end gap-2 pt-6 pb-2 px-2 border-b border-slate-800 overflow-x-auto">
+            <div className="h-52 flex items-end gap-2 pt-6 pb-2 px-2 border-b border-border overflow-x-auto">
               {speedHistory.map((item, idx) => {
                 const maxMbps = Math.max(...speedHistory.map((s) => s.download_mbps), 100);
                 const heightPercent = Math.min(100, Math.max(10, (item.download_mbps / maxMbps) * 100));
                 return (
                   <div key={idx} className="flex-1 min-w-[32px] flex flex-col items-center gap-1 group relative">
-                    <div className="absolute -top-7 opacity-0 group-hover:opacity-100 bg-slate-800 text-[10px] px-2 py-0.5 rounded shadow pointer-events-none transition whitespace-nowrap z-10">
+                    <div className="absolute -top-7 opacity-0 group-hover:opacity-100 bg-slate-900 dark:bg-slate-800 text-white dark:text-slate-200 text-[10px] px-2 py-0.5 rounded shadow pointer-events-none transition whitespace-nowrap z-10">
                       {item.download_mbps} Mbps | {item.ping_ms} ms
                     </div>
                     <div
@@ -401,7 +404,7 @@ export default function MonitoringPage() {
       </div>
 
       {/* Website Targets & SSL Monitoring Section */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+      <div className="bg-surface border border-border shadow-sm rounded-xl p-6">
         <div className="flex justify-between items-center mb-5">
           <div>
             <h2 className="text-base font-semibold text-slate-100 flex items-center gap-2">
@@ -414,7 +417,7 @@ export default function MonitoringPage() {
           </div>
           <button
             onClick={() => setModalOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white transition"
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-accent hover:bg-accent-hover text-white transition"
           >
             <Plus className="w-3.5 h-3.5" />
             Add Target
@@ -422,8 +425,8 @@ export default function MonitoringPage() {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-slate-300">
-            <thead className="bg-slate-950/70 text-slate-400 uppercase text-[11px] font-semibold border-b border-slate-800">
+          <table className="w-full text-left text-sm text-text">
+            <thead className="bg-background/70 text-muted uppercase text-[11px] font-semibold border-b border-border">
               <tr>
                 <th className="px-4 py-3">Status</th>
                 <th className="px-4 py-3">Website Target</th>
@@ -434,7 +437,7 @@ export default function MonitoringPage() {
                 <th className="px-4 py-3 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
               {websites.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="px-4 py-8 text-center text-sm text-slate-500">
@@ -443,20 +446,20 @@ export default function MonitoringPage() {
                 </tr>
               ) : (
                 websites.map((site) => (
-                  <tr key={site.id} className="hover:bg-slate-800/30 transition">
+                  <tr key={site.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/30 transition">
                     <td className="px-4 py-3">
                       {site.is_up ? (
-                        <span className="flex items-center gap-1.5 text-xs text-emerald-400 font-medium">
+                        <span className="flex items-center gap-1.5 text-xs text-status-online font-medium">
                           <CheckCircle2 className="w-4 h-4" /> UP
                         </span>
                       ) : (
-                        <span className="flex items-center gap-1.5 text-xs text-rose-400 font-medium">
+                        <span className="flex items-center gap-1.5 text-xs text-status-critical font-medium">
                           <XCircle className="w-4 h-4" /> DOWN
                         </span>
                       )}
                     </td>
                     <td className="px-4 py-3">
-                      <div className="font-semibold text-slate-100">{site.name || site.url}</div>
+                      <div className="font-semibold text-text">{site.name || site.url}</div>
                       <div className="text-xs text-slate-500 font-mono">{site.url}</div>
                     </td>
                     <td className="px-4 py-3 font-mono text-xs">
@@ -464,8 +467,8 @@ export default function MonitoringPage() {
                         <span
                           className={`px-2 py-0.5 rounded ${
                             site.last_status_code < 400
-                              ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                              : "bg-rose-500/10 text-rose-400 border border-rose-500/20"
+                              ? "bg-emerald-50 dark:bg-status-online/10 text-emerald-700 dark:text-status-online border border-emerald-200 dark:border-emerald-500/20"
+                              : "bg-rose-50 dark:bg-status-critical/10 text-rose-700 dark:text-status-critical border border-rose-200 dark:border-rose-500/20"
                           }`}
                         >
                           {site.last_status_code}
@@ -478,17 +481,17 @@ export default function MonitoringPage() {
                       {site.last_latency_ms ? `${site.last_latency_ms} ms` : "—"}
                     </td>
                     <td className="px-4 py-3 text-xs">
-                      <span className="text-emerald-400 font-semibold">{site.uptime_percentage}%</span>
+                      <span className="text-status-online font-semibold">{site.uptime_percentage}%</span>
                     </td>
                     <td className="px-4 py-3 text-xs">
                       {site.ssl_days_remaining !== null && site.ssl_days_remaining !== undefined ? (
                         site.ssl_days_remaining <= 15 ? (
-                          <span className="flex items-center gap-1 text-amber-400 font-semibold">
+                          <span className="flex items-center gap-1 text-status-warning font-semibold">
                             <ShieldAlert className="w-3.5 h-3.5" /> {site.ssl_days_remaining} days (Expiring Soon!)
                           </span>
                         ) : (
-                          <span className="flex items-center gap-1 text-slate-300">
-                            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> {site.ssl_days_remaining} days
+                          <span className="flex items-center gap-1 text-text">
+                            <ShieldCheck className="w-3.5 h-3.5 text-status-online" /> {site.ssl_days_remaining} days
                           </span>
                         )
                       ) : (
@@ -498,13 +501,13 @@ export default function MonitoringPage() {
                     <td className="px-4 py-3 text-right space-x-2">
                       <button
                         onClick={() => checkWebsiteNow(site.id)}
-                        className="px-2 py-1 text-xs rounded bg-slate-800 hover:bg-slate-700 text-slate-200 transition"
+                        className="px-2 py-1 text-xs rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-border transition"
                       >
                         Probe
                       </button>
                       <button
                         onClick={() => deleteWebsite(site.id)}
-                        className="px-2 py-1 text-xs rounded bg-rose-900/30 hover:bg-rose-900/50 text-rose-300 transition"
+                        className="px-2 py-1 text-xs rounded bg-rose-50 hover:bg-rose-100 dark:bg-rose-900/30 dark:hover:bg-rose-900/50 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800/40 transition"
                       >
                         Remove
                       </button>
@@ -520,14 +523,14 @@ export default function MonitoringPage() {
       {/* Quick Add Modal */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-xl max-w-md w-full p-6 shadow-2xl">
-            <h3 className="text-lg font-bold text-slate-100 mb-1">Add Website Target</h3>
-            <p className="text-xs text-slate-400 mb-4">
+          <div className="bg-surface border border-border shadow-xl rounded-xl max-w-md w-full p-6">
+            <h3 className="text-lg font-bold text-text mb-1">Add Website Target</h3>
+            <p className="text-xs text-muted mb-4">
               Enter the full HTTP or HTTPS endpoint to monitor response codes, uptime, and SSL.
             </p>
             <form onSubmit={addWebsite} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-muted mb-1">
                   Target URL
                 </label>
                 <input
@@ -536,11 +539,11 @@ export default function MonitoringPage() {
                   required
                   value={newUrl}
                   onChange={(e) => setNewUrl(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-background border border-border rounded-lg px-3 py-2 text-sm text-text placeholder-slate-400 focus:outline-none focus:border-accent"
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-muted mb-1">
                   Friendly Name (Optional)
                 </label>
                 <input
@@ -548,21 +551,21 @@ export default function MonitoringPage() {
                   placeholder="Corporate Website"
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-background border border-border rounded-lg px-3 py-2 text-sm text-text placeholder-slate-400 focus:outline-none focus:border-accent"
                 />
               </div>
-              <div className="flex justify-end gap-3 pt-3 border-t border-slate-800">
+              <div className="flex justify-end gap-3 pt-3 border-t border-border">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300"
+                  className="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-text border border-border transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={actionLoading}
-                  className="px-4 py-2 text-xs font-semibold rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white disabled:opacity-50"
+                  className="px-4 py-2 text-xs font-semibold rounded-lg bg-accent hover:bg-accent-hover text-white disabled:opacity-50 shadow-sm transition"
                 >
                   {actionLoading ? "Adding..." : "Add Target"}
                 </button>

@@ -152,13 +152,13 @@ export default function DiscoveryDashboard() {
   return (
     <div className="p-8 space-y-8 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-800 pb-6">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-border pb-6">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-white flex items-center gap-3">
-            <Radar className="w-8 h-8 text-indigo-400" />
+          <h1 className="text-3xl font-bold tracking-tight text-text flex items-center gap-3">
+            <Radar className="w-8 h-8 text-accent" />
             Network Discovery Engine
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <p className="text-sm text-muted mt-1">
             Orchestrate multi-protocol active sweeps, passive ARP snooping, and gateway table extraction.
           </p>
         </div>
@@ -166,7 +166,7 @@ export default function DiscoveryDashboard() {
         <div className="flex items-center gap-3">
           <button
             onClick={fetchStatusAndLogs}
-            className="flex items-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors"
+            className="flex items-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg bg-hover text-text hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white border border-border transition-colors"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             Refresh
@@ -177,13 +177,13 @@ export default function DiscoveryDashboard() {
             disabled={status.is_running || triggering}
             className={`flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-lg transition-all shadow-md ${
               status.is_running || triggering
-                ? "bg-slate-700 text-slate-400 cursor-not-allowed"
-                : "bg-indigo-600 hover:bg-indigo-500 text-white shadow-indigo-600/20 active:scale-95"
+                ? "bg-slate-300 dark:bg-slate-700 text-muted cursor-not-allowed"
+                : "bg-accent hover:bg-accent-hover text-white shadow-indigo-600/20 active:scale-95"
             }`}
           >
             {status.is_running ? (
               <>
-                <RefreshCw className="w-4 h-4 animate-spin text-indigo-300" />
+                <RefreshCw className="w-4 h-4 animate-spin text-white" />
                 Discovery Sweep Active...
               </>
             ) : (
@@ -197,77 +197,77 @@ export default function DiscoveryDashboard() {
       </div>
 
       {errorMsg && (
-        <div className="p-4 rounded-lg bg-rose-950/40 border border-rose-800/80 text-rose-300 text-sm flex items-center gap-3">
-          <AlertCircle className="w-5 h-5 shrink-0 text-rose-400" />
+        <div className="p-4 rounded-lg bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800/80 text-rose-700 dark:text-rose-300 text-sm flex items-center gap-3">
+          <AlertCircle className="w-5 h-5 shrink-0 text-status-critical" />
           <span>{errorMsg}</span>
         </div>
       )}
 
       {/* Metrics Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="p-5 rounded-xl bg-slate-900/60 border border-slate-800">
+        <div className="p-5 rounded-xl bg-surface border border-border shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs uppercase font-semibold tracking-wider text-slate-400">Scanner Engine</span>
+            <span className="text-xs uppercase font-semibold tracking-wider text-muted">Scanner Engine</span>
             {status.is_running ? (
-              <span className="flex items-center gap-1.5 px-2 py-0.5 text-xs font-medium rounded-full bg-emerald-950/60 border border-emerald-800 text-emerald-400">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Running
+              <span className="flex items-center gap-1.5 px-2 py-0.5 text-xs font-medium rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-status-online">
+                <span className="w-1.5 h-1.5 rounded-full bg-status-online dark:bg-emerald-400 animate-pulse" /> Running
               </span>
             ) : (
-              <span className="flex items-center gap-1.5 px-2 py-0.5 text-xs font-medium rounded-full bg-slate-800 border border-slate-700 text-slate-400">
+              <span className="flex items-center gap-1.5 px-2 py-0.5 text-xs font-medium rounded-full bg-hover border border-border text-muted">
                 Idle
               </span>
             )}
           </div>
           <div className="mt-4">
-            <div className="text-2xl font-bold text-white">
+            <div className="text-2xl font-bold text-text">
               {status.is_running ? "Active Sweep" : "Ready"}
             </div>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-muted mt-1">
               {status.modules_active.length} modules currently armed
             </p>
           </div>
         </div>
 
-        <div className="p-5 rounded-xl bg-slate-900/60 border border-slate-800">
+        <div className="p-5 rounded-xl bg-surface border border-border shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs uppercase font-semibold tracking-wider text-slate-400">Last Sweep Completed</span>
-            <Clock className="w-4 h-4 text-slate-500" />
+            <span className="text-xs uppercase font-semibold tracking-wider text-muted">Last Sweep Completed</span>
+            <Clock className="w-4 h-4 text-muted" />
           </div>
           <div className="mt-4">
-            <div className="text-xl font-bold text-white">
+            <div className="text-xl font-bold text-text">
               {status.last_scan_time ? new Date(status.last_scan_time).toLocaleTimeString() : "Never"}
             </div>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-muted mt-1">
               Duration: {status.last_duration_sec}s
             </p>
           </div>
         </div>
 
-        <div className="p-5 rounded-xl bg-slate-900/60 border border-slate-800">
+        <div className="p-5 rounded-xl bg-surface border border-border shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs uppercase font-semibold tracking-wider text-slate-400">Discovered In Last Run</span>
-            <CheckCircle2 className="w-4 h-4 text-indigo-400" />
+            <span className="text-xs uppercase font-semibold tracking-wider text-muted">Discovered In Last Run</span>
+            <CheckCircle2 className="w-4 h-4 text-accent" />
           </div>
           <div className="mt-4">
-            <div className="text-2xl font-bold text-white">
+            <div className="text-2xl font-bold text-text">
               {status.total_discovered} Devices
             </div>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-muted mt-1">
               Correlated with database
             </p>
           </div>
         </div>
 
-        <div className="p-5 rounded-xl bg-slate-900/60 border border-slate-800">
+        <div className="p-5 rounded-xl bg-surface border border-border shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs uppercase font-semibold tracking-wider text-slate-400">Target Range</span>
-            <Settings2 className="w-4 h-4 text-slate-500" />
+            <span className="text-xs uppercase font-semibold tracking-wider text-muted">Target Range</span>
+            <Settings2 className="w-4 h-4 text-muted" />
           </div>
           <div className="mt-4">
-            <div className="text-lg font-bold text-white truncate">
+            <div className="text-lg font-bold text-text truncate">
               {cidr}
             </div>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-muted mt-1">
               Ports: {ports}
             </p>
           </div>
@@ -277,29 +277,29 @@ export default function DiscoveryDashboard() {
       {/* Configuration & Discovery Modules */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Sweep Settings */}
-        <div className="p-6 rounded-xl bg-slate-900/60 border border-slate-800 space-y-4">
-          <h2 className="text-base font-semibold text-white flex items-center gap-2">
-            <Settings2 className="w-4 h-4 text-indigo-400" />
+        <div className="p-6 rounded-xl bg-surface border border-border space-y-4 shadow-sm">
+          <h2 className="text-base font-semibold text-text flex items-center gap-2">
+            <Settings2 className="w-4 h-4 text-accent" />
             Sweep Parameters
           </h2>
           <div className="space-y-3">
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">Target Subnet / CIDR</label>
+              <label className="block text-xs font-medium text-text mb-1">Target Subnet / CIDR</label>
               <input
                 type="text"
                 value={cidr}
                 onChange={(e) => setCidr(e.target.value)}
-                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+                className="w-full px-3 py-2 text-sm bg-background border border-border rounded-lg text-text placeholder-slate-400 focus:outline-none focus:border-accent"
                 placeholder="192.168.1.0/24"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">Nmap Port Target List</label>
+              <label className="block text-xs font-medium text-text mb-1">Nmap Port Target List</label>
               <input
                 type="text"
                 value={ports}
                 onChange={(e) => setPorts(e.target.value)}
-                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+                className="w-full px-3 py-2 text-sm bg-background border border-border rounded-lg text-text placeholder-slate-400 focus:outline-none focus:border-accent"
                 placeholder="22,80,443,8080"
               />
             </div>
@@ -307,9 +307,9 @@ export default function DiscoveryDashboard() {
         </div>
 
         {/* Modules Toggle List */}
-        <div className="lg:col-span-2 p-6 rounded-xl bg-slate-900/60 border border-slate-800 space-y-4">
-          <h2 className="text-base font-semibold text-white flex items-center gap-2">
-            <Radar className="w-4 h-4 text-indigo-400" />
+        <div className="lg:col-span-2 p-6 rounded-xl bg-surface border border-border space-y-4 shadow-sm">
+          <h2 className="text-base font-semibold text-text flex items-center gap-2">
+            <Radar className="w-4 h-4 text-accent" />
             Discovery Protocols & Workers
           </h2>
 
@@ -323,24 +323,24 @@ export default function DiscoveryDashboard() {
                   onClick={() => handleToggleModule(mod.id)}
                   className={`p-3.5 rounded-lg border transition-all cursor-pointer flex items-start gap-3 ${
                     active
-                      ? "bg-indigo-950/20 border-indigo-500/40 hover:border-indigo-500"
-                      : "bg-slate-950/40 border-slate-800 hover:border-slate-700 opacity-60"
+                      ? "bg-indigo-50 dark:bg-indigo-950/20 border-indigo-200 dark:border-indigo-500/40 hover:border-indigo-400 dark:hover:border-indigo-500"
+                      : "bg-background/40 border-border hover:border-slate-300 dark:hover:border-slate-700 opacity-75 dark:opacity-60"
                   }`}
                 >
-                  <div className={`p-2 rounded-lg ${active ? "bg-indigo-600/20 text-indigo-400" : "bg-slate-800 text-slate-400"}`}>
+                  <div className={`p-2 rounded-lg ${active ? "bg-indigo-100 dark:bg-indigo-600/20 text-accent" : "bg-slate-200 dark:bg-slate-800 text-muted"}`}>
                     <Icon className="w-4 h-4" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">
-                      <div className="text-sm font-semibold text-white truncate">{mod.name}</div>
+                      <div className="text-sm font-semibold text-text truncate">{mod.name}</div>
                       <input
                         type="checkbox"
                         checked={active}
                         readOnly
-                        className="rounded border-slate-700 text-indigo-600 focus:ring-0 focus:outline-none pointer-events-none"
+                        className="rounded border-slate-300 dark:border-slate-700 text-indigo-600 focus:ring-0 focus:outline-none pointer-events-none"
                       />
                     </div>
-                    <p className="text-xs text-slate-400 mt-0.5 line-clamp-2">{mod.description}</p>
+                    <p className="text-xs text-muted mt-0.5 line-clamp-2">{mod.description}</p>
                   </div>
                 </div>
               );
@@ -350,38 +350,38 @@ export default function DiscoveryDashboard() {
       </div>
 
       {/* Execution Logs Terminal */}
-      <div className="p-6 rounded-xl bg-slate-900/60 border border-slate-800 space-y-4">
+      <div className="p-6 rounded-xl bg-surface border border-border space-y-4 shadow-sm">
         <div className="flex items-center justify-between">
-          <h2 className="text-base font-semibold text-white flex items-center gap-2">
-            <Terminal className="w-4 h-4 text-indigo-400" />
+          <h2 className="text-base font-semibold text-text flex items-center gap-2">
+            <Terminal className="w-4 h-4 text-accent" />
             Live Discovery Audit & Execution Stream
           </h2>
           <span className="text-xs text-slate-500">Auto-refreshing every 3s</span>
         </div>
 
-        <div className="font-mono text-xs bg-slate-950 border border-slate-800 rounded-lg p-4 h-64 overflow-y-auto space-y-2">
+        <div className="font-mono text-xs bg-background border border-border rounded-lg p-4 h-64 overflow-y-auto space-y-2">
           {logs.length === 0 ? (
-            <div className="text-slate-600 italic">No discovery logs recorded yet. Trigger a sweep above.</div>
+            <div className="text-slate-500 dark:text-slate-600 italic">No discovery logs recorded yet. Trigger a sweep above.</div>
           ) : (
             logs.map((log, i) => {
               const color =
                 log.level === "WARNING"
-                  ? "text-amber-400"
+                  ? "text-status-warning"
                   : log.level === "ERROR"
-                  ? "text-rose-400"
-                  : "text-slate-300";
+                  ? "text-status-critical"
+                  : "text-slate-800 dark:text-slate-300";
               return (
                 <div key={i} className="flex items-start gap-3 leading-relaxed">
-                  <span className="text-slate-600 shrink-0">
+                  <span className="text-slate-500 dark:text-slate-600 shrink-0">
                     {new Date(log.timestamp).toLocaleTimeString()}
                   </span>
                   <span
                     className={`font-semibold shrink-0 w-16 ${
                       log.level === "WARNING"
-                        ? "text-amber-400"
+                        ? "text-status-warning"
                         : log.level === "ERROR"
-                        ? "text-rose-400"
-                        : "text-indigo-400"
+                        ? "text-status-critical"
+                        : "text-accent"
                     }`}
                   >
                     [{log.level}]

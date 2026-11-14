@@ -210,7 +210,7 @@ function DeviceInventoryContent() {
             className="text-slate-400 hover:text-white"
           >
             {table.getIsAllRowsSelected() ? (
-              <CheckSquare className="w-4 h-4 text-cyan-400" />
+              <CheckSquare className="w-4 h-4 text-accent" />
             ) : (
               <Square className="w-4 h-4" />
             )}
@@ -222,7 +222,7 @@ function DeviceInventoryContent() {
             className="text-slate-400 hover:text-white"
           >
             {row.getIsSelected() ? (
-              <CheckSquare className="w-4 h-4 text-cyan-400" />
+              <CheckSquare className="w-4 h-4 text-accent" />
             ) : (
               <Square className="w-4 h-4" />
             )}
@@ -242,11 +242,11 @@ function DeviceInventoryContent() {
                 )}
                 <span
                   className={`relative inline-flex rounded-full h-2.5 w-2.5 ${
-                    isOnline ? "bg-emerald-500" : "bg-slate-600"
+                    isOnline ? "bg-status-online" : "bg-slate-600"
                   }`}
                 />
               </span>
-              <span className={`text-xs font-medium uppercase tracking-wider ${isOnline ? "text-emerald-400" : "text-slate-400"}`}>
+              <span className={`text-xs font-medium uppercase tracking-wider ${isOnline ? "text-status-online" : "text-slate-400"}`}>
                 {row.original.status}
               </span>
             </div>
@@ -261,13 +261,13 @@ function DeviceInventoryContent() {
           const isLocked = (row.original.locked_fields || []).includes("name");
           return (
             <div className="flex items-center gap-2.5">
-              <div className="p-1.5 rounded-lg bg-slate-800 border border-slate-700/60 text-cyan-400">
+              <div className="p-1.5 rounded-lg bg-hover border border-border text-accent">
                 <IconComponent className="w-4 h-4" />
               </div>
               <div className="flex flex-col min-w-0">
                 <Link
                   href={`/devices/${row.original.id}`}
-                  className="font-medium text-slate-200 hover:text-cyan-400 truncate flex items-center gap-1.5"
+                  className="font-medium text-slate-900 hover:text-indigo-600 dark:text-slate-200 dark:hover:text-cyan-400 truncate flex items-center gap-1.5"
                 >
                   {row.original.name || "(Unnamed Device)"}
                   {isLocked && (
@@ -306,7 +306,7 @@ function DeviceInventoryContent() {
           const isLocked = (row.original.locked_fields || []).includes("category");
           return (
             <div className="flex items-center gap-1.5">
-              <span className="px-2 py-0.5 text-xs rounded-full bg-slate-800 border border-slate-700 text-slate-300">
+              <span className="px-2 py-0.5 text-xs rounded-full bg-hover border border-border text-text">
                 {cat}
               </span>
               {isLocked && (
@@ -322,7 +322,7 @@ function DeviceInventoryContent() {
         accessorKey: "vendor",
         header: "Vendor / Manufacturer",
         cell: ({ row }) => (
-          <span className="text-sm text-slate-300 truncate max-w-[180px] block">
+          <span className="text-sm text-text truncate max-w-[180px] block">
             {row.original.vendor || "Unknown Vendor"}
           </span>
         ),
@@ -332,7 +332,7 @@ function DeviceInventoryContent() {
         header: ({ column }) => (
           <button
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            className="flex items-center gap-1 hover:text-white"
+            className="flex items-center gap-1 hover:text-slate-900 dark:hover:text-white"
           >
             Last Seen
             <ArrowUpDown className="w-3.5 h-3.5" />
@@ -354,7 +354,7 @@ function DeviceInventoryContent() {
         cell: ({ row }) => (
           <Link
             href={`/devices/${row.original.id}`}
-            className="p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-cyan-400 transition"
+            className="p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-accent transition"
             title="Inspect device telemetry & presence"
           >
             <ChevronRight className="w-4 h-4" />
@@ -388,13 +388,13 @@ function DeviceInventoryContent() {
   return (
     <div className="space-y-6">
       {/* Header bar */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-border">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2.5">
-            <Smartphone className="w-6 h-6 text-cyan-400" />
+          <h1 className="text-2xl font-bold text-text tracking-tight flex items-center gap-2.5">
+            <Smartphone className="w-6 h-6 text-accent" />
             Device Inventory & Historical Intelligence
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <p className="text-sm text-muted mt-1">
             Real-time multi-signal device registry with field locks, OUI manufacturer resolution, and presence analysis.
           </p>
         </div>
@@ -403,16 +403,16 @@ function DeviceInventoryContent() {
           <button
             onClick={() => fetchDevices()}
             disabled={loading}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-sm font-medium transition"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white hover:bg-hover dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-border shadow-sm text-sm font-medium transition"
           >
-            <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin text-cyan-400" : ""}`} />
+            <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin text-accent" : ""}`} />
             Refresh
           </button>
         </div>
       </div>
 
       {/* Filter and Search toolbar */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-3 bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-3 bg-surface p-4 rounded-xl border border-border shadow-sm">
         {/* Search */}
         <div className="md:col-span-3 relative">
           <Search className="w-4 h-4 text-slate-500 absolute left-3 top-3" />
@@ -422,7 +422,7 @@ function DeviceInventoryContent() {
             onChange={(e) => setSearch(e.target.value)}
             onKeyDown={handleSearchKeyDown}
             placeholder="Search MAC, IP, vendor... (Enter)"
-            className="w-full pl-9 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition"
+            className="w-full pl-9 pr-4 py-2 bg-background border border-border rounded-lg text-sm text-text placeholder-slate-500 focus:outline-none focus:border-accent transition"
           />
         </div>
 
@@ -431,7 +431,7 @@ function DeviceInventoryContent() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-slate-200 focus:outline-none focus:border-cyan-500 transition"
+            className="w-full px-3 py-2 bg-background border border-border rounded-lg text-sm text-text focus:outline-none focus:border-accent transition"
           >
             <option value="all">All Statuses</option>
             <option value="online">Online</option>
@@ -444,7 +444,7 @@ function DeviceInventoryContent() {
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-slate-200 focus:outline-none focus:border-cyan-500 transition"
+            className="w-full px-3 py-2 bg-background border border-border rounded-lg text-sm text-text focus:outline-none focus:border-accent transition"
           >
             <option value="all">All Categories</option>
             <option value="Mobile">Mobile</option>
@@ -462,7 +462,7 @@ function DeviceInventoryContent() {
           <select
             value={siteFilter}
             onChange={(e) => setSiteFilter(e.target.value)}
-            className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-slate-200 focus:outline-none focus:border-cyan-500 transition"
+            className="w-full px-3 py-2 bg-background border border-border rounded-lg text-sm text-text focus:outline-none focus:border-accent transition"
           >
             <option value="all">All Sites / Hubs</option>
             {sites.map((s) => (
@@ -475,12 +475,12 @@ function DeviceInventoryContent() {
 
         {/* Archival toggle */}
         <div className="md:col-span-3 flex items-center justify-end">
-          <label className="flex items-center gap-2 cursor-pointer text-sm text-slate-300">
+          <label className="flex items-center gap-2 cursor-pointer text-sm text-text">
             <input
               type="checkbox"
               checked={showArchived}
               onChange={(e) => setShowArchived(e.target.checked)}
-              className="rounded bg-slate-950 border-slate-800 text-cyan-500 focus:ring-0"
+              className="rounded bg-white dark:bg-slate-950 border-slate-300 dark:border-slate-800 text-cyan-500 focus:ring-0"
             />
             Show Archived Devices
           </label>
@@ -489,12 +489,12 @@ function DeviceInventoryContent() {
 
       {/* Bulk Action Bar */}
       {selectedDeviceIds.length > 0 && (
-        <div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-cyan-950/30 border border-cyan-800/60 rounded-xl animate-in fade-in">
+        <div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-cyan-50 dark:bg-cyan-950/30 border border-cyan-200 dark:border-cyan-800/60 rounded-xl animate-in fade-in">
           <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 text-xs font-semibold">
+            <span className="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-700 dark:text-cyan-300 text-xs font-semibold">
               {selectedDeviceIds.length} Selected
             </span>
-            <span className="text-xs text-slate-400">Batch operations:</span>
+            <span className="text-xs text-muted">Batch operations:</span>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
@@ -503,7 +503,7 @@ function DeviceInventoryContent() {
               <select
                 value={bulkCategory}
                 onChange={(e) => setBulkCategory(e.target.value)}
-                className="px-2 py-1 bg-slate-900 border border-slate-700 rounded text-xs text-slate-200"
+                className="px-2 py-1 bg-surface border border-slate-300 dark:border-slate-700 rounded text-xs text-text"
               >
                 <option value="">Category...</option>
                 <option value="Mobile">Mobile</option>
@@ -529,12 +529,12 @@ function DeviceInventoryContent() {
                 placeholder="Add tag..."
                 value={bulkTag}
                 onChange={(e) => setBulkTag(e.target.value)}
-                className="px-2 py-1 bg-slate-900 border border-slate-700 rounded text-xs text-slate-200 w-24"
+                className="px-2 py-1 bg-surface border border-slate-300 dark:border-slate-700 rounded text-xs text-text w-24"
               />
               <button
                 disabled={!bulkTag || bulkProcessing}
                 onClick={() => handleBulkAction("tag")}
-                className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 disabled:opacity-50 text-slate-200 text-xs font-medium border border-slate-700"
+                className="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 disabled:opacity-50 text-text text-xs font-medium border border-border"
               >
                 Tag
               </button>
@@ -565,11 +565,11 @@ function DeviceInventoryContent() {
       )}
 
       {/* Devices TanStack Table */}
-      <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-900/40 shadow-sm">
+      <div className="overflow-x-auto rounded-xl border border-border bg-surface/40 shadow-sm">
         <table className="w-full text-left border-collapse text-sm">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id} className="border-b border-slate-800 bg-slate-900/80 text-slate-400 font-medium">
+              <tr key={headerGroup.id} className="border-b border-border bg-slate-50 dark:bg-slate-900/80 text-muted font-medium">
                 {headerGroup.headers.map((header) => (
                   <th key={header.id} className="px-4 py-3 text-xs uppercase tracking-wider font-semibold">
                     {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
@@ -578,11 +578,11 @@ function DeviceInventoryContent() {
               </tr>
             ))}
           </thead>
-          <tbody className="divide-y divide-slate-800/60">
+          <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
             {loading ? (
               <tr>
                 <td colSpan={columns.length} className="px-4 py-8 text-center text-slate-500">
-                  <RefreshCw className="w-5 h-5 animate-spin mx-auto mb-2 text-cyan-400" />
+                  <RefreshCw className="w-5 h-5 animate-spin mx-auto mb-2 text-accent" />
                   Loading devices...
                 </td>
               </tr>
@@ -596,7 +596,7 @@ function DeviceInventoryContent() {
               table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
-                  className={`hover:bg-slate-800/40 transition-colors ${
+                  className={`hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors ${
                     row.getIsSelected() ? "bg-cyan-950/20" : ""
                   }`}
                 >
@@ -621,7 +621,7 @@ function DeviceInventoryContent() {
           <button
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
-            className="flex items-center gap-1 px-3 py-1 rounded bg-slate-800 hover:bg-slate-700 disabled:opacity-50 text-slate-200"
+            className="flex items-center gap-1 px-3 py-1 rounded bg-white hover:bg-hover dark:hover:bg-slate-700 disabled:opacity-50 text-slate-700 dark:text-slate-200 border border-border"
           >
             <ChevronLeft className="w-3.5 h-3.5" />
             Previous
@@ -632,7 +632,7 @@ function DeviceInventoryContent() {
           <button
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
-            className="flex items-center gap-1 px-3 py-1 rounded bg-slate-800 hover:bg-slate-700 disabled:opacity-50 text-slate-200"
+            className="flex items-center gap-1 px-3 py-1 rounded bg-white hover:bg-hover dark:hover:bg-slate-700 disabled:opacity-50 text-slate-700 dark:text-slate-200 border border-border"
           >
             Next
             <ChevronRight className="w-3.5 h-3.5" />

@@ -34,18 +34,18 @@ interface WallboardStats {
 
 export default function WallboardPage() {
   const [stats, setStats] = useState<WallboardStats>({
-    wan_ip: "198.51.100.12",
+    wan_ip: "Probing...",
     is_connected: true,
-    gateway_latency_ms: 3.4,
-    dns_resolution_ms: 14.2,
-    total_devices: 14,
-    online_devices: 11,
-    download_mbps: 245.8,
-    upload_mbps: 42.1,
-    ping_ms: 8.5,
+    gateway_latency_ms: 0,
+    dns_resolution_ms: 0,
+    total_devices: 0,
+    online_devices: 0,
+    download_mbps: 0,
+    upload_mbps: 0,
+    ping_ms: 0,
     active_alerts: 0,
-    monitored_sites_up: 5,
-    monitored_sites_total: 5,
+    monitored_sites_up: 0,
+    monitored_sites_total: 0,
   });
 
   const [currentTime, setCurrentTime] = useState("");
@@ -76,25 +76,25 @@ export default function WallboardPage() {
 
       let wanIp = "Auto-probing...";
       let isConnected = true;
-      let gwLatency = 3.2;
-      let dnsLatency = 14.5;
+      let gwLatency = 0;
+      let dnsLatency = 0;
       if (intRes.ok) {
         const intData = await intRes.json();
         wanIp = intData.wan_ip || "Online";
-        isConnected = intData.is_connected;
-        gwLatency = intData.gateway_latency_ms || 3.2;
-        dnsLatency = intData.dns_resolution_ms || 14.5;
+        isConnected = intData.is_connected ?? true;
+        gwLatency = intData.gateway_latency_ms || 0;
+        dnsLatency = intData.dns_resolution_ms || 0;
       }
 
-      let down = 210.5;
-      let up = 45.0;
-      let ping = 9.2;
+      let down = 0;
+      let up = 0;
+      let ping = 0;
       if (speedRes.ok) {
         const spData = await speedRes.json();
-        if (spData.length > 0) {
-          down = spData[0].download_mbps;
-          up = spData[0].upload_mbps;
-          ping = spData[0].ping_ms;
+        if (Array.isArray(spData) && spData.length > 0) {
+          down = spData[0].download_mbps || 0;
+          up = spData[0].upload_mbps || 0;
+          ping = spData[0].ping_ms || 0;
         }
       }
 
@@ -102,8 +102,8 @@ export default function WallboardPage() {
       let sitesTotal = 0;
       if (sitesRes.ok) {
         const sList = await sitesRes.json();
-        sitesTotal = sList.length;
-        sitesUp = sList.filter((s: { is_up: boolean }) => s.is_up).length;
+        sitesTotal = Array.isArray(sList) ? sList.length : 0;
+        sitesUp = Array.isArray(sList) ? sList.filter((s: { is_up: boolean }) => s.is_up).length : 0;
       }
 
       let totalDevs = 0;
@@ -111,7 +111,7 @@ export default function WallboardPage() {
       if (devRes.ok) {
         const dList = await devRes.json();
         const arr = Array.isArray(dList) ? dList : dList.devices || [];
-        totalDevs = arr.length;
+        totalDevs = typeof dList.total === "number" ? dList.total : arr.length;
         onlineDevs = arr.filter((d: { status: string }) => d.status === "online").length;
       }
 
@@ -120,8 +120,8 @@ export default function WallboardPage() {
         is_connected: isConnected,
         gateway_latency_ms: gwLatency,
         dns_resolution_ms: dnsLatency,
-        total_devices: totalDevs || 12,
-        online_devices: onlineDevs || 9,
+        total_devices: totalDevs,
+        online_devices: onlineDevs,
         download_mbps: down,
         upload_mbps: up,
         ping_ms: ping,
@@ -149,16 +149,16 @@ export default function WallboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 p-6 flex flex-col justify-between select-none">
+    <div className="min-h-screen bg-background text-text p-6 flex flex-col justify-between select-none transition-colors">
       {/* Top Banner */}
-      <div className="flex justify-between items-center border-b border-slate-800 pb-4">
+      <div className="flex justify-between items-center border-b border-border pb-4">
         <div className="flex items-center gap-3">
-          <Activity className="w-8 h-8 text-indigo-500 animate-pulse" />
+          <Activity className="w-8 h-8 text-accent animate-pulse" />
           <div>
-            <h1 className="text-xl font-black tracking-widest uppercase text-slate-100">
+            <h1 className="text-xl font-black tracking-widest uppercase text-text">
               WATCHNET &bull; NETWORK OPERATIONS CENTER
             </h1>
-            <p className="text-xs text-slate-400 font-mono tracking-wide">
+            <p className="text-xs text-muted font-mono tracking-wide">
               REAL-TIME HIGH-CONTRAST TELEMETRY WALLBOARD
             </p>
           </div>
@@ -166,18 +166,18 @@ export default function WallboardPage() {
 
         <div className="flex items-center gap-6">
           <div className="text-right font-mono">
-            <div className="text-2xl font-black text-indigo-400">{currentTime}</div>
-            <div className="text-[10px] text-slate-500 uppercase tracking-widest">LOCAL CLOCK</div>
+            <div className="text-2xl font-black text-accent">{currentTime}</div>
+            <div className="text-[10px] text-muted uppercase tracking-widest">LOCAL CLOCK</div>
           </div>
           <button
             onClick={toggleFullscreen}
-            className="p-2 rounded-lg bg-slate-900 border border-slate-800 hover:bg-slate-800 text-slate-300"
+            className="p-2 rounded-lg bg-surface border border-border shadow-sm hover:bg-hover text-text transition"
           >
             {isFullscreen ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
           </button>
           <Link
             href="/monitoring"
-            className="px-3 py-1.5 text-xs font-semibold rounded bg-slate-800 hover:bg-slate-700 text-slate-300"
+            className="px-3 py-1.5 text-xs font-semibold rounded bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-300 border border-slate-300 dark:border-slate-700 transition"
           >
             Exit Wallboard
           </Link>
@@ -187,100 +187,100 @@ export default function WallboardPage() {
       {/* Main Big Metrics Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-6 flex-1 items-stretch">
         {/* WAN & Uplink Card */}
-        <div className="bg-slate-900/90 border-2 border-slate-800 rounded-2xl p-6 flex flex-col justify-between shadow-2xl">
+        <div className="bg-surface/90 border border-border rounded-2xl p-6 flex flex-col justify-between shadow-md dark:shadow-2xl">
           <div className="flex justify-between items-center">
-            <span className="text-sm font-bold uppercase tracking-widest text-slate-400">WAN Uplink Status</span>
-            <Globe className="w-6 h-6 text-indigo-400" />
+            <span className="text-sm font-bold uppercase tracking-widest text-muted">WAN Uplink Status</span>
+            <Globe className="w-6 h-6 text-accent" />
           </div>
           <div className="my-4">
             <div className="flex items-center gap-3">
               <span
                 className={`w-4 h-4 rounded-full ${
-                  stats.is_connected ? "bg-emerald-400 shadow-lg shadow-emerald-400/50" : "bg-rose-500"
+                  stats.is_connected ? "bg-status-online dark:bg-emerald-400 shadow-lg shadow-emerald-400/50" : "bg-status-critical"
                 }`}
               />
-              <span className="text-4xl font-black tracking-tight text-slate-100">
+              <span className="text-4xl font-black tracking-tight text-text">
                 {stats.is_connected ? "ONLINE" : "OFFLINE"}
               </span>
             </div>
-            <div className="text-sm font-mono text-slate-400 mt-2">Public WAN: {stats.wan_ip}</div>
+            <div className="text-sm font-mono text-muted mt-2">Public WAN: {stats.wan_ip}</div>
           </div>
-          <div className="grid grid-cols-2 gap-3 pt-4 border-t border-slate-800 font-mono">
+          <div className="grid grid-cols-2 gap-3 pt-4 border-t border-border font-mono">
             <div>
-              <span className="text-[11px] text-slate-500 block">GATEWAY RTT</span>
-              <span className="text-xl font-bold text-slate-200">{stats.gateway_latency_ms} ms</span>
+              <span className="text-[11px] text-muted block">GATEWAY RTT</span>
+              <span className="text-xl font-bold text-text">{stats.gateway_latency_ms} ms</span>
             </div>
             <div>
-              <span className="text-[11px] text-slate-500 block">DNS RESOLVE</span>
-              <span className="text-xl font-bold text-slate-200">{stats.dns_resolution_ms} ms</span>
+              <span className="text-[11px] text-muted block">DNS RESOLVE</span>
+              <span className="text-xl font-bold text-text">{stats.dns_resolution_ms} ms</span>
             </div>
           </div>
         </div>
 
         {/* Speed & Throughput Card */}
-        <div className="bg-slate-900/90 border-2 border-slate-800 rounded-2xl p-6 flex flex-col justify-between shadow-2xl">
+        <div className="bg-surface/90 border border-border rounded-2xl p-6 flex flex-col justify-between shadow-md dark:shadow-2xl">
           <div className="flex justify-between items-center">
-            <span className="text-sm font-bold uppercase tracking-widest text-slate-400">WAN Bandwidth</span>
-            <Gauge className="w-6 h-6 text-emerald-400" />
+            <span className="text-sm font-bold uppercase tracking-widest text-muted">WAN Bandwidth</span>
+            <Gauge className="w-6 h-6 text-status-online" />
           </div>
           <div className="my-4 grid grid-cols-2 gap-4">
             <div>
-              <div className="flex items-center gap-1 text-xs text-slate-400 font-bold uppercase">
-                <ArrowDownRight className="w-4 h-4 text-emerald-400" /> Download
+              <div className="flex items-center gap-1 text-xs text-muted font-bold uppercase">
+                <ArrowDownRight className="w-4 h-4 text-status-online" /> Download
               </div>
-              <div className="text-4xl font-black text-emerald-400 mt-1 font-mono">
+              <div className="text-4xl font-black text-status-online mt-1 font-mono">
                 {stats.download_mbps}
               </div>
-              <span className="text-xs text-slate-500">Mbps</span>
+              <span className="text-xs text-muted">Mbps</span>
             </div>
             <div>
-              <div className="flex items-center gap-1 text-xs text-slate-400 font-bold uppercase">
-                <ArrowUpRight className="w-4 h-4 text-indigo-400" /> Upload
+              <div className="flex items-center gap-1 text-xs text-muted font-bold uppercase">
+                <ArrowUpRight className="w-4 h-4 text-accent" /> Upload
               </div>
-              <div className="text-4xl font-black text-indigo-400 mt-1 font-mono">
+              <div className="text-4xl font-black text-accent mt-1 font-mono">
                 {stats.upload_mbps}
               </div>
-              <span className="text-xs text-slate-500">Mbps</span>
+              <span className="text-xs text-muted">Mbps</span>
             </div>
           </div>
-          <div className="flex justify-between items-center pt-4 border-t border-slate-800 font-mono text-sm">
-            <span className="text-slate-500">BACKBONE PING:</span>
-            <span className="text-emerald-400 font-bold">{stats.ping_ms} ms</span>
+          <div className="flex justify-between items-center pt-4 border-t border-border font-mono text-sm">
+            <span className="text-muted">BACKBONE PING:</span>
+            <span className="text-status-online font-bold">{stats.ping_ms} ms</span>
           </div>
         </div>
 
         {/* LAN Fleet & Integrity Card */}
-        <div className="bg-slate-900/90 border-2 border-slate-800 rounded-2xl p-6 flex flex-col justify-between shadow-2xl">
+        <div className="bg-surface/90 border border-border rounded-2xl p-6 flex flex-col justify-between shadow-md dark:shadow-2xl">
           <div className="flex justify-between items-center">
-            <span className="text-sm font-bold uppercase tracking-widest text-slate-400">LAN Infrastructure</span>
-            <Wifi className="w-6 h-6 text-indigo-400" />
+            <span className="text-sm font-bold uppercase tracking-widest text-muted">LAN Infrastructure</span>
+            <Wifi className="w-6 h-6 text-accent" />
           </div>
           <div className="my-4">
-            <div className="text-5xl font-black text-emerald-400 font-mono">
+            <div className="text-5xl font-black text-status-online font-mono">
               {stats.online_devices}{" "}
-              <span className="text-2xl text-slate-500 font-normal">/ {stats.total_devices}</span>
+              <span className="text-2xl text-muted font-normal">/ {stats.total_devices}</span>
             </div>
-            <div className="text-sm text-slate-400 mt-1">Active nodes currently reporting presence</div>
+            <div className="text-sm text-muted mt-1">Active nodes currently reporting presence</div>
           </div>
-          <div className="grid grid-cols-2 gap-3 pt-4 border-t border-slate-800 font-mono">
+          <div className="grid grid-cols-2 gap-3 pt-4 border-t border-border font-mono">
             <div>
-              <span className="text-[11px] text-slate-500 block">UPTIME SITES</span>
-              <span className="text-xl font-bold text-emerald-400">
+              <span className="text-[11px] text-muted block">UPTIME SITES</span>
+              <span className="text-xl font-bold text-status-online">
                 {stats.monitored_sites_up} / {stats.monitored_sites_total}
               </span>
             </div>
             <div>
-              <span className="text-[11px] text-slate-500 block">SECURITY ALERTS</span>
-              <span className="text-xl font-bold text-indigo-400">{stats.active_alerts}</span>
+              <span className="text-[11px] text-muted block">SECURITY ALERTS</span>
+              <span className="text-xl font-bold text-accent">{stats.active_alerts}</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Footer Status Bar */}
-      <div className="flex justify-between items-center border-t border-slate-800 pt-4 text-xs font-mono text-slate-500">
+      <div className="flex justify-between items-center border-t border-border pt-4 text-xs font-mono text-slate-500">
         <div className="flex items-center gap-4">
-          <span className="flex items-center gap-1.5 text-emerald-400">
+          <span className="flex items-center gap-1.5 text-status-online">
             <CheckCircle2 className="w-3.5 h-3.5" /> All Services Nominal
           </span>
           <span>&bull;</span>

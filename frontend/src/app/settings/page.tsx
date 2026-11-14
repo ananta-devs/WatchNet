@@ -239,20 +239,20 @@ export default function SettingsDashboard() {
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-5">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-border pb-5">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
-            <Sliders className="w-6 h-6 text-indigo-400" />
+          <h1 className="text-2xl font-bold tracking-tight text-text flex items-center gap-2">
+            <Sliders className="w-6 h-6 text-accent" />
             System Settings & Production Maintenance
           </h1>
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-muted">
             Database retention policies, atomic backup archives, NetAlertX CSVBCKP migration, and security hardening.
           </p>
         </div>
         <button
           onClick={fetchStatsAndBackups}
           disabled={loading}
-          className="flex items-center gap-2 px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-medium rounded-lg border border-slate-700 transition"
+          className="flex items-center gap-2 px-3 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-sm font-medium rounded-lg border border-border transition"
         >
           <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
           Refresh Stats
@@ -269,16 +269,16 @@ export default function SettingsDashboard() {
           }`}
         >
           {message.type === "success" ? (
-            <CheckCircle2 className="w-5 h-5 flex-shrink-0 text-emerald-400" />
+            <CheckCircle2 className="w-5 h-5 flex-shrink-0 text-status-online" />
           ) : (
-            <AlertTriangle className="w-5 h-5 flex-shrink-0 text-rose-400" />
+            <AlertTriangle className="w-5 h-5 flex-shrink-0 text-status-critical" />
           )}
           <span className="text-sm font-medium">{message.text}</span>
         </div>
       )}
 
       {/* Tabs */}
-      <div className="flex border-b border-slate-800 space-x-4">
+      <div className="flex border-b border-border space-x-4">
         <button
           onClick={() => setActiveTab("maintenance")}
           className={`py-3 px-4 text-sm font-medium border-b-2 flex items-center gap-2 transition ${
@@ -318,28 +318,28 @@ export default function SettingsDashboard() {
       {activeTab === "maintenance" && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Storage Stats Card */}
-          <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
-            <h3 className="text-base font-semibold text-white flex items-center gap-2">
-              <HardDrive className="w-5 h-5 text-indigo-400" />
+          <div className="bg-surface border border-border rounded-xl p-5 shadow-sm space-y-4">
+            <h3 className="text-base font-semibold text-text flex items-center gap-2">
+              <HardDrive className="w-5 h-5 text-accent" />
               Storage Statistics
             </h3>
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-slate-950/60 p-3 rounded-lg border border-slate-800">
-                <span className="text-xs text-slate-400 uppercase font-semibold">Total Records</span>
-                <p className="text-2xl font-bold text-white mt-1">
+              <div className="bg-background/60 p-3 rounded-lg border border-border">
+                <span className="text-xs text-muted uppercase font-semibold">Total Records</span>
+                <p className="text-2xl font-bold text-text mt-1">
                   {stats ? stats.total_records.toLocaleString() : "..."}
                 </p>
               </div>
-              <div className="bg-slate-950/60 p-3 rounded-lg border border-slate-800">
-                <span className="text-xs text-slate-400 uppercase font-semibold">Database Engine</span>
-                <p className="text-2xl font-bold text-indigo-400 mt-1 uppercase">
+              <div className="bg-background/60 p-3 rounded-lg border border-border">
+                <span className="text-xs text-muted uppercase font-semibold">Database Engine</span>
+                <p className="text-2xl font-bold text-accent mt-1 uppercase">
                   {stats ? stats.dialect : "..."}
                 </p>
               </div>
             </div>
 
-            <div className="space-y-2 pt-2 border-t border-slate-800">
-              <h4 className="text-xs font-semibold uppercase text-slate-400 tracking-wider">
+            <div className="space-y-2 pt-2 border-t border-border">
+              <h4 className="text-xs font-semibold uppercase text-muted tracking-wider">
                 Table Row Counts
               </h4>
               <div className="max-h-60 overflow-y-auto space-y-1.5 pr-1">
@@ -347,10 +347,10 @@ export default function SettingsDashboard() {
                   Object.entries(stats.table_counts).map(([tbl, cnt]) => (
                     <div
                       key={tbl}
-                      className="flex justify-between items-center text-xs py-1 px-2 rounded bg-slate-950/40 border border-slate-800/60"
+                      className="flex justify-between items-center text-xs py-1 px-2 rounded bg-background/40 border border-border/60"
                     >
-                      <span className="font-mono text-slate-300">{tbl}</span>
-                      <span className="font-semibold text-indigo-400">{cnt.toLocaleString()}</span>
+                      <span className="font-mono text-text">{tbl}</span>
+                      <span className="font-semibold text-accent">{cnt.toLocaleString()}</span>
                     </div>
                   ))}
               </div>
@@ -360,22 +360,22 @@ export default function SettingsDashboard() {
               <button
                 onClick={handleVacuum}
                 disabled={loading}
-                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-medium rounded-lg border border-slate-700 transition"
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-sm font-medium rounded-lg border border-border transition"
               >
-                <Activity className="w-4 h-4 text-emerald-400" />
+                <Activity className="w-4 h-4 text-status-online" />
                 Run Database Optimize / Vacuum
               </button>
             </div>
           </div>
 
           {/* Retention Configuration Sliders */}
-          <div className="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm space-y-6">
+          <div className="lg:col-span-2 bg-surface border border-border shadow-sm rounded-xl p-5 space-y-6">
             <div>
-              <h3 className="text-base font-semibold text-white flex items-center gap-2">
-                <Clock className="w-5 h-5 text-indigo-400" />
+              <h3 className="text-base font-semibold text-text flex items-center gap-2">
+                <Clock className="w-5 h-5 text-accent" />
                 Telemetry Data Retention Policies
               </h3>
-              <p className="text-xs text-slate-400 mt-1">
+              <p className="text-xs text-muted mt-1">
                 Tune automatic pruning thresholds for high-volume telemetry tables to prevent disk bloat.
               </p>
             </div>
@@ -384,8 +384,8 @@ export default function SettingsDashboard() {
               {/* Device Sessions */}
               <div>
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="text-slate-300 font-medium">Device Inactive Sessions</span>
-                  <span className="text-indigo-400 font-bold">{retention.device_sessions} Days</span>
+                  <span className="text-text font-medium">Device Inactive Sessions</span>
+                  <span className="text-accent font-bold">{retention.device_sessions} Days</span>
                 </div>
                 <input
                   type="range"
@@ -395,15 +395,15 @@ export default function SettingsDashboard() {
                   onChange={(e) =>
                     setRetention({ ...retention, device_sessions: Number(e.target.value) })
                   }
-                  className="w-full accent-indigo-500 bg-slate-800"
+                  className="w-full accent-indigo-500 bg-slate-200 dark:bg-slate-800"
                 />
               </div>
 
               {/* Network Events */}
               <div>
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="text-slate-300 font-medium">Network Event Telemetry</span>
-                  <span className="text-indigo-400 font-bold">{retention.network_events} Days</span>
+                  <span className="text-text font-medium">Network Event Telemetry</span>
+                  <span className="text-accent font-bold">{retention.network_events} Days</span>
                 </div>
                 <input
                   type="range"
@@ -413,15 +413,15 @@ export default function SettingsDashboard() {
                   onChange={(e) =>
                     setRetention({ ...retention, network_events: Number(e.target.value) })
                   }
-                  className="w-full accent-indigo-500 bg-slate-800"
+                  className="w-full accent-indigo-500 bg-slate-200 dark:bg-slate-800"
                 />
               </div>
 
               {/* DNS Activity Logs */}
               <div>
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="text-slate-300 font-medium">DNS Query Activity Logs</span>
-                  <span className="text-indigo-400 font-bold">{retention.dns_activity_logs} Days</span>
+                  <span className="text-text font-medium">DNS Query Activity Logs</span>
+                  <span className="text-accent font-bold">{retention.dns_activity_logs} Days</span>
                 </div>
                 <input
                   type="range"
@@ -431,15 +431,15 @@ export default function SettingsDashboard() {
                   onChange={(e) =>
                     setRetention({ ...retention, dns_activity_logs: Number(e.target.value) })
                   }
-                  className="w-full accent-indigo-500 bg-slate-800"
+                  className="w-full accent-indigo-500 bg-slate-200 dark:bg-slate-800"
                 />
               </div>
 
               {/* Plugin Execution Logs */}
               <div>
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="text-slate-300 font-medium">Plugin Execution Runs</span>
-                  <span className="text-indigo-400 font-bold">{retention.plugin_execution_logs} Days</span>
+                  <span className="text-text font-medium">Plugin Execution Runs</span>
+                  <span className="text-accent font-bold">{retention.plugin_execution_logs} Days</span>
                 </div>
                 <input
                   type="range"
@@ -449,15 +449,15 @@ export default function SettingsDashboard() {
                   onChange={(e) =>
                     setRetention({ ...retention, plugin_execution_logs: Number(e.target.value) })
                   }
-                  className="w-full accent-indigo-500 bg-slate-800"
+                  className="w-full accent-indigo-500 bg-slate-200 dark:bg-slate-800"
                 />
               </div>
 
               {/* Audit Logs */}
               <div>
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="text-slate-300 font-medium">Administrative Audit Logs</span>
-                  <span className="text-indigo-400 font-bold">{retention.audit_logs} Days</span>
+                  <span className="text-text font-medium">Administrative Audit Logs</span>
+                  <span className="text-accent font-bold">{retention.audit_logs} Days</span>
                 </div>
                 <input
                   type="range"
@@ -467,16 +467,16 @@ export default function SettingsDashboard() {
                   onChange={(e) =>
                     setRetention({ ...retention, audit_logs: Number(e.target.value) })
                   }
-                  className="w-full accent-indigo-500 bg-slate-800"
+                  className="w-full accent-indigo-500 bg-slate-200 dark:bg-slate-800"
                 />
               </div>
             </div>
 
-            <div className="pt-4 border-t border-slate-800 flex justify-end">
+            <div className="pt-4 border-t border-border flex justify-end">
               <button
                 onClick={handlePrune}
                 disabled={loading}
-                className="flex items-center gap-2 py-2.5 px-6 bg-rose-600 hover:bg-rose-500 text-white text-sm font-semibold rounded-lg shadow-sm transition"
+                className="flex items-center gap-2 py-2.5 px-6 bg-rose-600 hover:bg-status-critical text-white text-sm font-semibold rounded-lg shadow-sm transition"
               >
                 <Trash2 className="w-4 h-4" />
                 Run Retention Pruning Now
@@ -490,13 +490,13 @@ export default function SettingsDashboard() {
       {activeTab === "backup" && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Actions & CSV Tools Card */}
-          <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm space-y-6">
+          <div className="bg-surface border border-border shadow-sm rounded-xl p-5 space-y-6">
             <div>
-              <h3 className="text-base font-semibold text-white flex items-center gap-2">
-                <Archive className="w-5 h-5 text-indigo-400" />
+              <h3 className="text-base font-semibold text-text flex items-center gap-2">
+                <Archive className="w-5 h-5 text-accent" />
                 Create Backup Archive
               </h3>
-              <p className="text-xs text-slate-400 mt-1">
+              <p className="text-xs text-muted mt-1">
                 Generates a portable ZIP containing full schemas, devices, profiles, and settings.
               </p>
             </div>
@@ -505,7 +505,7 @@ export default function SettingsDashboard() {
               <button
                 onClick={() => handleCreateBackup("json")}
                 disabled={loading}
-                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-lg transition"
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-accent hover:bg-accent-hover text-white text-sm font-medium rounded-lg transition"
               >
                 <Download className="w-4 h-4" />
                 Create Complete Backup (.ZIP)
@@ -513,19 +513,19 @@ export default function SettingsDashboard() {
             </div>
 
             {/* NetAlertX CSVBCKP compatible section */}
-            <div className="pt-4 border-t border-slate-800 space-y-4">
-              <h4 className="text-sm font-semibold text-white flex items-center gap-2">
-                <FileSpreadsheet className="w-4 h-4 text-emerald-400" />
+            <div className="pt-4 border-t border-border space-y-4">
+              <h4 className="text-sm font-semibold text-text flex items-center gap-2">
+                <FileSpreadsheet className="w-4 h-4 text-status-online" />
                 NetAlertX CSVBCKP Tools
               </h4>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-muted">
                 Direct compatibility with upstream NetAlertX CSV backup files for easy migration.
               </p>
 
               <a
                 href="/api/v1/system/export/devices.csv"
                 download="watchnet_devices_export.csv"
-                className="w-full flex items-center justify-center gap-2 py-2 px-4 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 transition"
+                className="w-full flex items-center justify-center gap-2 py-2 px-4 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-lg border border-border transition"
               >
                 <Download className="w-3.5 h-3.5" />
                 Export Devices as CSV (CSVBCKP)
@@ -533,20 +533,20 @@ export default function SettingsDashboard() {
 
               <form onSubmit={handleImportDevicesCsv} className="space-y-3 pt-2">
                 <div>
-                  <label className="text-xs text-slate-400 block mb-1">Upload Devices CSV</label>
+                  <label className="text-xs text-muted block mb-1">Upload Devices CSV</label>
                   <input
                     type="file"
                     accept=".csv"
                     onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
-                    className="w-full text-xs text-slate-300 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:bg-slate-800 file:text-slate-300 hover:file:bg-slate-700"
+                    className="w-full text-xs text-text file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:bg-slate-100 hover:file:bg-slate-200 dark:file:bg-slate-800 dark:hover:file:bg-slate-700 file:text-slate-700 dark:file:text-slate-300"
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-slate-400 block mb-1">Conflict Resolution</label>
+                  <label className="text-xs text-muted block mb-1">Conflict Resolution</label>
                   <select
                     value={importResolution}
                     onChange={(e: any) => setImportResolution(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 text-xs text-slate-300 rounded p-1.5"
+                    className="w-full bg-background border border-border text-xs text-slate-900 dark:text-slate-300 rounded p-1.5"
                   >
                     <option value="overwrite">Overwrite existing MAC records</option>
                     <option value="skip">Skip existing MAC records</option>
@@ -555,7 +555,7 @@ export default function SettingsDashboard() {
                 <button
                   type="submit"
                   disabled={loading || !selectedFile}
-                  className="w-full flex items-center justify-center gap-2 py-2 px-4 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs font-semibold rounded-lg transition"
+                  className="w-full flex items-center justify-center gap-2 py-2 px-4 bg-emerald-600 hover:bg-status-online disabled:opacity-50 text-white text-xs font-semibold rounded-lg transition"
                 >
                   <Upload className="w-3.5 h-3.5" />
                   Import Devices from CSV
@@ -567,12 +567,12 @@ export default function SettingsDashboard() {
           {/* Backup Archives List & Restore */}
           <div className="lg:col-span-2 space-y-6">
             {/* Restore from Archive Card */}
-            <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
-              <h3 className="text-base font-semibold text-white flex items-center gap-2">
-                <Upload className="w-5 h-5 text-indigo-400" />
+            <div className="bg-surface border border-border shadow-sm rounded-xl p-5 space-y-4">
+              <h3 className="text-base font-semibold text-text flex items-center gap-2">
+                <Upload className="w-5 h-5 text-accent" />
                 Restore System from Archive
               </h3>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-muted">
                 Upload a valid WatchNet backup zip archive. Includes transactional rollback protection and schema checking.
               </p>
               <form onSubmit={handleRestoreBackup} className="flex items-center gap-3">
@@ -580,7 +580,7 @@ export default function SettingsDashboard() {
                   type="file"
                   accept=".zip"
                   onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
-                  className="flex-1 text-xs text-slate-300 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:bg-slate-800 file:text-slate-300 hover:file:bg-slate-700"
+                  className="flex-1 text-xs text-text file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:bg-slate-100 hover:file:bg-slate-200 dark:file:bg-slate-800 dark:hover:file:bg-slate-700 file:text-slate-700 dark:file:text-slate-300"
                 />
                 <button
                   type="submit"
@@ -593,19 +593,19 @@ export default function SettingsDashboard() {
             </div>
 
             {/* List Existing Backups */}
-            <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
-              <h3 className="text-base font-semibold text-white flex items-center gap-2">
-                <Layers className="w-5 h-5 text-indigo-400" />
+            <div className="bg-surface border border-border shadow-sm rounded-xl p-5 space-y-4">
+              <h3 className="text-base font-semibold text-text flex items-center gap-2">
+                <Layers className="w-5 h-5 text-accent" />
                 Stored Backup Archives
               </h3>
-              <div className="divide-y divide-slate-800 max-h-96 overflow-y-auto">
+              <div className="divide-y divide-border max-h-96 overflow-y-auto">
                 {backups.length === 0 ? (
                   <p className="text-sm text-slate-500 py-4 text-center">No backup archives found.</p>
                 ) : (
                   backups.map((b) => (
                     <div key={b.filename} className="py-3 flex items-center justify-between gap-4">
                       <div className="space-y-0.5">
-                        <p className="text-sm font-medium text-slate-200">{b.filename}</p>
+                        <p className="text-sm font-medium text-slate-900 dark:text-slate-200">{b.filename}</p>
                         <p className="text-xs text-slate-500">
                           {new Date(b.created_at).toLocaleString()} • {b.size_mb} MB
                         </p>
@@ -614,14 +614,14 @@ export default function SettingsDashboard() {
                         <a
                           href={`/api/v1/system/backups/${b.filename}/download`}
                           download={b.filename}
-                          className="p-1.5 text-slate-400 hover:text-indigo-400 hover:bg-slate-800 rounded transition"
+                          className="p-1.5 text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 hover:bg-hover rounded transition"
                           title="Download"
                         >
                           <Download className="w-4 h-4" />
                         </a>
                         <button
                           onClick={() => handleDeleteBackup(b.filename)}
-                          className="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-slate-800 rounded transition"
+                          className="p-1.5 text-slate-500 hover:text-rose-600 dark:text-slate-400 dark:hover:text-status-critical hover:bg-hover rounded transition"
                           title="Delete"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -640,40 +640,40 @@ export default function SettingsDashboard() {
       {activeTab === "security" && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Password Change Card */}
-          <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
-            <h3 className="text-base font-semibold text-white flex items-center gap-2">
-              <KeyRound className="w-5 h-5 text-indigo-400" />
+          <div className="bg-surface border border-border shadow-sm rounded-xl p-5 space-y-4">
+            <h3 className="text-base font-semibold text-text flex items-center gap-2">
+              <KeyRound className="w-5 h-5 text-accent" />
               Administrative Password
             </h3>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-muted">
               Update credentials using Argon2id cryptographic hashing.
             </p>
             <div className="space-y-3">
               <div>
-                <label className="text-xs text-slate-400 block mb-1">Current Password</label>
+                <label className="text-xs text-muted block mb-1">Current Password</label>
                 <input
                   type="password"
                   value={oldPassword}
                   onChange={(e) => setOldPassword(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-200"
+                  className="w-full bg-background border border-border rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-slate-200 focus:outline-none focus:border-accent"
                 />
               </div>
               <div>
-                <label className="text-xs text-slate-400 block mb-1">New Password</label>
+                <label className="text-xs text-muted block mb-1">New Password</label>
                 <input
                   type="password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-200"
+                  className="w-full bg-background border border-border rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-slate-200 focus:outline-none focus:border-accent"
                 />
               </div>
               <div>
-                <label className="text-xs text-slate-400 block mb-1">Confirm New Password</label>
+                <label className="text-xs text-muted block mb-1">Confirm New Password</label>
                 <input
                   type="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-200"
+                  className="w-full bg-background border border-border rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-slate-200 focus:outline-none focus:border-accent"
                 />
               </div>
               <button
@@ -684,7 +684,7 @@ export default function SettingsDashboard() {
                   }
                   alert("Password update requested");
                 }}
-                className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm rounded-lg transition"
+                className="w-full py-2.5 bg-accent hover:bg-accent-hover text-white font-medium text-sm rounded-lg transition"
               >
                 Update Password
               </button>
@@ -692,48 +692,48 @@ export default function SettingsDashboard() {
           </div>
 
           {/* Hardening Status Card */}
-          <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
-            <h3 className="text-base font-semibold text-white flex items-center gap-2">
-              <Shield className="w-5 h-5 text-indigo-400" />
+          <div className="bg-surface border border-border rounded-xl p-5 shadow-sm space-y-4">
+            <h3 className="text-base font-semibold text-text flex items-center gap-2">
+              <Shield className="w-5 h-5 text-accent" />
               Production Hardening Profile
             </h3>
             <div className="space-y-3">
-              <div className="p-3 bg-slate-950/60 border border-slate-800 rounded-lg flex items-center justify-between">
+              <div className="p-3 bg-background/60 border border-border rounded-lg flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-200">Rate Limiting Protection</p>
+                  <p className="text-sm font-medium text-slate-900 dark:text-slate-200">Rate Limiting Protection</p>
                   <p className="text-xs text-slate-500">SlowAPI fixed-window throttling on /auth/login (5 req/min)</p>
                 </div>
-                <span className="px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800">
+                <span className="px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-status-online border border-emerald-200 dark:border-emerald-800">
                   Active
                 </span>
               </div>
 
-              <div className="p-3 bg-slate-950/60 border border-slate-800 rounded-lg flex items-center justify-between">
+              <div className="p-3 bg-background/60 border border-border rounded-lg flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-200">Secret Encryption Engine</p>
+                  <p className="text-sm font-medium text-slate-900 dark:text-slate-200">Secret Encryption Engine</p>
                   <p className="text-xs text-slate-500">AES-256-GCM envelope encryption with HKDF key derivation</p>
                 </div>
-                <span className="px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800">
+                <span className="px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-status-online border border-emerald-200 dark:border-emerald-800">
                   AES-256-GCM
                 </span>
               </div>
 
-              <div className="p-3 bg-slate-950/60 border border-slate-800 rounded-lg flex items-center justify-between">
+              <div className="p-3 bg-background/60 border border-border rounded-lg flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-200">HTTP Security Headers</p>
+                  <p className="text-sm font-medium text-slate-900 dark:text-slate-200">HTTP Security Headers</p>
                   <p className="text-xs text-slate-500">HSTS, X-Frame-Options: DENY, nosniff, strict CSP</p>
                 </div>
-                <span className="px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800">
+                <span className="px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-status-online border border-emerald-200 dark:border-emerald-800">
                   Enforced
                 </span>
               </div>
 
-              <div className="p-3 bg-slate-950/60 border border-slate-800 rounded-lg flex items-center justify-between">
+              <div className="p-3 bg-background/60 border border-border rounded-lg flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-200">Container Isolation</p>
+                  <p className="text-sm font-medium text-slate-900 dark:text-slate-200">Container Isolation</p>
                   <p className="text-xs text-slate-500">Non-root user 10001:10001 & Read-only root filesystem</p>
                 </div>
-                <span className="px-2.5 py-1 text-xs font-semibold rounded-full bg-indigo-950 text-indigo-400 border border-indigo-800">
+                <span className="px-2.5 py-1 text-xs font-semibold rounded-full bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800">
                   Ready
                 </span>
               </div>

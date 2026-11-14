@@ -4,6 +4,14 @@ const nextConfig: NextConfig = {
   output: "standalone",
   cacheComponents: true,
   partialPrefetching: true,
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "http://127.0.0.1:8000/api/:path*",
+      },
+    ];
+  },
   turbopack: {
     rules: {
       "*.css": {
@@ -15,4 +23,5 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
 

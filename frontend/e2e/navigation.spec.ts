@@ -109,8 +109,8 @@ test.describe("Navigation and Layout Verification", () => {
       expect(response?.status()).toBe(200);
 
       // Verify Shell is rendered
-      await expect(page.locator("aside")).toBeVisible();
-      await expect(page.locator("main")).toBeVisible();
+      await expect(page.locator("aside").first()).toBeVisible();
+      await expect(page.locator("main").first()).toBeVisible();
 
       // Verify header / title contains expected text
       await expect(page.locator("h1, h2, main").first()).toContainText(item.headerText);

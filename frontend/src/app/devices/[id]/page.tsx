@@ -190,11 +190,11 @@ export default function DeviceDetailPage() {
 
   if (!device) {
     return (
-      <div className="p-8 text-center text-slate-400">
-        <AlertTriangle className="w-8 h-8 text-amber-400 mx-auto mb-2" />
-        <h2 className="text-lg font-semibold text-white">Device Not Found</h2>
+      <div className="p-8 text-center text-muted">
+        <AlertTriangle className="w-8 h-8 text-amber-500 dark:text-amber-400 mx-auto mb-2" />
+        <h2 className="text-lg font-semibold text-text">Device Not Found</h2>
         <p className="text-sm mt-1 mb-4">The device record may have been deleted or does not exist.</p>
-        <Link href="/devices" className="text-cyan-400 hover:underline text-sm">
+        <Link href="/devices" className="text-accent hover:underline text-sm">
           ← Return to Devices
         </Link>
       </div>
@@ -206,10 +206,10 @@ export default function DeviceDetailPage() {
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
       {/* Top Navigation */}
-      <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+      <div className="flex items-center justify-between pb-4 border-b border-border">
         <Link
           href="/devices"
-          className="flex items-center gap-2 text-sm text-slate-400 hover:text-white transition"
+          className="flex items-center gap-2 text-sm text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Device Inventory
@@ -217,14 +217,14 @@ export default function DeviceDetailPage() {
 
         <div className="flex items-center gap-2">
           {saveSuccess && (
-            <span className="flex items-center gap-1.5 text-xs text-emerald-400 font-medium">
+            <span className="flex items-center gap-1.5 text-xs text-status-online font-medium">
               <CheckCircle2 className="w-4 h-4" /> Changes saved
             </span>
           )}
           <button
             onClick={handleSave}
             disabled={saving}
-            className="flex items-center gap-1.5 px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-sm font-medium transition shadow-sm"
+            className="flex items-center gap-1.5 px-4 py-2 bg-accent hover:bg-accent-hover dark:bg-cyan-600 dark:hover:bg-cyan-500 text-white rounded-lg text-sm font-medium transition shadow-sm"
           >
             <Save className="w-4 h-4" />
             {saving ? "Saving..." : "Save Changes"}
@@ -233,31 +233,31 @@ export default function DeviceDetailPage() {
       </div>
 
       {/* Hero Header */}
-      <div className="bg-slate-900/60 p-6 rounded-2xl border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="bg-surface p-6 rounded-2xl border border-border flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-sm">
         <div className="flex items-center gap-4">
-          <div className="p-4 rounded-xl bg-slate-800 border border-slate-700/80 text-cyan-400 shadow-inner">
+          <div className="p-4 rounded-xl bg-hover border border-border/80 text-accent shadow-inner">
             <Cpu className="w-8 h-8" />
           </div>
           <div>
             <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-bold text-white tracking-tight">{device.name || device.mac}</h1>
+              <h1 className="text-2xl font-bold text-text tracking-tight">{device.name || device.mac}</h1>
               <span
                 className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold ${
                   isOnline
-                    ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                    : "bg-slate-800 text-slate-400 border border-slate-700"
+                    ? "bg-emerald-50 dark:bg-status-online/10 text-emerald-700 dark:text-status-online border border-emerald-200 dark:border-emerald-500/20"
+                    : "bg-hover text-muted border border-border"
                 }`}
               >
-                <span className={`h-1.5 w-1.5 rounded-full ${isOnline ? "bg-emerald-400 animate-pulse" : "bg-slate-500"}`} />
+                <span className={`h-1.5 w-1.5 rounded-full ${isOnline ? "bg-status-online dark:bg-emerald-400 animate-pulse" : "bg-slate-400 dark:bg-slate-500"}`} />
                 {device.status.toUpperCase()}
               </span>
               {device.is_archived && (
-                <span className="px-2 py-0.5 rounded-full text-xs bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                <span className="px-2 py-0.5 rounded-full text-xs bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-500/20">
                   Archived
                 </span>
               )}
             </div>
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-400 mt-2 font-mono">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted mt-2 font-mono">
               <span>MAC: {device.mac}</span>
               <span>•</span>
               <span>IPv4: {device.ipv4 || "—"}</span>
@@ -273,16 +273,16 @@ export default function DeviceDetailPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 text-xs text-slate-400 bg-slate-950/50 p-4 rounded-xl border border-slate-800/80">
+        <div className="grid grid-cols-2 gap-4 text-xs text-muted bg-background/50 p-4 rounded-xl border border-border/80">
           <div>
-            <div className="text-slate-500">First Seen</div>
-            <div className="font-medium text-slate-200 mt-0.5">
+            <div className="text-muted">First Seen</div>
+            <div className="font-medium text-text mt-0.5">
               {new Date(device.first_seen).toLocaleDateString()}
             </div>
           </div>
           <div>
-            <div className="text-slate-500">Last Seen</div>
-            <div className="font-medium text-slate-200 mt-0.5">
+            <div className="text-muted">Last Seen</div>
+            <div className="font-medium text-text mt-0.5">
               {new Date(device.last_seen).toLocaleDateString()} {new Date(device.last_seen).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </div>
           </div>
@@ -293,24 +293,24 @@ export default function DeviceDetailPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Form: Editable Metadata & Field Locks */}
         <div className="lg:col-span-5 space-y-6">
-          <div className="bg-slate-900/60 p-6 rounded-2xl border border-slate-800 space-y-5">
-            <h2 className="text-base font-semibold text-white flex items-center gap-2">
-              <Shield className="w-4 h-4 text-cyan-400" />
+          <div className="bg-surface p-6 rounded-2xl border border-border space-y-5 shadow-sm">
+            <h2 className="text-base font-semibold text-text flex items-center gap-2">
+              <Shield className="w-4 h-4 text-accent" />
               Device Identity & Field Locks
             </h2>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-muted">
               Lock fields to prevent network discovery sweeps from overwriting your custom labels.
             </p>
 
             {/* Device Name Field */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-medium text-slate-300">Friendly Name</label>
+                <label className="text-xs font-medium text-text">Friendly Name</label>
                 <button
                   type="button"
                   onClick={() => toggleLock("name")}
                   className={`flex items-center gap-1 text-xs transition ${
-                    lockedFields.includes("name") ? "text-amber-400" : "text-slate-500 hover:text-slate-400"
+                    lockedFields.includes("name") ? "text-amber-500 dark:text-amber-400" : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
                   }`}
                   title="Toggle field lock"
                 >
@@ -323,19 +323,19 @@ export default function DeviceDetailPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. Master Bedroom Smart TV"
-                className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500 transition"
+                className="w-full px-3 py-2 bg-background border border-border rounded-lg text-sm text-text placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-accent transition"
               />
             </div>
 
             {/* Category Field */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-medium text-slate-300">Category</label>
+                <label className="text-xs font-medium text-text">Category</label>
                 <button
                   type="button"
                   onClick={() => toggleLock("category")}
                   className={`flex items-center gap-1 text-xs transition ${
-                    lockedFields.includes("category") ? "text-amber-400" : "text-slate-500 hover:text-slate-400"
+                    lockedFields.includes("category") ? "text-amber-500 dark:text-amber-400" : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
                   }`}
                 >
                   {lockedFields.includes("category") ? <Lock className="w-3.5 h-3.5" /> : <Unlock className="w-3.5 h-3.5" />}
@@ -345,7 +345,7 @@ export default function DeviceDetailPage() {
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white focus:outline-none focus:border-cyan-500 transition"
+                className="w-full px-3 py-2 bg-background border border-border rounded-lg text-sm text-text focus:outline-none focus:border-accent transition"
               >
                 <option value="Mobile">Mobile</option>
                 <option value="Desktop/Laptop">Desktop/Laptop</option>
@@ -359,20 +359,20 @@ export default function DeviceDetailPage() {
 
             {/* Notes Field */}
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-slate-300">Operator Notes</label>
+              <label className="text-xs font-medium text-text">Operator Notes</label>
               <textarea
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 rows={3}
                 placeholder="Add device location, warranty, or owner details..."
-                className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500 transition"
+                className="w-full px-3 py-2 bg-background border border-border rounded-lg text-sm text-text placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-accent transition"
               />
             </div>
 
             {/* Active / Archive Toggle */}
-            <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between">
+            <div className="pt-2 border-t border-border/80 flex items-center justify-between">
               <div>
-                <div className="text-xs font-medium text-slate-300">Archival Status</div>
+                <div className="text-xs font-medium text-text">Archival Status</div>
                 <div className="text-xs text-slate-500">Archived devices do not trigger missing alerts</div>
               </div>
               <button
@@ -380,8 +380,8 @@ export default function DeviceDetailPage() {
                 onClick={() => setIsArchived(!isArchived)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition ${
                   isArchived
-                    ? "bg-amber-950/40 border-amber-800/60 text-amber-300"
-                    : "bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700"
+                    ? "bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800/60 text-amber-700 dark:text-amber-300"
+                    : "bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border-border text-text"
                 }`}
               >
                 {isArchived ? "Archived (Soft Deleted)" : "Active"}
@@ -390,9 +390,9 @@ export default function DeviceDetailPage() {
           </div>
 
           {/* Custom Properties / Tags Card */}
-          <div className="bg-slate-900/60 p-6 rounded-2xl border border-slate-800 space-y-4">
-            <h3 className="text-sm font-semibold text-white flex items-center gap-2">
-              <Tag className="w-4 h-4 text-cyan-400" />
+          <div className="bg-surface p-6 rounded-2xl border border-border space-y-4 shadow-sm">
+            <h3 className="text-sm font-semibold text-text flex items-center gap-2">
+              <Tag className="w-4 h-4 text-accent" />
               Tags & Heuristic Telemetry
             </h3>
 
@@ -401,7 +401,7 @@ export default function DeviceDetailPage() {
               {((device.custom_properties?.tags as string[]) || []).map((t, idx) => (
                 <span
                   key={idx}
-                  className="px-2 py-0.5 rounded-md bg-cyan-950/50 border border-cyan-800/50 text-cyan-300 text-xs"
+                  className="px-2 py-0.5 rounded-md bg-cyan-50 dark:bg-cyan-950/50 border border-cyan-200 dark:border-cyan-800/50 text-cyan-700 dark:text-cyan-300 text-xs font-mono"
                 >
                   #{t}
                 </span>
@@ -413,15 +413,15 @@ export default function DeviceDetailPage() {
 
             {/* Confidence & Reasons */}
             {device.custom_properties?.classification_confidence && (
-              <div className="p-3 rounded-xl bg-slate-950/50 border border-slate-800/80 text-xs space-y-1.5">
-                <div className="text-slate-400">
+              <div className="p-3 rounded-xl bg-background/50 border border-border/80 text-xs space-y-1.5">
+                <div className="text-muted">
                   Classification Confidence:{" "}
-                  <span className="text-cyan-400 font-semibold">
+                  <span className="text-cyan-600 dark:text-cyan-400 font-semibold">
                     {Math.round((device.custom_properties.classification_confidence || 0) * 100)}%
                   </span>
                 </div>
                 {device.custom_properties.classification_reasons && (
-                  <ul className="list-disc list-inside text-slate-400 space-y-0.5">
+                  <ul className="list-disc list-inside text-muted space-y-0.5">
                     {device.custom_properties.classification_reasons.map((r: string, i: number) => (
                       <li key={i}>{r}</li>
                     ))}
@@ -435,14 +435,14 @@ export default function DeviceDetailPage() {
         {/* Right Column: Hourly Presence Heatmap & Historical Logs */}
         <div className="lg:col-span-7 space-y-6">
           {/* 24-Bit Hourly Presence Matrix Heatmap */}
-          <div className="bg-slate-900/60 p-6 rounded-2xl border border-slate-800 space-y-4">
+          <div className="bg-surface p-6 rounded-2xl border border-border space-y-4 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-semibold text-white flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-cyan-400" />
+                <h3 className="text-sm font-semibold text-text flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-accent" />
                   24-Hour Presence Matrix (Past 7 Days)
                 </h3>
-                <p className="text-xs text-slate-400 mt-0.5">
+                <p className="text-xs text-muted mt-0.5">
                   Bitmap matrix of observed device online connectivity per hour.
                 </p>
               </div>
@@ -455,7 +455,7 @@ export default function DeviceDetailPage() {
             ) : (
               <div className="space-y-3 pt-2">
                 {/* Hour indicator row */}
-                <div className="grid grid-cols-24 gap-1 text-[9px] text-slate-500 font-mono text-center pl-24">
+                <div className="grid grid-cols-24 gap-1 text-[9px] text-muted font-mono text-center pl-24">
                   {[0, 3, 6, 9, 12, 15, 18, 21].map((h) => (
                     <div key={h} className="col-span-3 text-left">
                       {h}:00
@@ -466,7 +466,7 @@ export default function DeviceDetailPage() {
                 {/* Day rows */}
                 {presence.map((day) => (
                   <div key={day.date} className="flex items-center gap-3">
-                    <span className="w-20 text-xs text-slate-400 font-mono flex-shrink-0">
+                    <span className="w-20 text-xs text-muted font-mono flex-shrink-0">
                       {day.date}
                     </span>
                     <div className="flex-1 grid grid-cols-24 gap-1">
@@ -476,8 +476,8 @@ export default function DeviceDetailPage() {
                           title={`${day.date} at ${hourIdx}:00 - ${isOnlineHour ? "Online" : "Offline"}`}
                           className={`h-5 rounded-sm transition-colors ${
                             isOnlineHour
-                              ? "bg-emerald-500 hover:bg-emerald-400"
-                              : "bg-slate-800/80 hover:bg-slate-700"
+                              ? "bg-status-online hover:bg-emerald-400"
+                              : "bg-slate-200 dark:bg-slate-800/80 hover:bg-slate-300 dark:hover:bg-slate-700"
                           }`}
                         />
                       ))}
@@ -489,20 +489,20 @@ export default function DeviceDetailPage() {
           </div>
 
           {/* IP History Log & Sessions */}
-          <div className="bg-slate-900/60 p-6 rounded-2xl border border-slate-800 space-y-4">
-            <h3 className="text-sm font-semibold text-white flex items-center gap-2">
-              <History className="w-4 h-4 text-cyan-400" />
+          <div className="bg-surface p-6 rounded-2xl border border-border space-y-4 shadow-sm">
+            <h3 className="text-sm font-semibold text-text flex items-center gap-2">
+              <History className="w-4 h-4 text-accent" />
               Historical IP Assignments & Session Durations
             </h3>
 
             {/* IP Address History */}
             <div>
-              <div className="text-xs font-medium text-slate-300 mb-2">IP History Log</div>
+              <div className="text-xs font-medium text-text mb-2">IP History Log</div>
               <div className="flex flex-wrap gap-2">
                 {history?.ip_history.map((ip, i) => (
                   <span
                     key={i}
-                    className="px-2.5 py-1 rounded bg-slate-950 border border-slate-800 text-xs font-mono text-slate-300"
+                    className="px-2.5 py-1 rounded bg-background border border-border text-xs font-mono text-text"
                   >
                     {ip}
                   </span>
@@ -515,10 +515,10 @@ export default function DeviceDetailPage() {
 
             {/* Recent Sessions */}
             <div className="pt-2">
-              <div className="text-xs font-medium text-slate-300 mb-2">Recent Sessions</div>
-              <div className="overflow-x-auto rounded-lg border border-slate-800 bg-slate-950">
+              <div className="text-xs font-medium text-text mb-2">Recent Sessions</div>
+              <div className="overflow-x-auto rounded-lg border border-border bg-background">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-slate-900/90 text-slate-400 border-b border-slate-800">
+                  <thead className="bg-hover/90 text-muted border-b border-border">
                     <tr>
                       <th className="px-3 py-2">Session Start</th>
                       <th className="px-3 py-2">Session End</th>
@@ -526,14 +526,14 @@ export default function DeviceDetailPage() {
                       <th className="px-3 py-2">State</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-800/60 text-slate-300 font-mono">
+                  <tbody className="divide-y divide-border/60 text-text font-mono">
                     {history?.sessions.slice(0, 5).map((s) => (
-                      <tr key={s.id} className="hover:bg-slate-900/50">
+                      <tr key={s.id} className="hover:bg-slate-100/60 dark:hover:bg-slate-900/50">
                         <td className="px-3 py-2">{new Date(s.start).toLocaleString()}</td>
                         <td className="px-3 py-2">
                           {s.end ? new Date(s.end).toLocaleString() : "—"}
                         </td>
-                        <td className="px-3 py-2 text-cyan-400">
+                        <td className="px-3 py-2 text-accent font-semibold">
                           {s.duration_seconds
                             ? `${Math.round(s.duration_seconds / 60)} mins`
                             : "Active"}
@@ -542,8 +542,8 @@ export default function DeviceDetailPage() {
                           <span
                             className={`px-1.5 py-0.5 rounded text-[10px] ${
                               s.is_active
-                                ? "bg-emerald-950/60 text-emerald-300 border border-emerald-800/60"
-                                : "bg-slate-800 text-slate-400"
+                                ? "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60"
+                                : "bg-slate-200 dark:bg-slate-800 text-muted"
                             }`}
                           >
                             {s.is_active ? "Active" : "Closed"}
@@ -565,18 +565,18 @@ export default function DeviceDetailPage() {
 
             {/* Network Events Log */}
             <div className="pt-2">
-              <div className="text-xs font-medium text-slate-300 mb-2">Correlated Events</div>
+              <div className="text-xs font-medium text-text mb-2">Correlated Events</div>
               <div className="space-y-1.5 max-h-48 overflow-y-auto">
                 {history?.events.map((evt) => (
                   <div
                     key={evt.id}
-                    className="p-2 rounded bg-slate-950/70 border border-slate-800/80 flex items-center justify-between text-xs"
+                    className="p-2 rounded bg-background/70 border border-border/80 flex items-center justify-between text-xs"
                   >
                     <div className="flex items-center gap-2">
-                      <span className="font-semibold text-cyan-400 font-mono">{evt.event_type}</span>
-                      <span className="text-slate-400">{JSON.stringify(evt.payload)}</span>
+                      <span className="font-semibold text-accent font-mono">{evt.event_type}</span>
+                      <span className="text-muted">{JSON.stringify(evt.payload)}</span>
                     </div>
-                    <span className="text-[10px] text-slate-500 font-mono flex-shrink-0">
+                    <span className="text-[10px] text-muted font-mono flex-shrink-0">
                       {new Date(evt.timestamp).toLocaleTimeString()}
                     </span>
                   </div>

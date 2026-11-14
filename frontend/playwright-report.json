@@ -132,12 +132,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 893,
+                      "duration": 357,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:17.016Z",
+                      "startTime": "2026-11-14T09:00:46.353Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -166,12 +166,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1033,
+                      "duration": 433,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:18.426Z",
+                      "startTime": "2026-11-14T09:00:46.815Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -182,6 +182,244 @@
               "id": "d748ac400d08b85935ef-5047f10901217f5f9bdc",
               "file": "auth.spec.ts",
               "line": 37,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "capture_screenshots.spec.ts",
+      "file": "capture_screenshots.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Live Manual Testing & Screenshot Capture in Chrome",
+          "file": "capture_screenshots.spec.ts",
+          "line": 5,
+          "column": 6,
+          "specs": [
+            {
+              "title": "01 - Login Screen Interactive Test",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 226,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-14T09:00:47.269Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "9f6aef2ce998a34fe09f-9194aafe770c67a9defd",
+              "file": "capture_screenshots.spec.ts",
+              "line": 97,
+              "column": 3
+            },
+            {
+              "title": "02 - Overview Dashboard Interactive Test",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 307,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-14T09:00:47.511Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "9f6aef2ce998a34fe09f-db336615d6634349f851",
+              "file": "capture_screenshots.spec.ts",
+              "line": 103,
+              "column": 3
+            },
+            {
+              "title": "03 - Device Inventory Interactive Test",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 386,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-14T09:00:47.828Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "9f6aef2ce998a34fe09f-95aadb20e7d7223e1b13",
+              "file": "capture_screenshots.spec.ts",
+              "line": 109,
+              "column": 3
+            },
+            {
+              "title": "04 - Router Management Interactive Test",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 335,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-14T09:00:48.226Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "9f6aef2ce998a34fe09f-3fe22312a33249d26cbc",
+              "file": "capture_screenshots.spec.ts",
+              "line": 115,
+              "column": 3
+            },
+            {
+              "title": "05 - System Settings & Backup Interactive Test",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 366,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-14T09:00:48.574Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "9f6aef2ce998a34fe09f-637c28a8b08e61277e60",
+              "file": "capture_screenshots.spec.ts",
+              "line": 121,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "capture_theme_screenshots.spec.ts",
+      "file": "capture_theme_screenshots.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Enterprise Slate + Signal Blue Theme Visual Capture",
+          "file": "capture_theme_screenshots.spec.ts",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Capture Light and Dark screenshots for all routes and verify seamless theme toggle",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 24229,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-14T09:00:48.957Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "4f46fb41b8973e84c4ce-ebd44cc1a71a79c8cfe1",
+              "file": "capture_theme_screenshots.spec.ts",
+              "line": 157,
               "column": 3
             }
           ]
@@ -217,12 +455,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 968,
+                      "duration": 486,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:19.502Z",
+                      "startTime": "2026-11-14T09:01:13.214Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -251,12 +489,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 874,
+                      "duration": 360,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:20.499Z",
+                      "startTime": "2026-11-14T09:01:13.713Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -302,12 +540,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 714,
+                      "duration": 285,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:21.408Z",
+                      "startTime": "2026-11-14T09:01:14.089Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -353,12 +591,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 732,
+                      "duration": 327,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:22.168Z",
+                      "startTime": "2026-11-14T09:01:14.395Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -369,6 +607,331 @@
               "id": "bb1584c490331cef695f-9629bbab73aea4d1f068",
               "file": "family_safety.spec.ts",
               "line": 66,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "live_browser_audit.spec.ts",
+      "file": "live_browser_audit.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Live Interactive Chrome Crawl & Browser Console Audit",
+          "file": "live_browser_audit.spec.ts",
+          "line": 25,
+          "column": 6,
+          "specs": [
+            {
+              "title": "authenticate and audit all routes and buttons with zero console errors",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 38199,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Navigating to login page...\n"
+                        },
+                        {
+                          "text": "Successfully logged in as admin!\n"
+                        },
+                        {
+                          "text": "Received cookies: access_token, refresh_token\n"
+                        },
+                        {
+                          "text": "\n--- Auditing route: Dashboard (/dashboard) ---\n"
+                        },
+                        {
+                          "text": "Found 0 visible main buttons on /dashboard\n"
+                        },
+                        {
+                          "text": "\n--- Auditing route: Devices (/devices) ---\n"
+                        },
+                        {
+                          "text": "Found 5 visible main buttons on /devices\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Refresh]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Button #2]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Last Seen]\n"
+                        },
+                        {
+                          "text": "\n--- Auditing route: Discovery (/discovery) ---\n"
+                        },
+                        {
+                          "text": "Found 2 visible main buttons on /discovery\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Refresh]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Trigger Network Sweep]\n"
+                        },
+                        {
+                          "text": "\n--- Auditing route: Topology (/topology) ---\n"
+                        },
+                        {
+                          "text": "Found 1 visible main buttons on /topology\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Refresh Map]\n"
+                        },
+                        {
+                          "text": "\n--- Auditing route: Monitoring (/monitoring) ---\n"
+                        },
+                        {
+                          "text": "Found 3 visible main buttons on /monitoring\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Refresh]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Run Test]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Add Target]\n"
+                        },
+                        {
+                          "text": "\n--- Auditing route: Wallboard (/monitoring/wallboard) ---\n"
+                        },
+                        {
+                          "text": "Found 1 visible main buttons on /monitoring/wallboard\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Button #1]\n"
+                        },
+                        {
+                          "text": "\n--- Auditing route: Routers (/routers) ---\n"
+                        },
+                        {
+                          "text": "Found 3 visible main buttons on /routers\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Refresh]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Add Router]\n"
+                        },
+                        {
+                          "text": "\n--- Auditing route: Activity (/activity) ---\n"
+                        },
+                        {
+                          "text": "Found 1 visible main buttons on /activity\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Refresh Stream]\n"
+                        },
+                        {
+                          "text": "\n--- Auditing route: DNS Intelligence (/dns) ---\n"
+                        },
+                        {
+                          "text": "Found 1 visible main buttons on /dns\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Refresh Stream]\n"
+                        },
+                        {
+                          "text": "\n--- Auditing route: Family Safety (/family-safety) ---\n"
+                        },
+                        {
+                          "text": "Found 2 visible main buttons on /family-safety\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Refresh]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [New Profile]\n"
+                        },
+                        {
+                          "text": "\n--- Auditing route: Notifications (/notifications) ---\n"
+                        },
+                        {
+                          "text": "Found 4 visible main buttons on /notifications\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Refresh]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Mark All Read]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [In-App Alerts]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Delivery Channels (0)]\n"
+                        },
+                        {
+                          "text": "\n--- Auditing route: Workflows (/workflows) ---\n"
+                        },
+                        {
+                          "text": "Found 2 visible main buttons on /workflows\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Refresh]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Create Workflow Rule]\n"
+                        },
+                        {
+                          "text": "\n--- Auditing route: Integrations (/integrations) ---\n"
+                        },
+                        {
+                          "text": "Found 7 visible main buttons on /integrations\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Overview]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Home Assistant (MQTT)]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Prometheus Exporter]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Model Context Protocol (AI)]\n"
+                        },
+                        {
+                          "text": "\n--- Auditing route: Plugins (/plugins) ---\n"
+                        },
+                        {
+                          "text": "Found 115 visible main buttons on /plugins\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Refresh]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [All Plugins]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Discovery & Routers]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Name Resolution]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Monitoring]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Notifications]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [System Utilities]\n"
+                        },
+                        {
+                          "text": "\n--- Auditing route: Multi-Site (/multisite) ---\n"
+                        },
+                        {
+                          "text": "Found 5 visible main buttons on /multisite\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Refresh]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Add Remote Site]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [all]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [online]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [offline]\n"
+                        },
+                        {
+                          "text": "\n--- Auditing route: Reports (/reports) ---\n"
+                        },
+                        {
+                          "text": "Found 2 visible main buttons on /reports\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Export CSV]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Export JSON]\n"
+                        },
+                        {
+                          "text": "\n--- Auditing route: API Docs (/api-docs) ---\n"
+                        },
+                        {
+                          "text": "Found 0 visible main buttons on /api-docs\n"
+                        },
+                        {
+                          "text": "\n--- Auditing route: System Health (/health) ---\n"
+                        },
+                        {
+                          "text": "Found 1 visible main buttons on /health\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Refresh]\n"
+                        },
+                        {
+                          "text": "\n--- Auditing route: Settings (/settings) ---\n"
+                        },
+                        {
+                          "text": "Found 6 visible main buttons on /settings\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Refresh Stats]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Database & Retention Pruning]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Backups & CSV Migration]\n"
+                        },
+                        {
+                          "text": "  Clicking button: [Security & Access Hardening]\n"
+                        },
+                        {
+                          "text": "\n================ AUDIT SUMMARY ================\n"
+                        },
+                        {
+                          "text": "Console Errors: 0\n"
+                        },
+                        {
+                          "text": "Page Unhandled Errors: 0\n"
+                        },
+                        {
+                          "text": "Failed API Requests (4xx/5xx): 0\n"
+                        },
+                        {
+                          "text": "===============================================\n\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-14T09:01:14.743Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "369d9dee7844c9b67db8-6b766c1b23cb8de9bcb0",
+              "file": "live_browser_audit.spec.ts",
+              "line": 28,
               "column": 3
             }
           ]
@@ -404,12 +967,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 582,
+                      "duration": 324,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:22.947Z",
+                      "startTime": "2026-11-14T09:01:52.975Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -438,12 +1001,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 547,
+                      "duration": 265,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:23.552Z",
+                      "startTime": "2026-11-14T09:01:53.315Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -489,12 +1052,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 559,
+                      "duration": 274,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:24.137Z",
+                      "startTime": "2026-11-14T09:01:53.605Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -504,7 +1067,7 @@
               ],
               "id": "5d2868f7d23420c27cca-c6babbc5f7310493ce37",
               "file": "navigation.spec.ts",
-              "line": 84,
+              "line": 107,
               "column": 5
             },
             {
@@ -523,12 +1086,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 607,
+                      "duration": 291,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:24.719Z",
+                      "startTime": "2026-11-14T09:01:53.888Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -538,7 +1101,7 @@
               ],
               "id": "5d2868f7d23420c27cca-b26e7fd16bc3fc0a5331",
               "file": "navigation.spec.ts",
-              "line": 84,
+              "line": 107,
               "column": 5
             },
             {
@@ -557,12 +1120,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 624,
+                      "duration": 312,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:25.350Z",
+                      "startTime": "2026-11-14T09:01:54.190Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -572,7 +1135,7 @@
               ],
               "id": "5d2868f7d23420c27cca-816eb9f3045bdd7b3aa5",
               "file": "navigation.spec.ts",
-              "line": 84,
+              "line": 107,
               "column": 5
             },
             {
@@ -591,12 +1154,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 561,
+                      "duration": 274,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:26.003Z",
+                      "startTime": "2026-11-14T09:01:54.512Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -606,7 +1169,7 @@
               ],
               "id": "5d2868f7d23420c27cca-a65bae6cd18f65f697ad",
               "file": "navigation.spec.ts",
-              "line": 84,
+              "line": 107,
               "column": 5
             },
             {
@@ -625,12 +1188,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 613,
+                      "duration": 287,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:26.586Z",
+                      "startTime": "2026-11-14T09:01:54.803Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -640,7 +1203,7 @@
               ],
               "id": "5d2868f7d23420c27cca-5e7923dd0dd1f89d1534",
               "file": "navigation.spec.ts",
-              "line": 84,
+              "line": 107,
               "column": 5
             },
             {
@@ -659,12 +1222,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 564,
+                      "duration": 270,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:27.223Z",
+                      "startTime": "2026-11-14T09:01:55.100Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -674,7 +1237,7 @@
               ],
               "id": "5d2868f7d23420c27cca-734db8eb1168eddb4ba4",
               "file": "navigation.spec.ts",
-              "line": 84,
+              "line": 107,
               "column": 5
             },
             {
@@ -693,12 +1256,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 589,
+                      "duration": 290,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:27.810Z",
+                      "startTime": "2026-11-14T09:01:55.378Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -708,7 +1271,7 @@
               ],
               "id": "5d2868f7d23420c27cca-9cc8f121dc1ac345b25a",
               "file": "navigation.spec.ts",
-              "line": 84,
+              "line": 107,
               "column": 5
             },
             {
@@ -727,12 +1290,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 591,
+                      "duration": 269,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:28.422Z",
+                      "startTime": "2026-11-14T09:01:55.680Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -742,7 +1305,7 @@
               ],
               "id": "5d2868f7d23420c27cca-9c053a94055a51202997",
               "file": "navigation.spec.ts",
-              "line": 84,
+              "line": 107,
               "column": 5
             },
             {
@@ -761,12 +1324,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 552,
+                      "duration": 264,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:29.034Z",
+                      "startTime": "2026-11-14T09:01:55.959Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -776,7 +1339,7 @@
               ],
               "id": "5d2868f7d23420c27cca-b0a033de7c28617bda67",
               "file": "navigation.spec.ts",
-              "line": 84,
+              "line": 107,
               "column": 5
             },
             {
@@ -795,12 +1358,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 585,
+                      "duration": 289,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:29.610Z",
+                      "startTime": "2026-11-14T09:01:56.235Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -810,7 +1373,7 @@
               ],
               "id": "5d2868f7d23420c27cca-a9ccedd7cd55888f071a",
               "file": "navigation.spec.ts",
-              "line": 84,
+              "line": 107,
               "column": 5
             },
             {
@@ -829,12 +1392,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 555,
+                      "duration": 278,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:30.220Z",
+                      "startTime": "2026-11-14T09:01:56.539Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -844,7 +1407,7 @@
               ],
               "id": "5d2868f7d23420c27cca-e46b97f8d3ba6417c830",
               "file": "navigation.spec.ts",
-              "line": 84,
+              "line": 107,
               "column": 5
             },
             {
@@ -863,12 +1426,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 596,
+                      "duration": 258,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:30.795Z",
+                      "startTime": "2026-11-14T09:01:56.828Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -878,7 +1441,7 @@
               ],
               "id": "5d2868f7d23420c27cca-d733aa904bcfc88c6d88",
               "file": "navigation.spec.ts",
-              "line": 84,
+              "line": 107,
               "column": 5
             },
             {
@@ -897,12 +1460,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 593,
+                      "duration": 255,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:31.413Z",
+                      "startTime": "2026-11-14T09:01:57.097Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -912,7 +1475,7 @@
               ],
               "id": "5d2868f7d23420c27cca-bac49b4af6dcc7bdaf70",
               "file": "navigation.spec.ts",
-              "line": 84,
+              "line": 107,
               "column": 5
             },
             {
@@ -931,12 +1494,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 629,
+                      "duration": 308,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:32.032Z",
+                      "startTime": "2026-11-14T09:01:57.363Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -946,7 +1509,7 @@
               ],
               "id": "5d2868f7d23420c27cca-9757f8053236ea259391",
               "file": "navigation.spec.ts",
-              "line": 84,
+              "line": 107,
               "column": 5
             },
             {
@@ -965,12 +1528,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 606,
+                      "duration": 234,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:32.683Z",
+                      "startTime": "2026-11-14T09:01:57.682Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -980,7 +1543,7 @@
               ],
               "id": "5d2868f7d23420c27cca-1caca352d84362558684",
               "file": "navigation.spec.ts",
-              "line": 84,
+              "line": 107,
               "column": 5
             },
             {
@@ -999,12 +1562,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 547,
+                      "duration": 223,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:33.309Z",
+                      "startTime": "2026-11-14T09:01:57.927Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1014,7 +1577,7 @@
               ],
               "id": "5d2868f7d23420c27cca-6e95569d2796dfc1c767",
               "file": "navigation.spec.ts",
-              "line": 84,
+              "line": 107,
               "column": 5
             },
             {
@@ -1033,12 +1596,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 593,
+                      "duration": 306,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:33.877Z",
+                      "startTime": "2026-11-14T09:01:58.161Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1048,7 +1611,7 @@
               ],
               "id": "5d2868f7d23420c27cca-3debe8360a723ae31cce",
               "file": "navigation.spec.ts",
-              "line": 84,
+              "line": 107,
               "column": 5
             },
             {
@@ -1067,12 +1630,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 596,
+                      "duration": 287,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:34.492Z",
+                      "startTime": "2026-11-14T09:01:58.480Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1082,7 +1645,7 @@
               ],
               "id": "5d2868f7d23420c27cca-44fa5e11b82146f8738d",
               "file": "navigation.spec.ts",
-              "line": 84,
+              "line": 107,
               "column": 5
             }
           ]
@@ -1118,12 +1681,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 682,
+                      "duration": 323,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:35.119Z",
+                      "startTime": "2026-11-14T09:01:58.785Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1134,6 +1697,159 @@
               "id": "c0d3a6b5cb8557e20850-fc585a8307de9b075730",
               "file": "routers.spec.ts",
               "line": 59,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "scroll_lock_and_sidebar.spec.ts",
+      "file": "scroll_lock_and_sidebar.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Sidebar and Dialog Scroll Behavior",
+          "file": "scroll_lock_and_sidebar.spec.ts",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "desktop sidebar is sticky/fixed to viewport and does not show scrollbars",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 283,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-14T09:01:59.125Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "2a90f1aba6034f9bca27-ecc6b4821c2adf898a96",
+              "file": "scroll_lock_and_sidebar.spec.ts",
+              "line": 61,
+              "column": 3
+            },
+            {
+              "title": "scrolling main content does not scroll aside or header",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 392,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-14T09:01:59.416Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "2a90f1aba6034f9bca27-aae6aaf794290537a1e9",
+              "file": "scroll_lock_and_sidebar.spec.ts",
+              "line": 76,
+              "column": 3
+            },
+            {
+              "title": "routers modal dialog locks background body scroll and restores on close",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 468,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-14T09:01:59.818Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "2a90f1aba6034f9bca27-dc9b68a382ffc95de7aa",
+              "file": "scroll_lock_and_sidebar.spec.ts",
+              "line": 124,
+              "column": 3
+            },
+            {
+              "title": "mobile sidebar drawer locks body scroll and closes cleanly",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 428,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-14T09:02:00.295Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "2a90f1aba6034f9bca27-25bd04ce4150e5ce41e1",
+              "file": "scroll_lock_and_sidebar.spec.ts",
+              "line": 158,
               "column": 3
             }
           ]
@@ -1169,12 +1885,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 563,
+                      "duration": 243,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:35.834Z",
+                      "startTime": "2026-11-14T09:02:00.742Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1185,6 +1901,91 @@
               "id": "6833064bd56daa721adc-22bc521c02f94d50e229",
               "file": "settings_backup.spec.ts",
               "line": 47,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "theme_and_profile.spec.ts",
+      "file": "theme_and_profile.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Dark Mode / Light Mode and Profile Header Tests",
+          "file": "theme_and_profile.spec.ts",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "theme toggle toggles html .dark class, localStorage, and header button text",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 749,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-14T09:02:00.997Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "e696759e1a0cd6f3f544-3cd2c678e025164dcf37",
+              "file": "theme_and_profile.spec.ts",
+              "line": 34,
+              "column": 3
+            },
+            {
+              "title": "profile and signout button are in top bar header and absent from sidebar bottom",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 300,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-14T09:02:01.757Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "e696759e1a0cd6f3f544-a76c361979ee6873ba9d",
+              "file": "theme_and_profile.spec.ts",
+              "line": 68,
               "column": 3
             }
           ]
@@ -1220,12 +2021,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 520,
+                      "duration": 238,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:36.429Z",
+                      "startTime": "2026-11-14T09:02:02.072Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1254,12 +2055,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 525,
+                      "duration": 236,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T16:10:36.972Z",
+                      "startTime": "2026-11-14T09:02:02.319Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1279,9 +2080,9 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-11-12T16:10:13.028Z",
-    "duration": 25023.876,
-    "expected": 30,
+    "startTime": "2026-11-14T09:00:44.571Z",
+    "duration": 78504.095,
+    "expected": 43,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0
