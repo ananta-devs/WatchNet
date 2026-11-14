@@ -28,7 +28,7 @@ WatchNet can be run in two ways:
    ```
 3. Open your browser and navigate to:
    - **Web UI:** [http://localhost:3000](http://localhost:3000) (or via reverse proxy on port 80: [http://localhost](http://localhost))
-   - **Backend API & Swagger Docs:** [http://localhost:8000/docs](http://localhost:8000/docs)
+   - **Backend API & Swagger Docs:** [http://localhost:8000/api/v1/docs](http://localhost:8000/api/v1/docs) (OpenAPI JSON: [http://localhost:8000/api/v1/openapi.json](http://localhost:8000/api/v1/openapi.json))
 
 ---
 
@@ -51,7 +51,7 @@ cd backend
 # Launch the FastAPI application
 uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
-The Backend API will be live at `http://127.0.0.1:8000`. You can inspect the interactive OpenAPI/Swagger documentation at `http://127.0.0.1:8000/docs`.
+The Backend API will be live at `http://127.0.0.1:8000`. You can inspect the interactive OpenAPI/Swagger documentation at `http://127.0.0.1:8000/api/v1/docs`.
 
 #### 2. Start the Frontend Web UI (Next.js)
 Open a second terminal:
