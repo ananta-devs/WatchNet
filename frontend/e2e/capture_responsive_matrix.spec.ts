@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 
 test.describe("Full Responsive UI Viewport Matrix Capture & Layout Verification", () => {
-  const baseOutDir = "D:/WatchNet-Rebuild/docs/testing/manual/responsive";
+  const baseOutDir = path.resolve(__dirname, "../../docs/testing/manual/responsive");
 
   const viewportMatrix = [
     { category: "mobile", width: 320, height: 640, label: "320px" },

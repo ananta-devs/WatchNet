@@ -1,6 +1,6 @@
 # WATCHNET REBUILD-002: FUNCTIONAL VERIFICATION & CHROMIUM INTERACTION REPORT
 
-**Task Reference:** WATCHNET-REBUILD-002 (Stage 1)  
+**Task Reference:** WATCHNET-002 (Stage 1)  
 **Execution Date:** November 12, 2026  
 **Target Release:** WatchNet Rebuild v1.0.0  
 **Verification Method:** Automated Google Chrome Driving via Playwright + Live API Ingest Verification  
@@ -20,27 +20,27 @@ All 8 primary views, modal dialogs, and interactive workflows rendered without u
 
 ## 2. Chrome Browser Automated Verification
 
-The automated verification script [verify_chrome_app.py](file:///D:/WatchNet/scripts/verify_chrome_app.py) launched headless Google Chrome and executed a structured user journey across the full application surface.
+The automated verification script [verify_chrome_app.py](scripts/verify_chrome_app.py) launched headless Google Chrome and executed a structured user journey across the full application surface.
 
 ### 2.1 Route Inspection & Visual Evidence
 
 | View / Workflow | Route | Verified Elements | Visual Evidence |
 | :--- | :--- | :--- | :--- |
-| **System Dashboard** | `/` | Metric cards (Online, Offline, Total), Recent Alerts feed, Quick Actions bar | [01_dashboard.png](file:///D:/WatchNet/docs/rebuild/evidence/REBUILD_002/01_dashboard.png) |
-| **Device Inventory** | `/devices` | Data table, status badges, vendor labels, action buttons, pagination | [02_devices_inventory.png](file:///D:/WatchNet/docs/rebuild/evidence/REBUILD_002/02_devices_inventory.png) |
-| **Interactive Search** | `/devices` | Dynamic search query filtering on hostname, IP, and vendor | [02b_devices_search_filtered.png](file:///D:/WatchNet/docs/rebuild/evidence/REBUILD_002/02b_devices_search_filtered.png) |
-| **Diagnostics Modal** | `/devices` | Device diagnostics slide-over dialog, quick ping trigger, port check | [03_device_diagnostics_modal.png](file:///D:/WatchNet/docs/rebuild/evidence/REBUILD_002/03_device_diagnostics_modal.png) |
-| **Presence Heatmap** | `/presence` | 24-hour hourly activity matrix, presence blocks, activity index | [04_presence_heatmap.png](file:///D:/WatchNet/docs/rebuild/evidence/REBUILD_002/04_presence_heatmap.png) |
-| **Network Topology** | `/topology` | Visual infrastructure canvas, switch/router node relations, leaf nodes | [05_topology_canvas.png](file:///D:/WatchNet/docs/rebuild/evidence/REBUILD_002/05_topology_canvas.png) |
-| **Diagnostics Workbench** | `/diagnostics` | Tab navigation (ICMP Ping, Port Scanner, DNS, Wake-on-LAN) | [06_diagnostics_workbench.png](file:///D:/WatchNet/docs/rebuild/evidence/REBUILD_002/06_diagnostics_workbench.png) |
-| **Integrations Hub** | `/integrations` | Integration cards (Webhook, Slack, Discord, Telegram, MQTT, Home Assistant) | [07_integrations_hub.png](file:///D:/WatchNet/docs/rebuild/evidence/REBUILD_002/07_integrations_hub.png) |
-| **Swagger API Docs** | `/docs` | OpenAPI 3.1 schema exploration, interactive endpoint execution | [08_swagger_api_docs.png](file:///D:/WatchNet/docs/rebuild/evidence/REBUILD_002/08_swagger_api_docs.png) |
+| **System Dashboard** | `/` | Metric cards (Online, Offline, Total), Recent Alerts feed, Quick Actions bar | [01_dashboard.png](./evidence/REBUILD_002/01_dashboard.png) |
+| **Device Inventory** | `/devices` | Data table, status badges, vendor labels, action buttons, pagination | [02_devices_inventory.png](./evidence/REBUILD_002/02_devices_inventory.png) |
+| **Interactive Search** | `/devices` | Dynamic search query filtering on hostname, IP, and vendor | [02b_devices_search_filtered.png](./evidence/REBUILD_002/02b_devices_search_filtered.png) |
+| **Diagnostics Modal** | `/devices` | Device diagnostics slide-over dialog, quick ping trigger, port check | [03_device_diagnostics_modal.png](./evidence/REBUILD_002/03_device_diagnostics_modal.png) |
+| **Presence Heatmap** | `/presence` | 24-hour hourly activity matrix, presence blocks, activity index | [04_presence_heatmap.png](./evidence/REBUILD_002/04_presence_heatmap.png) |
+| **Network Topology** | `/topology` | Visual infrastructure canvas, switch/router node relations, leaf nodes | [05_topology_canvas.png](./evidence/REBUILD_002/05_topology_canvas.png) |
+| **Diagnostics Workbench** | `/diagnostics` | Tab navigation (ICMP Ping, Port Scanner, DNS, Wake-on-LAN) | [06_diagnostics_workbench.png](./evidence/REBUILD_002/06_diagnostics_workbench.png) |
+| **Integrations Hub** | `/integrations` | Integration cards (Webhook, Slack, Discord, Telegram, MQTT, Home Assistant) | [07_integrations_hub.png](./evidence/REBUILD_002/07_integrations_hub.png) |
+| **Swagger API Docs** | `/docs` | OpenAPI 3.1 schema exploration, interactive endpoint execution | [08_swagger_api_docs.png](./evidence/REBUILD_002/08_swagger_api_docs.png) |
 
 ---
 
 ## 3. Isolated Network Discovery Ingest Verification
 
-To verify the discovery pipeline without touching external production networks, [verify_isolated_discovery.py](file:///D:/WatchNet/scripts/verify_isolated_discovery.py) submitted synthetic and live Docker bridge network signatures to `POST /api/v1/discovery/ingest`.
+To verify the discovery pipeline without touching external production networks, [verify_isolated_discovery.py](scripts/verify_isolated_discovery.py) submitted synthetic and live Docker bridge network signatures to `POST /api/v1/discovery/ingest`.
 
 ### 3.1 Ingestion Execution Log
 
@@ -81,5 +81,5 @@ The functional surface of WatchNet Rebuild v1.0.0 satisfies all Stage 1 acceptan
 - [x] Zero uncaught frontend console exceptions.
 - [x] HTTP 200 responses on all core API endpoints (`/api/v1/devices`, `/api/v1/discovery/ingest`, `/api/v1/auth/token`).
 - [x] Real-time search filtering works seamlessly.
-- [x] Full visual evidence captured in [docs/rebuild/evidence/REBUILD_002/](file:///D:/WatchNet/docs/rebuild/evidence/REBUILD_002/).
+- [x] Full visual evidence captured in [docs/rebuild/evidence/REBUILD_002/](./evidence/REBUILD_002/).
 

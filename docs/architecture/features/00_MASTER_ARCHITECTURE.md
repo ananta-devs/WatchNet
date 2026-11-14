@@ -53,15 +53,15 @@ Each major feature has its own comprehensive system design and architecture spec
 
 | # | Architecture Document | Core Functionality | Mermaid Diagrams Included |
 | :---: | :--- | :--- | :--- |
-| **01** | [01_DEVICE_INVENTORY.md](file:///D:/WatchNet-Rebuild/docs/architecture/features/01_DEVICE_INVENTORY.md) | Multi-signal classification, OUI vendor parsing, field locking, MAC normalization | Data Flow, Pipeline, Entity DB, Sequence |
-| **02** | [02_NETWORK_DISCOVERY.md](file:///D:/WatchNet-Rebuild/docs/architecture/features/02_NETWORK_DISCOVERY.md) | Concurrency ping sweeps, ARP table ingestion, targeted port probing, mDNS | State Machine, Fan-out Worker Pool |
-| **03** | [03_ROUTER_GATEWAYS.md](file:///D:/WatchNet-Rebuild/docs/architecture/features/03_ROUTER_GATEWAYS.md) | OpenWrt, UniFi Controller, MikroTik, TP-Link `PASSIVE_DISCOVERY` mode | Class Diagram, Taxonomy, Sync Sequence |
-| **04** | [04_MONITORING_AND_SPEEDTEST.md](file:///D:/WatchNet-Rebuild/docs/architecture/features/04_MONITORING_AND_SPEEDTEST.md) | Multi-resolver DNS latency, Cloudflare speedtest, website uptime, wallboard | Pipeline, Speedtest Sequence, DB Schema |
-| **05** | [05_DNS_AND_FAMILY_SAFETY.md](file:///D:/WatchNet-Rebuild/docs/architecture/features/05_DNS_AND_FAMILY_SAFETY.md) | Kid profiles, device grouping, Internet pause, recurring bedtime curfews | Policy Flow, Bedtime Sequence, DB Schema |
-| **06** | [06_NOTIFICATIONS_AND_WORKFLOWS.md](file:///D:/WatchNet-Rebuild/docs/architecture/features/06_NOTIFICATIONS_AND_WORKFLOWS.md) | Telegram, Discord, Slack, Pushover, event rules engine, webhook triggers | Event Architecture, Alert Sequence |
-| **07** | [07_PLUGINS_AND_INTEGRATIONS.md](file:///D:/WatchNet-Rebuild/docs/architecture/features/07_PLUGINS_AND_INTEGRATIONS.md) | Modular plugin runtime, execution logs capture, dynamic JSON configuration | Lifecycle Pipeline, Execution Sequence |
-| **08** | [08_MULTISITE_SYNC.md](file:///D:/WatchNet-Rebuild/docs/architecture/features/08_MULTISITE_SYNC.md) | Central hub-and-spoke aggregation, encrypted satellite enrollment, delta sync | Topology Architecture, Batch Sync Sequence |
-| **09** | [09_SYSTEM_MAINTENANCE_AND_BACKUPS.md](file:///D:/WatchNet-Rebuild/docs/architecture/features/09_SYSTEM_MAINTENANCE_AND_BACKUPS.md) | One-click encrypted `.tar.gz` database backups, download pipeline, vacuuming | Backup/Restore Pipeline, Sequence Diagram |
+| **01** | [01_DEVICE_INVENTORY.md](./01_DEVICE_INVENTORY.md) | Multi-signal classification, OUI vendor parsing, field locking, MAC normalization | Data Flow, Pipeline, Entity DB, Sequence |
+| **02** | [02_NETWORK_DISCOVERY.md](./02_NETWORK_DISCOVERY.md) | Concurrency ping sweeps, ARP table ingestion, targeted port probing, mDNS | State Machine, Fan-out Worker Pool |
+| **03** | [03_ROUTER_GATEWAYS.md](./03_ROUTER_GATEWAYS.md) | OpenWrt, UniFi Controller, MikroTik, TP-Link `PASSIVE_DISCOVERY` mode | Class Diagram, Taxonomy, Sync Sequence |
+| **04** | [04_MONITORING_AND_SPEEDTEST.md](./04_MONITORING_AND_SPEEDTEST.md) | Multi-resolver DNS latency, Cloudflare speedtest, website uptime, wallboard | Pipeline, Speedtest Sequence, DB Schema |
+| **05** | [05_DNS_AND_FAMILY_SAFETY.md](./05_DNS_AND_FAMILY_SAFETY.md) | Kid profiles, device grouping, Internet pause, recurring bedtime curfews | Policy Flow, Bedtime Sequence, DB Schema |
+| **06** | [06_NOTIFICATIONS_AND_WORKFLOWS.md](./06_NOTIFICATIONS_AND_WORKFLOWS.md) | Telegram, Discord, Slack, Pushover, event rules engine, webhook triggers | Event Architecture, Alert Sequence |
+| **07** | [07_PLUGINS_AND_INTEGRATIONS.md](./07_PLUGINS_AND_INTEGRATIONS.md) | Modular plugin runtime, execution logs capture, dynamic JSON configuration | Lifecycle Pipeline, Execution Sequence |
+| **08** | [08_MULTISITE_SYNC.md](./08_MULTISITE_SYNC.md) | Central hub-and-spoke aggregation, encrypted satellite enrollment, delta sync | Topology Architecture, Batch Sync Sequence |
+| **09** | [09_SYSTEM_MAINTENANCE_AND_BACKUPS.md](./09_SYSTEM_MAINTENANCE_AND_BACKUPS.md) | One-click encrypted `.tar.gz` database backups, download pipeline, vacuuming | Backup/Restore Pipeline, Sequence Diagram |
 
 ---
 

@@ -23,7 +23,7 @@ flowchart LR
 ## 2. Phase-by-Phase Acceptance Gates
 
 ### Phase 1: Architecture & Documentation Acceptance
-- [x] All 77 required documents authored in `D:\WatchNet-Rebuild\docs` and root.
+- [x] All 77 required documents authored in `docs/` and root.
 - [x] Zero empty or truncated stub files (<25 lines) across the documentation tree.
 - [x] System architecture, database ERD, sequence diagrams, and interface contracts specified with Mermaid charts.
 - [x] `FEATURE_PARITY_MATRIX.md` maps 100% of the 56 WatchNet upstream plugins with initial `NOT_STARTED` baseline status.

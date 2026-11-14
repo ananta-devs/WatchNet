@@ -9,7 +9,7 @@
 
 ## 1. Executive Summary
 
-Phase 1 of the WatchNet rebuild project has successfully concluded. In accordance with Section 3 of the Master Project Directive and Section D of the Phase 0 + 1 Execution Authorization, the complete architectural blueprint and engineering specification suite has been authored, verified, and established within `D:\WatchNet-Rebuild\`.
+Phase 1 of the WatchNet rebuild project has successfully concluded. In accordance with Section 3 of the Master Project Directive and Section D of the Phase 0 + 1 Execution Authorization, the complete architectural blueprint and engineering specification suite has been authored, verified, and established within `docs/`.
 
 This documentation foundation establishes:
 1. **Grounded Source Analysis:** Direct mapping from the verified WatchNet reference snapshot (`D:\WatchNet-Reference-Snapshot`, version v25.11.29+), cataloging all 56 upstream plugins, database schemas, and API behaviors.

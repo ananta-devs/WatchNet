@@ -3,7 +3,7 @@ import path from "path";
 import fs from "fs";
 
 test.describe("Live Manual Testing & Screenshot Capture in Chrome", () => {
-  const outDir = "D:/WatchNet-Rebuild/docs/testing/manual/chrome";
+  const outDir = path.resolve(__dirname, "../../docs/testing/manual/chrome");
 
   test.beforeAll(() => {
     if (!fs.existsSync(outDir)) {

@@ -60,7 +60,7 @@ sequenceDiagram
     participant API as FastAPI Backend (/api/v1/system)
     participant Worker as Backup Worker Process
     participant DB as PostgreSQL 16
-    participant Storage as Backup Directory (D:/WatchNet-Rebuild/backups)
+    participant Storage as Backup Directory (./backups)
 
     UI->>API: POST /api/v1/system/backup
     API->>Worker: Launch asynchronous backup task

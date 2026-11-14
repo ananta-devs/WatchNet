@@ -20,7 +20,7 @@ WatchNet can be run in two ways:
 #### Steps:
 1. Open PowerShell or Terminal and navigate to the project directory:
    ```bash
-   cd D:\WatchNet-Rebuild
+   cd watchnet
    ```
 2. Start the full multi-container stack (Frontend, Backend, Database, Redis, Reverse Proxy):
    ```bash
@@ -28,7 +28,7 @@ WatchNet can be run in two ways:
    ```
 3. Open your browser and navigate to:
    - **Web UI:** [http://localhost:3000](http://localhost:3000) (or via reverse proxy on port 80: [http://localhost](http://localhost))
-   - **Backend API & Swagger Docs:** [http://localhost:8000/docs](http://localhost:8000/docs)
+   - **Backend API & Swagger Docs:** [http://localhost:8000/api/v1/docs](http://localhost:8000/api/v1/docs) (OpenAPI JSON: [http://localhost:8000/api/v1/openapi.json](http://localhost:8000/api/v1/openapi.json))
 
 ---
 
@@ -37,24 +37,27 @@ WatchNet can be run in two ways:
 If Docker is not running, you can run the Frontend and Backend directly on your machine:
 
 #### 1. Start the Backend API (FastAPI)
-Open a PowerShell terminal:
+Open a terminal:
 ```powershell
 # Navigate to the backend directory
-cd D:\WatchNet-Rebuild\backend
+cd backend
 
-# Activate the existing virtual environment
+# Activate virtual environment
+# Windows:
 .\venv\Scripts\activate
+# Linux/macOS:
+# source venv/bin/activate
 
 # Launch the FastAPI application
 uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
-The Backend API will be live at `http://127.0.0.1:8000`. You can inspect the interactive OpenAPI/Swagger documentation at `http://127.0.0.1:8000/docs`.
+The Backend API will be live at `http://127.0.0.1:8000`. You can inspect the interactive OpenAPI/Swagger documentation at `http://127.0.0.1:8000/api/v1/docs`.
 
 #### 2. Start the Frontend Web UI (Next.js)
-Open a second PowerShell terminal:
+Open a second terminal:
 ```powershell
 # Navigate to the frontend directory
-cd D:\WatchNet-Rebuild\frontend
+cd frontend
 
 # Option 1: Run the production standalone build (Fastest)
 node .next/standalone/server.js

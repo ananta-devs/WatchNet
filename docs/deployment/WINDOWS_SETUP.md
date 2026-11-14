@@ -48,8 +48,8 @@ winget install Git.Git
 ### 2.2 Clone & Workspace Configuration
 ```powershell
 # Clone the repository
-git clone https://github.com/watchnet/watchnet.git D:\WatchNet-Rebuild
-cd D:\WatchNet-Rebuild
+git clone https://github.com/watchnet/watchnet.git watchnet
+cd watchnet
 
 # Configure line ending safety (prevent CRLF corruption on shell scripts)
 git config core.autocrlf input
