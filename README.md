@@ -3,7 +3,7 @@
 **Version:** 1.0.0-rc.1
 **Release Tag:** 1.0.0-rc.1  
 **Upstream Project Reference:** WatchNet (GPL-3.0)  
-**Workspace:** `D:\WatchNet-Rebuild`  
+**Workspace:** `WatchNet`  
 
 ---
 
@@ -32,7 +32,7 @@ WatchNet couples advanced layer-2 through layer-7 discovery engines with hardwar
 ## 3. Repository Structure
 
 ```
-WatchNet-Rebuild/
+WatchNet/
 ├── apps/
 │   └── web/                   # Next.js App Router Frontend
 ├── services/

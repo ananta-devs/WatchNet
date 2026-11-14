@@ -1,6 +1,6 @@
 # WATCHNET REBUILD-002: FINAL ACCEPTANCE REPORT
 
-**Task Identifier:** WATCHNET-REBUILD-002  
+**Task Identifier:** WATCHNET-002  
 **Workspace:** `D:\WatchNet`  
 **Reference Project:** `D:\WatchNet-Legacy-Baseline` (Clean-room conceptual reference)  
 **Execution Cycle:** Plan First → Implement → Test → Fix → Retest → Acceptance  
@@ -11,7 +11,7 @@
 
 ## 1. Executive Summary
 
-The Master Implementation Programme **WATCHNET-REBUILD-002** has achieved full completion across all prescribed functional, security, architectural, and operational reliability criteria.
+The Master Implementation Programme **WATCHNET-002** has achieved full completion across all prescribed functional, security, architectural, and operational reliability criteria.
 
 WatchNet has been transformed from a legacy codebase into a clean-room, production-grade infrastructure intelligence and network monitoring platform. The application executes live across a 6-container Docker Compose stack, has been thoroughly verified through automated Google Chrome browser driving, enforces multi-tenant PostgreSQL Row-Level Security, validates anti-SSRF protections, and guarantees 100% data retention across stack restarts and database disaster recovery procedures.
 

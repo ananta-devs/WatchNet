@@ -30,7 +30,7 @@
   - Active subnet clients `192.168.0.100` and `192.168.0.101` discovered and session-tracked.
   - Direct router API telemetry blocked due to TP-Link proprietary encrypted CGI login (`INCLUDE_LOGIN_GDPR_ENCRYPT=1`) and absence of SNMP or Omada REST daemons.
   - Fail-open architecture verified: Network discovery and UI operate perfectly without router login.
-- **All 8 Phase 11.1 Deliverables Authored & Checked in `D:\WatchNet-Rebuild\`**:
+- **All 8 Phase 11.1 Deliverables Authored & Checked in `watchnet/`**:
   - `docs/project/PHASE_11_1_FINAL_ACCEPTANCE_REPORT.md`
   - `docs/testing/manual/PHASE_11_1_PLUGIN_PARITY_VERIFICATION.md`
   - `docs/testing/manual/PHASE_11_1_REAL_ROUTER_VERIFICATION.md`

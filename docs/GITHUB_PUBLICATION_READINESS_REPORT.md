@@ -3,7 +3,7 @@
 **Project:** WatchNet — Modern Network Intelligence, Monitoring & Parental Control Platform  
 **Branch:** `feature/watchnet-independent-rebrand-github-ready`  
 **Date:** 2026-11-14  
-**Audit Scope:** Full repository hygiene, brand independence, copyright compliance, and verification in `D:\WatchNet-Rebuild`.
+**Audit Scope:** Full repository hygiene, brand independence, copyright compliance, and verification across the WatchNet workspace.
 
 ---
 
@@ -26,7 +26,7 @@ The following protected paths were verified and remained completely untouched:
 - `D:\WatchNet-Reference-Snapshot` (read-only snapshot reference) — **Untouched**
 - `D:\WatchNet` (read-only reference workspace) — **Untouched**
 
-All modifications were confined strictly to `D:\WatchNet-Rebuild` on the `feature/watchnet-independent-rebrand-github-ready` branch.
+All modifications were confined strictly to the WatchNet repository on the `feature/watchnet-independent-rebrand-github-ready` branch.
 
 ---
 

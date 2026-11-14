@@ -1,7 +1,7 @@
 # Phase 11.1 Final Acceptance Report
 
 **Project:** WatchNet — Complete WatchNet Enterprise Rebuild  
-**Workspace:** `D:\WatchNet-Rebuild`  
+**Workspace:** `watchnet`  
 **Reference Baseline:** WatchNet v25.11.29+ Reference Snapshot (`D:\WatchNet-Reference-Snapshot`)  
 **Authorization:** Master Directive Sections 12, 13, and 14 Execution Mandate  
 **Final Status:** **CONDITIONALLY ACCEPTED**  
@@ -82,7 +82,7 @@ All eleven prescribed implementation phases have been executed and verified:
 
 ## 6. Implemented Modules Index
 
-The implementation in `D:\WatchNet-Rebuild\` comprises 18 production frontend views and corresponding backend services:
+The implementation in `watchnet/` comprises 18 production frontend views and corresponding backend services:
 1. `Dashboard` (`/dashboard`): Enterprise network overview, device status widgets, recent events feed.
 2. `Devices` (`/devices`): TanStack Table v8 inventory, live multi-column filtering, bulk editing, field locking.
 3. `Device Details` (`/devices/[id]`): OUI vendor badge, RFC 7042 LAA indicator, 24h presence heatmap, session history.

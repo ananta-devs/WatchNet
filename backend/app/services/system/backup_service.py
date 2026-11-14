@@ -49,7 +49,7 @@ from app.services.devices.oui_resolver import normalize_mac
 logger = logging.getLogger("watchnet.services.system.backup")
 
 def get_backup_dir() -> Path:
-    backup_path = Path(getattr(settings, "BACKUP_DIR", "D:/WatchNet-Rebuild/backups"))
+    backup_path = Path(getattr(settings, "BACKUP_DIR", None) or Path(__file__).resolve().parent.parent.parent.parent / "backups")
     backup_path.mkdir(parents=True, exist_ok=True)
     return backup_path
 

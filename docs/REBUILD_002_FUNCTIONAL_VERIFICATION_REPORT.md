@@ -1,6 +1,6 @@
 # WATCHNET REBUILD-002: FUNCTIONAL VERIFICATION & CHROMIUM INTERACTION REPORT
 
-**Task Reference:** WATCHNET-REBUILD-002 (Stage 1)  
+**Task Reference:** WATCHNET-002 (Stage 1)  
 **Execution Date:** November 12, 2026  
 **Target Release:** WatchNet Rebuild v1.0.0  
 **Verification Method:** Automated Google Chrome Driving via Playwright + Live API Ingest Verification  

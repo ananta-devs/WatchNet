@@ -26,14 +26,14 @@ All benchmarks recorded in this report were executed directly against the physic
 ## 2. Benchmark Execution Records
 
 ### 2.1 Backend Pytest Comprehensive Suite Benchmark
-- **Command:** `& "D:\WatchNet-Rebuild\backend\venv\Scripts\pytest.exe" "D:\WatchNet-Rebuild\backend\tests"`
+- **Command:** `cd backend && python -m pytest tests`
 - **Dataset Size:** 47 comprehensive unit, integration, and contract test cases covering all 11 system domains.
 - **Total Duration:** **56.71 seconds**
 - **Test Results:** 47 passed, 0 failed, 0 skipped.
 - **Average Test Execution Time:** ~1.20s per test (including async database fixture initialization, password hashing, and API roundtrips).
 
 ### 2.2 Go Collector Unit & Subnet Benchmark
-- **Command:** `cd D:\WatchNet-Rebuild\collector; go test ./...`
+- **Command:** `cd collector && go test ./...`
 - **Modules Evaluated:** `internal/config`, `internal/discovery`, `internal/events`
 - **Result:** **Pass across all packages in <0.45 seconds**.
 - **L2 ARP Subnet Sweep Performance:**
@@ -46,7 +46,7 @@ All benchmarks recorded in this report were executed directly against the physic
   - Sweep Completion Time: **820 ms** across 254 addresses.
 
 ### 2.3 Next.js Turbopack Production Compilation
-- **Command:** `cd D:\WatchNet-Rebuild\frontend; npm run build`
+- **Command:** `cd frontend && npm run build`
 - **Build Engine:** Turbopack with React 19 and Next.js 16.4.6.
 - **Static Pages Compiled:** 25 routes (including dynamic routes `/devices/[id]`, `/monitoring/wallboard`, `/reports`, `/api-docs`).
 - **TypeScript Typecheck Duration:** **10.7 seconds**.

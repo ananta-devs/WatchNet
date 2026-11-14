@@ -1,7 +1,7 @@
 # WatchNet Rebuild 002 — Master Execution Plan
 ## Functional Verification, WatchNet Parity, Security, Reliability & Human Testing Readiness
 
-**Task ID:** WATCHNET-REBUILD-002  
+**Task ID:** WATCHNET-002  
 **Workspace:** `D:\WatchNet`  
 **Reference Benchmark:** `D:\WatchNet-Legacy-Baseline` (GNU GPLv3 Reference)  
 **Execution Sequence:** STEP 0 (Plan) → STEP 1 (Functional & Chrome) → STEP 2 (Security) → STEP 3 (Parity Closure) → STEP 4 (Human Testing) → STEP 5 (Proposal)

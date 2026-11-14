@@ -8,7 +8,7 @@
 
 ## 1. Context & Motivation
 
-With the successful execution of **WATCHNET-REBUILD-002**, WatchNet has established:
+With the successful execution of **WATCHNET-002**, WatchNet has established:
 1. Complete functional and architectural superiority over legacy network system baselines.
 2. Production-grade multi-tenant architecture with PostgreSQL Row-Level Security (RLS).
 3. Modern frontend (Next.js 14 App Router + Tailwind CSS) and backend (FastAPI async engine + Go 1.22 packet collector).

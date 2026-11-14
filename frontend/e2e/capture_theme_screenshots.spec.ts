@@ -1,8 +1,9 @@
 import { test, expect } from "@playwright/test";
 import fs from "fs";
+import path from "path";
 
 test.describe("Enterprise Slate + Signal Blue Theme Visual Capture", () => {
-  const outDir = "D:/WatchNet-Rebuild/docs/testing/manual/ui-theme";
+  const outDir = path.resolve(__dirname, "../../docs/testing/manual/ui-theme");
 
   test.beforeAll(() => {
     if (!fs.existsSync(outDir)) {

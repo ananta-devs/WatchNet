@@ -1,7 +1,7 @@
 # Router and Network Gateway Integration — Real-World & Simulation Evidence
 
 **Test Period:** Phase 11 Final Acceptance Verification  
-**Location:** `D:\WatchNet-Rebuild\docs\testing\manual\`  
+**Location:** `docs/testing/manual/`  
 **Scope:** Gateway vendor protocol adapters, DHCP ingestion pipelines, Wi-Fi client telemetry, and DNS enforcement boundary integrity.
 
 ---

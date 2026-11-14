@@ -1,6 +1,6 @@
 # WatchNet Rebuild 002 — Initial Baseline Assessment
 
-**Task ID:** WATCHNET-REBUILD-002  
+**Task ID:** WATCHNET-002  
 **Baseline Date:** 2026-11-12  
 **Workspace:** `D:\WatchNet`  
 **Reference Benchmark:** `D:\WatchNet-Legacy-Baseline`  

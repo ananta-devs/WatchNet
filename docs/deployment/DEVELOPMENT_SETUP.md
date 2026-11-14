@@ -18,8 +18,8 @@
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/watchnet/watchnet.git D:/WatchNet-Rebuild
-cd D:/WatchNet-Rebuild
+git clone https://github.com/watchnet/watchnet.git watchnet
+cd watchnet
 
 # 2. Spin up local database and cache
 docker compose up -d postgres redis

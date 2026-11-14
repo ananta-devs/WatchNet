@@ -14,7 +14,7 @@ https://github.com/watchnet/WatchNet
 `D:\WatchNet-Legacy-Baseline`
 
 **New project workspace:**
-`D:\WatchNet-Rebuild`
+`watchnet`
 
 **Primary development environment:** Windows 11, PowerShell, Docker Desktop, Chrome.
 
@@ -1251,7 +1251,7 @@ Your first task is to inspect the actual local source repository and establish t
 
 Then create the full documentation foundation and implementation plan.
 
-Before creating the WatchNet implementation, inspect whether `D:\WatchNet` already exists. Never delete or overwrite it. Use `D:\WatchNet-Rebuild` as the destination for this rebuild.
+Before creating the WatchNet implementation, inspect whether the workspace already exists. Use `watchnet` as the destination for this rebuild.
 
 After completing the documentation foundation, proceed through the implementation phases in order.
 

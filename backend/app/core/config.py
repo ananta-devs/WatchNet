@@ -1,6 +1,12 @@
+import os
+from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import Field
 from typing import List
+
+# Base directory dynamically computed relative to repository root
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent.parent
+DEFAULT_BACKUP_DIR = str(REPO_ROOT / "backups")
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "WatchNet"
@@ -39,7 +45,7 @@ class Settings(BaseSettings):
     
     # Backups directory
     BACKUP_DIR: str = Field(
-        default="D:/WatchNet-Rebuild/backups",
+        default=DEFAULT_BACKUP_DIR,
         description="Directory where backups are stored"
     )
     
