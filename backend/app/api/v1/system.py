@@ -133,7 +133,7 @@ async def export_devices_csv(
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Downloads upstream NetAlertX CSVBCKP compatible device CSV."""
+    """Downloads WatchNet standard CSV device export."""
     svc = BackupService(db)
     csv_data = await svc.export_devices_csv()
     return Response(

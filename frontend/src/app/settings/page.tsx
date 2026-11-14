@@ -246,7 +246,7 @@ export default function SettingsDashboard() {
             System Settings & Production Maintenance
           </h1>
           <p className="text-sm text-muted">
-            Database retention policies, atomic backup archives, NetAlertX CSVBCKP migration, and security hardening.
+            Database retention policies, atomic backup archives, CSV device migration, and security hardening.
           </p>
         </div>
         <button
@@ -512,14 +512,14 @@ export default function SettingsDashboard() {
               </button>
             </div>
 
-            {/* NetAlertX CSVBCKP compatible section */}
+            {/* Standard CSV export/import section */}
             <div className="pt-4 border-t border-border space-y-4">
               <h4 className="text-sm font-semibold text-text flex items-center gap-2">
                 <FileSpreadsheet className="w-4 h-4 text-status-online" />
-                NetAlertX CSVBCKP Tools
+                Device CSV Tools
               </h4>
               <p className="text-xs text-muted">
-                Direct compatibility with upstream NetAlertX CSV backup files for easy migration.
+                Direct export and import of device inventories via CSV format for easy migration.
               </p>
 
               <a
@@ -528,7 +528,7 @@ export default function SettingsDashboard() {
                 className="w-full flex items-center justify-center gap-2 py-2 px-4 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-lg border border-border transition"
               >
                 <Download className="w-3.5 h-3.5" />
-                Export Devices as CSV (CSVBCKP)
+                Export Devices as CSV
               </a>
 
               <form onSubmit={handleImportDevicesCsv} className="space-y-3 pt-2">

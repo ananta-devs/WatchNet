@@ -5,7 +5,7 @@ Supports:
   containing devices, settings, profiles, policies, workflows, channels, and history.
 - restore_backup(backup_file): Safe restoration utility with validation, transactional rollback,
   and schema version checking.
-- export_devices_csv(): Upstream NetAlertX CSVBCKP compatible device CSV exporter.
+- export_devices_csv(): Standard device CSV exporter.
 - import_devices_csv(csv_content, conflict_resolution="overwrite|skip"): Imports devices from CSV.
 - List existing backups and manage backup directory.
 """
@@ -62,11 +62,11 @@ class BackupService:
         self.db = db
 
     # -------------------------------------------------------------
-    # 1. Device CSV Export & Import (NetAlertX CSVBCKP Compatible)
+    # 1. Device CSV Export & Import (Standard CSV Format)
     # -------------------------------------------------------------
     async def export_devices_csv(self) -> str:
         """
-        Exports all devices to a CSV format matching upstream NetAlertX CSVBCKP.
+        Exports all devices to a standard CSV format.
         Columns:
         mac,ipv4,ipv6,name,vendor,category,status,interface,icon,notes,is_archived,first_seen,last_seen,locked_fields,custom_properties
         """

@@ -22,7 +22,7 @@ class PluginResult(BaseModel):
 
 class BasePlugin(ABC):
     """
-    Abstract Base Class for all WatchNet / NetAlertX plugins.
+    Abstract Base Class for all WatchNet plugins.
     """
     name: str
     plugin_id: str

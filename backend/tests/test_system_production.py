@@ -144,7 +144,7 @@ async def test_backup_and_restore_cycle(db_session: AsyncSession):
     backup_svc.delete_backup(filename)
 
 # -------------------------------------------------------------------
-# Test NetAlertX CSVBCKP Export & Import
+# Test Standard CSV Export & Import
 # -------------------------------------------------------------------
 @pytest.mark.asyncio
 async def test_device_csv_export_import(db_session: AsyncSession):
