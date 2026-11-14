@@ -1,87 +1,167 @@
-# WatchNet — Modern Network Intelligence, Monitoring & Parental Control Platform
+# WatchNet — Modern Network Intelligence & Device Monitoring Platform
 
-**Version:** 1.0.0-rc.1
-**Release Tag:** 1.0.0-rc.1  
-**Upstream Project Reference:** WatchNet (GPL-3.0)  
-**Workspace:** `WatchNet`  
+[![License: GPL-3.0](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
+[![Next.js](https://img.shields.io/badge/Next.js-16.4-black)](https://nextjs.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688.svg)](https://fastapi.tiangolo.com/)
+[![Go](https://img.shields.io/badge/Go-1.23-00ADD8.svg)](https://golang.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791.svg)](https://www.postgresql.org/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg)](https://www.docker.com/)
 
----
-
-## 1. Overview
-
-WatchNet is an enterprise-grade, modern network intelligence, monitoring, and transparent family safety platform built from the ground up to succeed and completely replace WatchNet. WatchNet delivers 100% feature parity with WatchNet while replacing its legacy monolithic PHP/SQLite/cron-loop stack with a high-performance, modular, reactive microservice architecture.
-
-WatchNet couples advanced layer-2 through layer-7 discovery engines with hardware-agnostic router integrations (supporting OpenWrt, AsusWRT, FRITZ!Box, MikroTik, UniFi, and enterprise gateways) and transparent, consent-based DNS policy orchestration (integrating AdGuard Home and Pi-hole).
+**WatchNet** is a high-performance, self-hosted network intelligence, infrastructure monitoring, and transparent device telemetry platform. It provides real-time layer-2 through layer-7 discovery, active presence tracking, hardware-agnostic router integrations, and automated alert routing.
 
 ---
 
-## 2. Core Pillars & Architecture
+## 🚀 Key Features
 
-1. **Complete WatchNet Feature Parity**: Full support for all 56 upstream plugin capabilities, active/passive scans, multi-channel alerting, presence bitmap tracking, device session lifecycles, and customizable device metadata.
-2. **Modern Technology Stack**:
-   - **Frontend**: Next.js 15+ (App Router), React 19, TypeScript, Tailwind CSS v4, shadcn/ui, TanStack Table, Recharts, and Lucide icons.
-   - **Backend API**: Python 3.12+ FastAPI, Pydantic v2, SQLAlchemy 2.0 (async), Alembic, SSE (Server-Sent Events), and WebSockets.
-   - **Collector Engine**: Modular Go network discovery collector utilizing raw sockets, ARP/NDP, ICMP, SNMP v2c/v3, and packet capture under least-privilege capability models (`CAP_NET_RAW`, `CAP_NET_ADMIN`).
-   - **Data Layer**: PostgreSQL 16+ with partitioned event/session history, JSONB device attributes, and Redis 7+ for caching, real-time message brokering, and token revoking.
-3. **Decoupled Parental Controls & Resilient Discovery**: Core network inventory and presence detection operate completely independently from DNS filtering engines. Failure of a downstream filtering DNS resolver never degrades core network monitoring.
-4. **Hardware-Agnostic Router Architecture**: Abstract `BaseRouterAdapter` supporting ARP lease extraction, client isolation, static reservations, and live bandwidth polling without vendor lock-in.
-5. **Multi-Site & Remote Probes**: Centralized WatchNet Hub orchestrating lightweight remote Go collectors across multiple remote LANs/VLANs via secure mutual TLS (mTLS).
+- **Automated Network Discovery**: Layer-2 ARP sweep, ICMP probing, DHCP lease extraction, and DNS hostname resolution.
+- **Real-Time Telemetry & Presence**: Continuous tracking of online/offline status, IP change tracking, and historical session logs.
+- **Enterprise Slate + Signal Blue UI**: Sleek, professional interface designed with Next.js 16 (App Router), Tailwind CSS v4, and dynamic Light/Dark/System theme engine.
+- **Hardware-Agnostic Router Support**: Connects to OpenWrt, AsusWRT, FRITZ!Box, MikroTik, UniFi, and standard gateways.
+- **Multi-Channel Alert Dispatcher**: Integrated alert routing supporting Webhooks, Apprise, Discord, Slack, Telegram, Pushover, and Email.
+- **DNS & Family Safety Observability**: Integrates with Pi-hole and AdGuard Home for domain block telemetry and consent-based filtering.
+- **High-Performance Architecture**: Asynchronous Python FastAPI backend, modular Go collector daemon, and optimized PostgreSQL + Redis data pipeline.
+- **100% Cross-Platform & Containerized**: Ready to deploy anywhere using Docker Compose, or run locally across Linux, macOS, and Windows.
 
 ---
 
-## 3. Repository Structure
+## 📂 Repository Structure
 
 ```
 WatchNet/
-├── apps/
-│   └── web/                   # Next.js App Router Frontend
-├── services/
-│   ├── api/                   # FastAPI Backend Services & Relational Engine
-│   └── collector/             # Go Network Discovery & Packet Daemon
-├── packages/
-│   └── shared-types/          # Shared TypeScript / JSON schema contracts
-├── docs/                      # Comprehensive Documentation Foundation
-│   ├── project/               # Project Scope, Parity Matrix, Roadmaps
-│   ├── analysis/              # WatchNet Upstream Technical Analyses
-│   ├── architecture/          # ADRs, Architectural Specs & Mermaid Diagrams
-│   ├── security/              # Threat Models, RBAC, Encryption, Privacy
-│   ├── integrations/          # Routers, Pi-hole, AdGuard, Notification Specs
-│   ├── testing/               # E2E Playwright, Unit, Integration & Manual Plans
-│   └── deployment/            # Docker Compose, Production & Windows Guides
-├── infrastructure/            # Docker, Compose, Traefik, PostgreSQL Configurations
-├── scripts/                   # Migration, Verification & Tooling scripts
-├── README.md                  # System overview
-├── CHANGELOG.md               # Version release & iteration history
-├── CONTRIBUTING.md            # Clean-room contribution guidelines
-├── SECURITY.md                # Security vulnerability reporting & policies
-├── LICENSE                    # GNU General Public License v3.0
-├── NOTICE.md                  # Upstream attribution & third-party notices
-├── ROADMAP.md                 # Strategic release roadmap
-└── IMPLEMENTATION_STATUS.md   # Live phase execution tracker
+├── backend/            # FastAPI async REST API & WebSocket service
+│   ├── alembic/        # Database migrations
+│   ├── app/            # Application logic, models, services & endpoints
+│   └── tests/          # Pytest automated test suite
+├── collector/          # Go discovery daemon & network prober
+│   ├── cmd/            # Collector entrypoint
+│   └── internal/       # Network engines (ARP, ICMP, DHCP, DNS)
+├── frontend/           # Next.js 16 React Web UI
+│   ├── src/app/        # App Router pages & layouts
+│   └── e2e/            # Playwright end-to-end browser tests
+├── docker/             # Dockerfiles & production compose configurations
+├── docs/               # Architecture guides, API specs, and operational manual
+│   └── user-guide/     # Complete User Operational Guide
+├── .env.example        # Environment configuration template
+└── README.md           # Project documentation
 ```
 
 ---
 
-## 4. Quick Start & Development
+## ⚡ Quick Start
 
-### Prerequisites
-- Docker Engine 26+ and Docker Compose v2.27+
-- Node.js 22 LTS & pnpm 9+
-- Python 3.12+ & Go 1.23+
-- Windows 11 / Linux host with admin privileges for raw socket testing
+### 1. Clone the Repository
 
-### Running via Docker Compose
-```powershell
-# Copy environment configuration
-cp .env.example .env
-
-# Launch database, Redis, API, and Web frontend
-docker compose up -d --build
+```bash
+git clone https://www.github.com/ananta-devs/Watchnet.git
+cd Watchnet
 ```
-Navigate to `http://localhost:3000` to access the WatchNet interface. Swagger API documentation is accessible at `http://localhost:8000/docs`.
 
 ---
 
-## 5. Licensing & Attribution
+### Option A: Running with Docker (Recommended)
 
-WatchNet is released under the **GNU General Public License v3.0 (GPL-3.0)**. It is a modern clean-room rebuild and functional replacement for [WatchNet](https://github.com/watchnet/WatchNet), preserving intellectual credit and attribution to the original WatchNet authors and contributors while introducing an entirely novel codebase and modern architectural stack.
+#### Prerequisites
+- [Docker Engine & Docker Compose](https://docs.docker.com/get-docker/)
+
+#### Steps
+1. Copy the environment configuration:
+   ```bash
+   cp .env.example .env
+   ```
+2. Start the full application stack (PostgreSQL, Redis, Backend, and Frontend):
+   ```bash
+   docker compose -f docker/docker-compose.yml up -d
+   ```
+3. Access the application in your browser:
+   - **Frontend Dashboard:** [http://localhost:3000](http://localhost:3000)
+   - **Backend API & Swagger Docs:** [http://localhost:8000/api/v1/docs](http://localhost:8000/api/v1/docs)
+
+---
+
+### Option B: Running Locally (Development Mode)
+
+#### 1. Start Dependencies (PostgreSQL & Redis)
+You can start just PostgreSQL and Redis using Docker:
+```bash
+docker compose -f docker/docker-compose.yml up -d postgres redis
+```
+
+#### 2. Start the Backend API (FastAPI)
+```bash
+cd backend
+
+# Setup Python virtual environment
+python -m venv venv
+
+# Activate virtual environment:
+# On Windows:
+.\venv\Scripts\activate
+# On Linux/macOS:
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run database migrations
+alembic upgrade head
+
+# Start API server
+uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+```
+
+#### 3. Start the Frontend Web UI (Next.js)
+Open a new terminal:
+```bash
+cd frontend
+
+# Install Node dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+The Web UI will be live at [http://localhost:3000](http://localhost:3000).
+
+---
+
+## 🔐 Default Login Credentials
+
+- **Login URL:** [http://localhost:3000/login](http://localhost:3000/login)
+- **Username / Email:** `admin` (or `admin@watchnet.local`)
+- **Password:** `admin123`
+
+---
+
+## 🧪 Testing
+
+### Backend Tests (Pytest)
+```bash
+cd backend
+python -m pytest tests
+```
+
+### Frontend Linting & Build
+```bash
+cd frontend
+npm run lint
+npm run build
+```
+
+---
+
+## 📖 Documentation & Guides
+
+Comprehensive documentation is provided in the [`docs/`](./docs) directory:
+- [User Operational & How-To Guide](docs/user-guide/USER_OPERATIONAL_GUIDE.md)
+- [Architecture & Design Specifications](docs/architecture/features/00_MASTER_ARCHITECTURE.md)
+- [Deployment Guide](docs/DEPLOYMENT_GUIDE.md)
+- [Contributing Guidelines](CONTRIBUTING.md)
+- [Security Policy](SECURITY.md)
+
+---
+
+## 📄 License & Attribution
+
+This project is licensed under the [GNU General Public License v3.0 (GPL-3.0)](LICENSE).
+See [NOTICE.md](NOTICE.md) for full upstream attribution and copyright notices.

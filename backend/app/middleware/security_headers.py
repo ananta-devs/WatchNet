@@ -26,14 +26,27 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         
         # Only attach CSP if not already provided (e.g. static assets)
         if "Content-Security-Policy" not in response.headers:
-            response.headers["Content-Security-Policy"] = (
-                "default-src 'self'; "
-                "script-src 'self' 'unsafe-inline' 'unsafe-eval'; "
-                "style-src 'self' 'unsafe-inline'; "
-                "img-src 'self' data: https: blob:; "
-                "font-src 'self' data:; "
-                "connect-src 'self' ws: wss:; "
-                "frame-ancestors 'none';"
-            )
+            path = request.url.path
+            # Relax CSP specifically for Swagger UI and ReDoc to allow external assets (jsdelivr CDN and Google Fonts)
+            if path in ("/docs", "/redoc", "/api/v1/docs", "/api/v1/redoc"):
+                response.headers["Content-Security-Policy"] = (
+                    "default-src 'self'; "
+                    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; "
+                    "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; "
+                    "img-src 'self' data: https: blob:; "
+                    "font-src 'self' data: https://fonts.gstatic.com; "
+                    "connect-src 'self' ws: wss:; "
+                    "frame-ancestors 'none';"
+                )
+            else:
+                response.headers["Content-Security-Policy"] = (
+                    "default-src 'self'; "
+                    "script-src 'self' 'unsafe-inline' 'unsafe-eval'; "
+                    "style-src 'self' 'unsafe-inline'; "
+                    "img-src 'self' data: https: blob:; "
+                    "font-src 'self' data:; "
+                    "connect-src 'self' ws: wss:; "
+                    "frame-ancestors 'none';"
+                )
             
         return response

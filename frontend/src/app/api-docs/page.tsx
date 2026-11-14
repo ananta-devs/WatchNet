@@ -26,7 +26,7 @@ export default function ApiDocsPage() {
             Access the FastAPI generated Swagger UI to test live authenticated endpoints against the WatchNet engine.
           </p>
           <a
-            href="/docs"
+            href="/api/v1/docs"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent-hover text-white rounded-lg text-sm font-medium transition"
@@ -44,7 +44,7 @@ export default function ApiDocsPage() {
             Read formatted technical documentation, schema definitions, and response envelopes.
           </p>
           <a
-            href="/redoc"
+            href="/api/v1/redoc"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-text rounded-lg text-sm font-medium border border-border transition"
