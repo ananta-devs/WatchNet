@@ -19,7 +19,7 @@ All 7 security and reliability targets (`SEC-001` through `SEC-007`) and restart
 
 ### 2.1 SEC-001: Authentication & JWT Hardening
 - **Objective:** Verify cryptographic integrity of user credentials, token issuance, expiry, and signature tampering defense.
-- **Verification Script:** [verify_security_suite.py](file:///D:/WatchNet/scripts/verify_security_suite.py) (`test_sec_001_authentication_hardening`)
+- **Verification Script:** scripts/verify_security_suite.py (`test_sec_001_authentication_hardening`)
 - **Results:**
   - Password hashing: Bcrypt with 12 salt rounds produces irreversible hashes.
   - Verification: Correct password matches; incorrect password immediately rejected.
@@ -31,7 +31,7 @@ All 7 security and reliability targets (`SEC-001` through `SEC-007`) and restart
 
 ### 2.2 SEC-002: Role-Based Access Control (RBAC)
 - **Objective:** Validate enforcement of permission tiers across tenant and site boundaries.
-- **Verification Script:** [verify_security_suite.py](file:///D:/WatchNet/scripts/verify_security_suite.py) (`test_sec_002_rbac_authorization`)
+- **Verification Script:** scripts/verify_security_suite.py (`test_sec_002_rbac_authorization`)
 - **Tiers Validated:**
   1. `tenant_admin`: Complete organization control, user management, site creation.
   2. `site_admin`: Management of designated sites, scan schedules, and collector settings.
@@ -43,7 +43,7 @@ All 7 security and reliability targets (`SEC-001` through `SEC-007`) and restart
 
 ### 2.3 SEC-003: Cross-Tenant Row-Level Security (RLS) Isolation
 - **Objective:** Verify PostgreSQL database-enforced row isolation using the unprivileged database role `watchnet_app`.
-- **Database Script Applied:** [enable_rls.sql](file:///D:/WatchNet/infrastructure/enable_rls.sql)
+- **Database Script Applied:** infrastructure/enable_rls.sql
 - **RLS Configuration:**
   - Applied `ALTER TABLE <tbl> ENABLE ROW LEVEL SECURITY` across all 25 application tables.
   - Installed policy `tenant_isolation_policy` on all tables:
@@ -66,7 +66,7 @@ All 7 security and reliability targets (`SEC-001` through `SEC-007`) and restart
 
 ### 2.4 SEC-004: Anti-SSRF Defense & IP Pinning
 - **Objective:** Prevent Server-Side Request Forgery attacks against cloud metadata endpoints, internal infrastructure, and loopback interfaces.
-- **Verification Script:** [verify_security_suite.py](file:///D:/WatchNet/scripts/verify_security_suite.py) (`test_sec_004_ssrf_strict_blocking`)
+- **Verification Script:** scripts/verify_security_suite.py (`test_sec_004_ssrf_strict_blocking`)
 - **Test Vectors & Protection Log:**
 
 | Target Vector | Threat Category | Enforcement Status |
